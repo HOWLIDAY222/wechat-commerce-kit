@@ -1,0 +1,2 @@
+/* Explicit page button content layout; isolated components retain their own rules. */
+.vk-button-content{display:flex;align-items:center;justify-content:center}

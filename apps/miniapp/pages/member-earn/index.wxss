@@ -1,0 +1,31 @@
+@import "../../common/member-operations.wxss";
+.operations-title{margin-bottom:32rpx}
+.operations-section{margin-top:56rpx}
+.earn-shopping{padding:30rpx;background:#fff;border-radius:22rpx;border:1rpx solid #e7e7e7}
+.earn-shopping .operations-link{background:#fff;margin-top:26rpx!important}
+.earn-shopping__note{margin-top:16rpx}
+.operations-row.points-task{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:18rpx 20rpx;align-items:start;padding:30rpx;border:1rpx solid #e7e7e7;border-radius:22rpx;background:#fff;margin-top:18rpx}
+.points-task .operations-row__body{grid-column:1;grid-row:1;min-width:0}
+.points-task .operations-row__title{font-size:29rpx;font-weight:500;line-height:1.6}
+.points-task .operations-row__detail{font-size:24rpx;line-height:1.85;margin-top:10rpx}
+.points-task .operations-row__reward{grid-column:2;grid-row:1;display:flex;align-items:center;justify-content:center;min-width:80rpx;padding:8rpx 14rpx;border-radius:10rpx;background:#f0f0f0;font-size:25rpx;line-height:1.6;font-weight:500}
+.points-task__footer{grid-column:1/3;grid-row:2;display:flex;align-items:center;justify-content:flex-end;gap:20rpx;padding-top:8rpx;min-width:0}
+.points-task__limit{flex:1;min-width:0;font-size:23rpx;line-height:1.8;color:#777}
+.operations-page .points-task .operations-inline{align-self:center;min-width:176rpx;min-height:88rpx;padding:20rpx 24rpx;font-size:25rpx;font-weight:500;line-height:1.6}
+.operations-page .points-task--quiet .operations-inline{background:#fff;color:#555;border-color:#cfcfcf;font-weight:400}
+.earn-contact{margin-top:36rpx}
+.earn-contact .operations-heading{margin-bottom:10rpx}
+.earn-contact__steps{padding:20rpx 0 0}
+.earn-contact__step{display:flex;align-items:flex-start;gap:14rpx;margin-bottom:18rpx;font-size:25rpx;line-height:1.85;color:#666}
+.earn-contact__number{display:flex;align-items:center;justify-content:center;flex:none;width:38rpx;height:38rpx;margin-top:4rpx;background:#eeeeee;border-radius:50%;font-size:22rpx;line-height:1;color:#444}
+.earn-contact .operations-textarea{height:190rpx}
+.earn-contact__proof-heading{font-size:28rpx;font-weight:500;line-height:1.6;margin:32rpx 0 20rpx}
+.earn-contact__proofs{display:flex;gap:18rpx;flex-wrap:wrap;margin-bottom:24rpx}
+.earn-contact__proof{width:calc((100% - 36rpx)/3);min-width:120rpx}
+.earn-contact__preview{width:100%!important;height:156rpx;padding:0!important;margin:0!important;display:flex;align-items:center;justify-content:center;border:1rpx solid #ddd;border-radius:12rpx;background:#f4f4f4;font-size:23rpx;line-height:1.6;color:#444;overflow:hidden}
+.earn-contact__preview image{width:100%;height:100%;display:block}
+.earn-contact__remove{min-height:76rpx;padding:18rpx 8rpx!important;margin:0!important;background:#fff;border:0;color:#666;font-size:24rpx;line-height:1.6}
+.earn-contact__history{display:flex;gap:20rpx;flex-wrap:wrap;margin-top:12rpx}
+.earn-contact .operations-label{margin-top:30rpx}
+.earn-explore .operations-button{min-height:100rpx}
+@media(max-width:340px){.operations-row.points-task{padding:26rpx}.points-task .operations-row__title{font-size:28rpx}.operations-page .points-task .operations-inline{min-width:156rpx;padding-left:18rpx;padding-right:18rpx}}

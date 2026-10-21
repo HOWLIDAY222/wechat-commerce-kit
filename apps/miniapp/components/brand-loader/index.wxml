@@ -1,0 +1,4 @@
+<view class="brand-loader {{compact ? 'brand-loader--compact' : ''}} {{overlay ? 'brand-loader--overlay' : ''}}" aria-label="{{label || '正在加载'}}" aria-busy="true">
+ <view class="brand-loader__tile"><image class="brand-loader__wordmark" src="/assets/brand/wordmark.webp" mode="aspectFit" aria-hidden="true"/></view>
+ <text wx:if="{{label}}" class="brand-loader__label">{{label}}</text>
+</view>

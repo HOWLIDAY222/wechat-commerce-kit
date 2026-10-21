@@ -1,0 +1,8 @@
+{
+  "navigationStyle": "custom",
+  "navigationBarTitleText": "包裹服务",
+  "backgroundColor": "#ffffff",
+  "usingComponents": {
+    "brand-header": "/components/brand-header/index"
+  }
+}

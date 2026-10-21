@@ -1,0 +1,19 @@
+.orders-page { min-height: 100vh; padding: 48rpx 40rpx 80rpx; background: var(--tc-paper); }
+.order-filters { display: flex; gap: 12rpx; margin-top: 32rpx; overflow-x: auto; }
+.order-filter { flex: none; padding: 16rpx 24rpx; border: 2rpx solid var(--tc-line); color: var(--tc-muted); font-size: 21rpx; }
+.order-filter--active { border-color: var(--tc-ink); background: var(--tc-ink); color: #ffffff; }
+.state-card, .error-card, .loading-card { margin-top: 30rpx; padding: 34rpx 0; border-top: 2rpx solid var(--tc-line); border-bottom: 2rpx solid var(--tc-line); }
+.state-card__title { margin-bottom: 26rpx; font-size: 30rpx; font-weight: 500; }
+.error-card { border-color: #a53327; color: #7a241a; font-size: 22rpx; }
+.loading-card { color: var(--tc-muted); text-align: center; }
+.order-list { margin-top: 34rpx; border-top: 2rpx solid var(--tc-ink); }
+.order-card { padding: 28rpx 0; border-bottom: 2rpx solid var(--tc-line); }
+.order-card__head, .order-card__foot { display: flex; align-items: center; justify-content: space-between; font-size: 20rpx; }
+.order-card__head { color: var(--tc-muted); }
+.order-card__status { color: var(--tc-ink); font-size: 19rpx; }
+.order-card__items { margin-top: 28rpx; font-size: 28rpx; font-weight: 500; }
+.order-card__foot { margin-top: 24rpx; padding-top: 18rpx; border-top: 2rpx solid var(--tc-line); color: var(--tc-muted); }
+.order-card__total { color: var(--tc-ink); font-size: 26rpx; font-weight: 500; }
+.list-progress { padding: 28rpx 0 8rpx; color: var(--tc-muted); font-size: 20rpx; text-align: center; }
+
+@import '../../common/service-pages.wxss';

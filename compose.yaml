@@ -1,0 +1,18 @@
+services:
+  database:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: merchantkit_demo
+      POSTGRES_PASSWORD: merchantkit_demo
+      POSTGRES_DB: merchantkit_demo
+    ports:
+      - "127.0.0.1:55439:5432"
+    volumes:
+      - demo_postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U merchantkit_demo -d merchantkit_demo"]
+      interval: 3s
+      timeout: 3s
+      retries: 15
+volumes:
+  demo_postgres:

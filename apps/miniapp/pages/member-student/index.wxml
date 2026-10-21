@@ -1,0 +1,17 @@
+<brand-header back/>
+<view class="operations-page student-page">
+  <view class="operations-title">学生专属权益</view>
+  <view wx:if="{{loading && !overview}}" class="student-state"><brand-loader/><view>正在加载</view></view>
+  <view wx:if="{{error}}" class="operations-status operations-status--error"><view>{{error}}</view><button wx:if="{{syncFailed}}" class="operations-link" bindtap="loadOperations">重新加载</button></view>
+  <view wx:if="{{benefitsVisible}}" class="student-coupons">
+    <view class="student-coupon"><view class="student-coupon__amount"><text class="student-coupon__currency">¥</text>100</view><view><view class="student-coupon__title">学生专属礼券</view><view class="student-coupon__condition">满 600 元可用 · 180 天</view></view></view>
+    <view class="student-coupon"><view class="student-coupon__amount"><text class="student-coupon__currency">¥</text>400</view><view><view class="student-coupon__title">学生专属礼券</view><view class="student-coupon__condition">满 2200 元可用 · 180 天</view></view></view>
+  </view>
+  <view wx:if="{{studentEnabled}}" class="student-rewards"><view class="student-reward"><view>首次通过认证</view><view class="student-reward__value">+100 积分</view></view><view wx:if="{{benefitsVisible}}" class="student-reward"><view>本期首篇分享审核通过</view><view class="student-reward__value">+{{firstSocialPoints}} 积分</view></view></view>
+  <view wx:if="{{guest}}" class="operations-card"><view class="operations-card__title">登录，开启学生权益</view><button class="operations-button" bindtap="goLogin">登录会员</button></view>
+  <view wx:elif="{{overview && !overview.registered}}" class="operations-card"><view class="operations-card__title">加入会员后参与</view><button class="operations-button" bindtap="joinMember">加入会员</button></view>
+  <view wx:elif="{{studentValid}}" class="student-certification"><view class="student-certification__title">已通过微信学生认证</view><view class="student-certification__date">有效至 {{validUntilLabel}}</view><button class="operations-button" bindtap="openSocial">参与社媒分享</button></view>
+  <view wx:elif="{{overview}}" class="student-certification"><view wx:if="{{testVerified}}" class="student-certification__title">测试身份已验证</view><view wx:if="{{testVerified}}" class="student-certification__date">测试账号不领取正式奖励</view><view wx:else class="student-certification__date">由微信核验，认证有效期 180 天</view><button id="student-verify" class="operations-button" bindtap="verifyStudent" disabled="{{!canSubmit || busy || loading || syncFailed}}">{{canSubmit ? '微信学生认证' : '暂未开放'}}</button></view>
+  <view wx:if="{{application.proofs.length}}" class="operations-card"><button wx:for="{{application.proofs}}" wx:key="id" class="operations-link" data-id="{{item.id}}" bindtap="previewProof" disabled="{{!!previewingProofId}}">查看历史材料 {{index + 1}}</button></view>
+</view>
+<privacy-sheet id="privacy-sheet"/>

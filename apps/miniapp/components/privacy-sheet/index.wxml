@@ -1,0 +1,11 @@
+<root-portal wx:if="{{visible}}">
+  <view class="privacy-sheet-layer" catchtouchmove="stopTouch">
+    <view class="privacy-sheet-mask" catchtap="stopTouch"/>
+    <view class="privacy-sheet" role="dialog" aria-modal="true" aria-label="隐私保护">
+      <view class="privacy-sheet-title">隐私保护</view>
+      <view class="privacy-sheet-copy"><block wx:if="{{nativeRequired}}">请确认微信隐私授权，以继续使用当前功能。</block><block wx:else>我们重视你的隐私。请阅读<text class="privacy-sheet-link" role="link" data-privacy-serial="{{serial}}" bindtap="openPolicy">《隐私政策》</text>和<text class="privacy-sheet-link" role="link" data-privacy-serial="{{serial}}" bindtap="openMiniPolicy">《小程序隐私说明》</text>，同意后可登录、使用会员和下单；不同意仍可浏览商品。</block></view>
+      <view wx:if="{{nativeRequired}}" class="privacy-sheet-links"><button data-privacy-serial="{{serial}}" bindtap="openNativePolicy">《微信隐私保护指引》</button></view>
+      <view class="privacy-sheet-actions"><view wx:if="{{error}}" class="privacy-sheet-error" role="alert">{{error}}</view><button wx:if="{{nativeRequired}}" id="privacy-native-agree" class="privacy-sheet-primary" data-privacy-serial="{{serial}}" open-type="agreePrivacyAuthorization" bindagreeprivacyauthorization="acceptNative" disabled="{{busy}}" bindtap="feedbackTap">同意微信隐私授权</button><button wx:else class="privacy-sheet-primary" data-privacy-serial="{{serial}}" bindtap="accept" disabled="{{busy}}">同意并继续</button><button class="privacy-sheet-secondary" data-privacy-serial="{{serial}}" bindtap="decline" disabled="{{busy}}">{{nativeRequired ? '暂不授权' : '仅浏览商品'}}</button></view>
+    </view>
+  </view>
+</root-portal>

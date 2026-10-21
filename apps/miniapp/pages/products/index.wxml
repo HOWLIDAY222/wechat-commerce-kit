@@ -1,0 +1,20 @@
+<brand-header wx:if="{{!isTimelinePreview}}"/>
+<share-entry wx:if="{{isTimelinePreview}}" single-page/>
+<view wx:if="{{catalogNotice}}" class="catalog-notice">{{catalogNotice}}</view>
+<view class="catalog">
+ <view class="catalog-heading"><view><view class="eyebrow">THE COLLECTION</view><view class="catalog-title">全部商品</view></view><view class="catalog-heading__actions"><text>{{products.length}} 件商品</text><view class="public-share-entry"><share-entry tab-page id="page-share-entry" wx:if="{{!isTimelinePreview}}" source="{{products[0].image}}" bind:coverready="onShareCoverReady"/></view></view></view>
+ <view class="search"><image src="/assets/icons/search.png"/><input placeholder="搜索商品、颜色或尺码" value="{{query}}" focus="{{searchFocused}}" bindblur="onSearchBlur" bindinput="onSearch" confirm-type="search"/><button class="vk-button-content" wx:if="{{query}}" bindtap="clearSearch" aria-label="清除搜索">清除</button></view>
+ <brand-loading variant="catalog" wx:if="{{loading&&!products.length}}"/>
+ <view wx:if="{{error}}" class="error-panel"><view>{{error}}</view><button bindtap="retry" class="error-panel__button vk-button-content">重新加载</button></view>
+ <view class="catalog-grid {{visibleProducts.length===1?'catalog-grid--single':''}}">
+  <view class="product" wx:for="{{visibleProducts}}" wx:key="slug" data-slug="{{item.slug}}" bindtap="openProduct" hover-class="vk-pressed">
+   <view class="product-media media-frame"><image wx:if="{{!mediaRetrying[visibleProducts.length===1 ? item.image : (item.cardImage || item.image)]}}" class="product-image media-image {{mediaLoaded[visibleProducts.length===1 ? item.image : (item.cardImage || item.image)] ? 'media-image--ready' : ''}}" src="{{visibleProducts.length===1 ? item.image : (item.cardImage || item.image)}}" mode="aspectFill" data-source="{{visibleProducts.length===1 ? item.image : (item.cardImage || item.image)}}" bindload="onMediaLoad" binderror="onMediaError"/><view wx:if="{{mediaFailed[visibleProducts.length===1 ? item.image : (item.cardImage || item.image)]}}" class="media-fallback"><text>图片暂时未能加载</text><button class="vk-button-content" data-source="{{visibleProducts.length===1 ? item.image : (item.cardImage || item.image)}}" catchtap="onMediaRetry">重新加载图片</button></view><text class="product-release">{{item.releaseLabel}}</text></view>
+   <view class="product-top"><text>{{item.displayName}}</text><text wx:if="{{item.showPrice}}">{{item.priceLabel}}</text></view>
+   <view class="product-subtitle">{{item.subtitle}}</view>
+   <view wx:if="{{item.shipLabel}}" class="product-ship">{{item.shipLabel}}</view><view class="product-note"><text wx:for="{{item.sizes}}" wx:for-item="size" wx:key="*this">{{size}}</text><button wx:if="{{item.isPurchasable}}" class="product-buy vk-button-content" data-slug="{{item.slug}}" catchtap="openPurchase" hover-class="vk-pressed"><text>选择尺码</text></button><image wx:else src="/assets/icons/chevron-right.png"/></view>
+  </view>
+ </view>
+ <view wx:if="{{!loading&&!error&&!visibleProducts.length}}" class="empty"><view>没有找到相符的商品</view><button class="secondary-button vk-button-content" bindtap="clearSearch" hover-class="vk-pressed">查看全部商品</button></view>
+ <view wx:if="{{visibleProducts.length}}" class="catalog-footer"><text>MerchantKit</text><view>清晰版型，贴合日常。</view></view>
+</view>
+<privacy-sheet id="privacy-sheet"/>

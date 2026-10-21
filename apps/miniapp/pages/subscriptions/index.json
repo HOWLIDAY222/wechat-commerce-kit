@@ -1,0 +1,6 @@
+{
+  "navigationStyle":"custom",
+  "navigationBarTitleText":"订阅提醒",
+  "enablePullDownRefresh":true,
+  "usingComponents":{"brand-header":"/components/brand-header/index","brand-loader":"/components/brand-loader/index"}
+}

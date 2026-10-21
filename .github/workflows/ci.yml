@@ -1,0 +1,33 @@
+name: Community checks
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_USER: merchantkit_demo
+          POSTGRES_PASSWORD: merchantkit_demo
+          POSTGRES_DB: merchantkit_test
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd 'pg_isready -U merchantkit_demo -d merchantkit_test'
+          --health-interval 5s --health-timeout 5s --health-retries 15
+    env:
+      DATABASE_URL: postgresql://merchantkit_demo:merchantkit_demo@127.0.0.1:5432/merchantkit_test
+      NEXT_TELEMETRY_DISABLED: '1'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+      - run: npm install --global pnpm@11.25.0
+      - run: pnpm --dir apps/web install --frozen-lockfile --ignore-scripts
+      - run: pnpm --dir apps/miniapp install --frozen-lockfile --ignore-scripts
+      - run: pnpm --dir apps/web prisma:generate
+      - run: npm run check
+      - run: pnpm --dir apps/web test:integration

@@ -1,0 +1,16 @@
+<brand-header back show-search="{{false}}" show-bag="{{false}}" />
+<view wx:if="{{checking}}" class="guide-state" role="status">正在进入洗护指南</view>
+<view wx:elif="{{!authorized}}" class="guide-state"><view class="guide-state__title">洗护指南</view><text>{{accessError || '登录后继续使用'}}</text><button class="primary-button" bindtap="checkAccess" hover-class="vk-pressed">{{accessError ? '重新进入' : '前往登录'}}</button></view>
+<view wx:else class="guide-page">
+  <view class="guide-heading"><view class="guide-title">洗护指南</view><view wx:if="{{guide}}" class="guide-product">{{guide.title}}</view></view>
+  <view wx:if="{{loading}}" class="guide-state" role="status">正在加载洗护指南</view>
+  <view wx:elif="{{error}}" class="guide-state"><text>{{error}}</text><button class="primary-button" bindtap="loadGuide" hover-class="vk-pressed">重新加载</button><button class="guide-text-button" bindtap="openHelp" hover-class="vk-pressed">联系与帮助</button></view>
+  <block wx:elif="{{guide}}">
+    <view class="guide-tabs"><button class="{{activeTab==='essentials'?'is-active':''}}" data-tab="essentials" bindtap="changeTab" aria-pressed="{{activeTab==='essentials'}}" hover-class="vk-pressed">洗护要点</button><button class="{{activeTab==='steps'?'is-active':''}}" data-tab="steps" bindtap="changeTab" aria-pressed="{{activeTab==='steps'}}" hover-class="vk-pressed">操作顺序</button></view>
+    <view wx:if="{{activeTab==='essentials'}}" class="care-grid"><view wx:for="{{guide.cards}}" wx:key="id" class="care-rule care-rule--{{item.kind}}"><view wx:if="{{item.label}}" class="care-rule__temperature">{{item.label}}</view><image wx:else class="care-rule__icon" src="{{item.icon}}" mode="aspectFit"/><view class="care-rule__text">{{item.text}}</view></view></view>
+    <view wx:else class="care-sequence"><view wx:for="{{guide.steps}}" wx:key="id" class="care-sequence__step"><view class="care-sequence__index">{{index+1}}</view><view class="care-sequence__content"><view class="care-sequence__title">{{item.title}}</view><view class="care-sequence__copy">{{item.body}}</view></view></view></view>
+    <view wx:if="{{guide.notice && activeTab==='essentials'}}" class="care-label-note">{{guide.notice}}</view>
+    <view class="guide-footer"><button bindtap="openProduct" hover-class="vk-pressed">查看商品</button><button bindtap="openHelp" hover-class="vk-pressed">联系与帮助</button></view>
+  </block>
+</view>
+<privacy-sheet id="privacy-sheet" />

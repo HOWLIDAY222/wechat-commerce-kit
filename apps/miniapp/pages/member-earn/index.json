@@ -1,0 +1,10 @@
+{
+  "navigationStyle": "custom",
+  "navigationBarTitleText": "赚积分",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "enterprise-contact": "/components/enterprise-contact/index",
+    "brand-header": "/components/brand-header/index",
+    "brand-loader": "/components/brand-loader/index"
+  }
+}

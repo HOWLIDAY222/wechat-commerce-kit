@@ -1,0 +1,2 @@
+@import "../../common/member-operations.wxss";
+.student-entry{padding-top:48rpx}.student-entry__copy{margin:34rpx 0 46rpx;font-size:29rpx;line-height:1.85;color:#626262}

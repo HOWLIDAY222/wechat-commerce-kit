@@ -1,0 +1,100 @@
+{
+  "pages": [
+    "pages/home/home",
+    "pages/products/index",
+    "pages/cart/index",
+    "pages/account/index",
+    "pages/story/index",
+    "pages/contact/index",
+    "pages/product-detail/index",
+    "pages/content/index",
+    "pages/favorites/index",
+    "pages/addresses/index",
+    "pages/address-edit/index",
+    "pages/checkout/index",
+    "pages/orders/index",
+    "pages/order-detail/index",
+    "pages/after-sales/index",
+    "pages/after-sales-detail/index",
+    "pages/after-sales-create/index",
+    "pages/member/index",
+    "pages/fit-profile/index",
+    "pages/gifts/index",
+    "pages/gift-receive/index",
+    "pages/gift-redeem/index",
+    "pages/member-profile/index",
+    "pages/subscriptions/index",
+    "pages/member-earn/index",
+    "pages/member-invite/index",
+    "pages/member-lottery/index",
+    "pages/member-student/index",
+    "pages/member-surveys/index",
+    "pages/member-community/index",
+    "pages/privacy/index",
+    "pages/package-service/index",
+    "pages/size-guide/index",
+    "pages/care-guide/index"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "MerchantKit",
+    "backgroundColor": "#ffffff",
+    "backgroundTextStyle": "dark"
+  },
+  "tabBar": {
+    "color": "#777777",
+    "selectedColor": "#111111",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/home/home",
+        "text": "商城",
+        "iconPath": "assets/icons/home.png",
+        "selectedIconPath": "assets/icons/home-active.png"
+      },
+      {
+        "pagePath": "pages/products/index",
+        "text": "商品",
+        "iconPath": "assets/icons/catalog.png",
+        "selectedIconPath": "assets/icons/catalog-active.png"
+      },
+      {
+        "pagePath": "pages/cart/index",
+        "text": "购物袋",
+        "iconPath": "assets/icons/bag.png",
+        "selectedIconPath": "assets/icons/bag-active.png"
+      },
+      {
+        "pagePath": "pages/account/index",
+        "text": "我的",
+        "iconPath": "assets/icons/account.png",
+        "selectedIconPath": "assets/icons/account-active.png"
+      }
+    ]
+  },
+  "networkTimeout": {
+    "request": 12000
+  },
+  "subpackages": [
+    {
+      "root": "packages/student",
+      "pages": [
+        "entry"
+      ]
+    },
+    {
+      "root": "packages/logistics",
+      "pages": [
+        "entry"
+      ]
+    }
+  ],
+  "lazyCodeLoading": "requiredComponents",
+  "sitemapLocation": "sitemap.json",
+  "style": "v2",
+  "usingComponents": {
+    "privacy-sheet": "/components/privacy-sheet/index"
+  }
+}

@@ -1,0 +1,17 @@
+<view class="product-card" bindtap="openProduct" hover-class="product-card--pressed">
+  <view class="product-card__media">
+    <image
+      wx:if="{{product.image}}"
+      class="product-card__image"
+      src="{{product.cardImage || product.image}}"
+      mode="aspectFill"
+      lazy-load
+    />
+  </view>
+  <view class="product-card__body">
+    <view class="product-card__meta">{{product.silhouette || product.category}} · {{product.scene}}</view>
+    <view class="product-card__name">{{product.name}}</view>
+    <view class="product-card__price" wx:if="{{product.showPrice}}">{{product.priceLabel}}</view>
+    <view class="product-card__release" wx:else>{{product.releaseLabel}}</view>
+  </view>
+</view>

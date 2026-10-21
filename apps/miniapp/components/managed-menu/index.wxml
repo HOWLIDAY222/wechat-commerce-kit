@@ -1,0 +1,12 @@
+<scroll-view class="managed-menu" scroll-x enhanced show-scrollbar="{{false}}" wx:if="{{items.length}}">
+  <view class="managed-menu__inner">
+    <view
+      class="managed-menu__item {{item.pageKey === activePageKey && !item.query ? 'managed-menu__item--active' : ''}}"
+      wx:for="{{items}}"
+      wx:key="pageKey"
+      bindtap="selectItem"
+      data-page-key="{{item.pageKey}}"
+      data-query="{{item.query}}"
+    >{{item.label}}</view>
+  </view>
+</scroll-view>

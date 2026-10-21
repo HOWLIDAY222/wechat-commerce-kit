@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "type": "community-example"
+  },
+  "paragraphs": [
+    {
+      "sourceIndex": 0,
+      "style": "Normal",
+      "numId": null,
+      "level": null,
+      "text": "隐私政策（社区演示）"
+    },
+    {
+      "sourceIndex": 1,
+      "style": "Normal",
+      "numId": null,
+      "level": null,
+      "text": "本页是开发示例，不构成实际商家的隐私承诺。上线前应由运营者按实际处理方式配置。"
+    },
+    {
+      "sourceIndex": 2,
+      "style": "Heading 1",
+      "numId": null,
+      "level": 0,
+      "text": "演示环境"
+    },
+    {
+      "sourceIndex": 3,
+      "style": "Normal",
+      "numId": null,
+      "level": null,
+      "text": "示例数据为虚构数据。请勿在公开演示中输入真实姓名、电话、地址或支付资料。"
+    },
+    {
+      "sourceIndex": 4,
+      "style": "Heading 1",
+      "numId": null,
+      "level": 0,
+      "text": "必要服务与选择"
+    },
+    {
+      "sourceIndex": 5,
+      "style": "Normal",
+      "numId": null,
+      "level": null,
+      "text": "商品可在未登录时浏览。登录、会员、下单等服务需要用户主动确认适用说明。可选头像、偏好和学生验证应单独由用户操作。"
+    },
+    {
+      "sourceIndex": 6,
+      "style": "Heading 1",
+      "numId": null,
+      "level": 0,
+      "text": "运营者配置"
+    },
+    {
+      "sourceIndex": 7,
+      "style": "Normal",
+      "numId": null,
+      "level": null,
+      "text": "实际运营者必须补充自己的联系方式、数据存储地点、处理目的、保存期限和用户权利渠道，并核对平台隐私配置。"
+    }
+  ]
+}

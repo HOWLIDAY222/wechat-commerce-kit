@@ -1,0 +1,24 @@
+/* Original brand interactions inspired by Uiverse categories; no third-party runtime. */
+.consumer-site{--vk-ease:cubic-bezier(.2,.7,.2,1)}
+.consumer-site :is(.minimal-primary,.vk-button){gap:14px;transition:background-color 200ms ease,transform 160ms ease,color 200ms ease}
+.consumer-site :is(.minimal-primary,.vk-button):not(:disabled):active{transform:translateY(1px)}
+.consumer-site :is(a,button,input,select,textarea):focus-visible{outline:2px solid currentColor;outline-offset:4px}
+.campaign-link{display:inline-flex!important;align-items:center;gap:14px;transition:color 200ms ease}
+.campaign-link svg,.minimal-primary svg{transition:transform 200ms var(--vk-ease);flex-shrink:0}
+.campaign-link:hover svg,.minimal-primary:hover svg{transform:translate(3px,-3px)}
+.minimal-desktop-nav a{position:relative;text-decoration:none!important}
+.minimal-desktop-nav a::after{content:"";position:absolute;left:0;right:0;bottom:6px;height:1px;background:currentColor;transform:scaleX(0);transform-origin:left;transition:transform 220ms var(--vk-ease)}
+.minimal-desktop-nav a:hover::after,.minimal-desktop-nav a[aria-current=page]::after{transform:scaleX(1)}
+.minimal-thumbnails button{transition:opacity 200ms ease,border-color 200ms ease}.minimal-thumbnails button:hover{opacity:.75}
+.minimal-mobile-nav a{transition:background-color 200ms ease,padding-left 200ms ease}.minimal-mobile-nav a:hover{padding-left:8px;background:#f0eeeb}
+.minimal-footer details[open]>:not(summary){animation:vk-panel-enter 220ms ease both}
+.vk-route-loading{inset:90px 0 0;background:#faf9f7;animation:vk-loading-reveal 160ms ease 100ms forwards}
+.vk-route-loading-content{gap:28px}.vk-route-loading-track{width:160px;height:2px;background:#dedbd6}.vk-route-loading-track>span{width:40%;transform:none;animation:vk-loading-sweep 1200ms ease-in-out infinite}
+.vk-privacy-panel{animation:vk-panel-enter 240ms ease both}.vk-privacy-panel .vk-button{display:flex;justify-content:center;align-items:center;gap:12px;transition:background-color 180ms ease}.vk-privacy-panel .vk-button:disabled{cursor:wait;opacity:.65}
+.vk-spinner{display:inline-block;width:16px;height:16px;border:1.5px solid currentColor;border-right-color:transparent;border-radius:50%;animation:vk-spin 800ms linear infinite;flex-shrink:0}.vk-spinner-icon{animation:vk-spin 900ms linear infinite}
+@keyframes vk-spin{to{transform:rotate(360deg)}}
+@keyframes vk-loading-sweep{0%{transform:translateX(-100%)}100%{transform:translateX(350%)}}
+@keyframes vk-panel-enter{from{opacity:.5;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@media(hover:hover){.campaign-shop-photo img{transition:transform 450ms var(--vk-ease)}.campaign-shop-photo{overflow:hidden}.campaign-shop-photo:hover img{transform:scale(1.025)}}
+@media(max-width:767px){.vk-route-loading{inset:72px 0 0}}
+@media(prefers-reduced-motion:reduce){.consumer-site *,.vk-route-loading,.vk-route-loading *,.vk-privacy-panel,.vk-privacy-panel *{animation:none!important;transition:none!important;scroll-behavior:auto!important}.vk-route-loading{opacity:1}.vk-route-loading-track>span{transform:translateX(75%)}.campaign-link:hover svg,.minimal-primary:hover svg,.campaign-shop-photo:hover img{transform:none}}

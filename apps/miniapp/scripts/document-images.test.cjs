@@ -1,0 +1,2 @@
+const test=require('node:test'),assert=require('node:assert/strict');const {createLoader}=require('./test-loader.cjs');
+test('bundled community documents use local examples and no copied remote policy images',()=>{const {documents}=createLoader().load('content/documents.js');assert(documents['privacy-policy']);for(const item of Object.values(documents)){assert.equal(item.source,'');assert.doesNotMatch(JSON.stringify(item.nodes),/<img|<video|https?:/i);}assert.match(documents['privacy-policy'].nodes,/开发示例/);});

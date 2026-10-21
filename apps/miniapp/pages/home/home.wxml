@@ -1,0 +1,50 @@
+<brand-header id="home-brand-header" wx:if="{{!isTimelinePreview}}" show-subscription bind:search="openSearch" bind:subscribe="openSubscriptions"/>
+<add-miniapp-hint id="home-add-miniapp-hint" wx:if="{{!isTimelinePreview}}"/>
+<share-entry wx:if="{{isTimelinePreview}}" single-page/>
+<view class="home-page flow-page">
+ <view wx:if="{{catalogNotice || notice}}" class="catalog-notice">{{notice || catalogNotice}}</view>
+ <brand-loader label="正在加载" wx:if="{{loading && !sections.length}}"/>
+ <view wx:if="{{error}}" class="error-panel"><view>{{error}}</view><button class="error-panel__button vk-button-content" bindtap="retry">重新加载</button></view>
+ <view class="home-tabs"><button class="home-tab--active vk-button-content" bindtap="openIntroduction">产品介绍</button><button class="vk-button-content" bindtap="openStory">品牌故事</button><view class="public-share-entry"><share-entry tab-page id="page-share-entry" wx:if="{{!isTimelinePreview}}" source="{{product.image}}" bind:coverready="onShareCoverReady"/></view></view>
+ <block wx:for="{{sections}}" wx:key="id" wx:for-item="section">
+  <view wx:if="{{section.type==='hero'}}" id="{{section.anchorId}}" class="campaign">
+   <block wx:if="{{section.id===campaignSectionId}}">
+    <view class="campaign-video-frame">
+     <block wx:if="{{campaignVideoMounted && !campaignVideoFailed}}">
+      <video id="home-campaign-video" class="campaign-video" src="{{campaignVideoSrc}}" poster="{{campaignVideoPoster}}" autoplay="{{true}}" loop="{{true}}" muted="{{campaignVideoMuted}}" controls="{{true}}" show-fullscreen-btn="{{true}}" show-center-play-btn="{{false}}" object-fit="contain" auto-pause-if-navigate="{{true}}" auto-pause-if-open-native="{{true}}" bindwaiting="onCampaignVideoWaiting" bindplay="onCampaignVideoReady" bindpause="onCampaignVideoReady" bindended="onCampaignVideoReady" bindtimeupdate="onCampaignVideoReady" binderror="onCampaignVideoError"/>
+      <brand-loader wx:if="{{campaignVideoLoading}}" compact overlay timeout="{{18000}}" label="影片正在加载" bind:timeout="onCampaignVideoError"/>
+     </block>
+     <block wx:else>
+      <image class="campaign-video-poster" src="{{mediaFailed[campaignVideoPoster] ? section.heroImage : campaignVideoPoster}}" mode="aspectFit" data-source="{{mediaFailed[campaignVideoPoster] ? section.heroImage : campaignVideoPoster}}" bindload="onCampaignPosterLoad" binderror="onCampaignPosterError"/>
+      <brand-loader wx:if="{{campaignPosterLoading}}" compact overlay timeout="{{12000}}" bind:timeout="onCampaignPosterTimeout"/>
+     </block>
+    </view>
+    <view class="campaign-video-caption"><text>X1 Air · 给身体，留一点空气</text><button wx:if="{{campaignVideoFailed}}" class="campaign-video-sound vk-button-content" bindtap="openCampaignVideo">重试播放</button><button wx:elif="{{campaignVideoMounted}}" class="campaign-video-sound vk-button-content" bindtap="toggleCampaignSound">{{campaignVideoMuted ? '开启声音' : '静音'}}</button><text wx:else>30秒</text></view>
+    <view wx:if="{{campaignVideoFailed}}" class="campaign-video-error">视频暂时无法播放，可重试或继续浏览产品介绍。</view>
+   </block>
+   <view wx:else class="media-frame hero-frame {{section.imageUrl ? 'hero-frame--editorial' : ''}}">
+    <image wx:if="{{section.heroImage && !mediaRetrying[section.heroImage]}}" class="hero-photo media-image {{mediaLoaded[section.heroImage] ? 'media-image--ready' : ''}}" src="{{section.heroImage}}" mode="{{section.heroImageMode}}" bindtap="openIntroduction" data-source="{{section.heroImage}}" bindload="onMediaLoad" binderror="onMediaError"/>
+    <view wx:if="{{mediaFailed[section.heroImage]}}" class="media-fallback"><text>图片暂时未能加载</text><button class="vk-button-content" data-source="{{section.heroImage}}" catchtap="onMediaRetry">重新加载图片</button></view>
+   </view>
+   <view class="hero-copy">
+    <view class="campaign-caption">{{section.eyebrow}}</view><view class="hero-title">{{section.title}}</view><view class="hero-subtitle">{{section.body}}</view>
+    <button wx:if="{{section.action && !section.shoppingAction}}" class="hero-editorial-link vk-button-content" data-section="{{section.id}}" data-link="{{section.action}}" bindtap="openLink">{{section.action.label}} ↗</button>
+    <view class="hero-purchase"><view><view class="hero-product-meta" wx:if="{{product}}"><text class="hero-product-price" wx:if="{{product.showPrice}}">{{product.priceLabel}}<text> / 条</text></text><text>{{product.releaseLabel}}</text></view><view class="hero-ship" wx:if="{{product.shipLabel}}">{{product.shipLabel}}</view></view><view class="hero-action-row"><button class="primary-button vk-button-content" id="home-buy" bindtap="openPurchase">选购</button></view></view>
+    <button class="hero-intro-link vk-button-content" bindtap="openIntroduction">了解产品<image src="/assets/icons/chevron-right.png"/></button>
+    <view class="release-note" wx:for="{{section.features}}" wx:key="*this">{{item}}</view>
+    <view wx:if="{{section.id===campaignSectionId && !isTimelinePreview}}" class="home-reminder" id="home-reminder">
+     <view class="home-reminder__copy"><view class="home-reminder__title">上新与补货提醒</view></view>
+     <button class="home-reminder__button vk-button-content" bindtap="openSubscriptions">开启提醒</button>
+    </view>
+   </view>
+  </view>
+  <view wx:else id="{{section.anchorId}}" class="home-section">
+   <image wx:if="{{section.imageUrl}}" src="{{section.imageUrl}}" class="section-banner" mode="widthFix" lazy-load/>
+   <view class="section-head"><view class="home-heading">{{section.title}}</view><button class="vk-button-content" wx:if="{{section.action && (!section.shoppingAction || section.type==='productGrid')}}" data-section="{{section.id}}" data-link="{{section.action}}" bindtap="openLink">{{section.shoppingAction ? '选购' : section.action.label}}<image src="/assets/icons/chevron-right.png"/></button></view><view wx:if="{{section.body}}" class="detail-copy">{{section.body}}</view>
+   <view class="detail-grid" wx:if="{{section.type==='productGrid'}}"><view class="detail-story" wx:for="{{section.products}}" wx:key="id"><image src="{{item.cardImage || item.image}}" mode="aspectFit" lazy-load/><view class="detail-title">{{item.displayName}}</view><view class="detail-copy">{{item.subtitle}}</view><view class="detail-price" wx:if="{{item.showPrice}}">{{item.priceLabel}}</view><button class="secondary-button vk-button-content" data-slug="{{item.slug}}" bindtap="openPurchase">选购</button></view></view>
+   <view wx:else class="detail-grid" style="grid-template-columns:repeat({{section.layout === 'fitPair' || section.layout === 'detailPair' ? 2 : section.columns || 2}},minmax(0,1fr))"><view class="detail-story" wx:for="{{section.items}}" wx:key="id"><image wx:if="{{item.imageUrl}}" class="detail-story__photo" src="{{item.imageUrl}}" mode="widthFix" lazy-load/><view class="detail-title">{{item.title}}</view><view class="detail-copy">{{item.body}}</view><button wx:if="{{item.link}}" class="secondary-button vk-button-content" data-section="{{section.id}}" data-link="{{item.link}}" bindtap="openLink">{{item.link.label}}</button></view></view>
+  </view>
+ </block>
+ <view wx:if="{{!loading && !error && !sections.length}}" class="loading-card">页面内容正在更新</view>
+</view>
+<privacy-sheet id="privacy-sheet"/>

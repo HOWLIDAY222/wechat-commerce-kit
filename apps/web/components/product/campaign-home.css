@@ -1,0 +1,71 @@
+.consumer-site .campaign-home { background: #fff; color: #161616; }
+.consumer-site:has(.campaign-home) .minimal-header { background: #fff; }
+.consumer-site:has(.campaign-home) .minimal-header-inner { min-height: 72px; }
+.campaign-home img { display: block; width: 100%; height: auto; }
+.campaign-opening { position: relative; }
+.campaign-carousel { position: relative; background: #b7b5b4; }
+.campaign-carousel-stage { position: relative; aspect-ratio: 16 / 9; overflow: hidden; }
+.campaign-slide { position: absolute; inset: 0; opacity: 0; visibility: hidden; transition: opacity 600ms ease, visibility 600ms; }
+.campaign-slide.is-active { opacity: 1; visibility: visible; }
+.campaign-home .campaign-slide img { width: 100%; height: 100%; object-fit: contain; }
+.campaign-carousel-controls { position: absolute; right: 24px; bottom: 20px; display: flex; align-items: center; gap: 2px; padding: 2px 8px; color: #161616; background: rgba(255,255,255,.92); border: 1px solid rgba(0,0,0,.1); }
+.campaign-carousel-controls button { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 0; cursor: pointer; border: 0; background: transparent; color: inherit; }
+.campaign-carousel-controls button:focus-visible { outline: 2px solid #161616; outline-offset: -4px; }
+.campaign-carousel-controls button:hover { background: rgba(0,0,0,.06); }
+.campaign-carousel-dots { display: flex; }
+.campaign-carousel-dots button { width: 26px; }
+.campaign-carousel-dots span { width: 5px; height: 5px; border-radius: 50%; background: #929292; }
+.campaign-carousel-dots [aria-current="true"] span { background: #161616; transform: scale(1.5); }
+.campaign-carousel-count { padding: 0 9px; font-size: 11px; letter-spacing: .08em; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.campaign-hero-picture { display: block; height: 100%; background: #94908e; }
+.campaign-hero-picture img { aspect-ratio: 16 / 9; object-fit: contain; }
+.campaign-intro { position: absolute; left: 4%; top: 37%; max-width: 180px; }
+.consumer-site .campaign-intro h1 { font-size: clamp(32px, 3.5vw, 54px); font-weight: 300; line-height: 1.05; }
+.campaign-intro p { margin-top: 14px; font-size: 14px; line-height: 1.6; }
+.campaign-link { display: inline-flex; align-items: center; min-height: 44px; font-size: 13px; text-decoration: underline; text-underline-offset: 6px; text-decoration-thickness: 1px; transition: opacity 180ms ease; }
+.campaign-link:hover { opacity: .6; }
+.campaign-intro .campaign-link { margin-top: 10px; }
+.campaign-film-opening .campaign-intro { position: static; max-width: none; display: grid; justify-items: center; gap: 10px; padding: 32px 24px 42px; text-align: center; }
+.campaign-film-opening .campaign-intro :is(p,.campaign-link) { margin-top: 0; }
+.consumer-site .campaign-film-opening .campaign-intro h1 { font-size: clamp(32px, 4vw, 48px); }
+.campaign-film-opening .campaign-intro p { max-width: 640px; }
+.campaign-heading { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 58px 24px; min-height: 170px; text-align: center; }
+.consumer-site .campaign-heading h2 { font-size: clamp(22px, 2.2vw, 32px); line-height: 1.4; font-weight: 400; }
+.campaign-heading p { font-size: 13px; color: #626262; line-height: 1.6; }
+.campaign-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px; }
+.campaign-fit-pair { background: #fff; }
+.campaign-fit-pair img { aspect-ratio: 1428 / 2574; object-fit: contain; }
+.campaign-fit-pair img:last-child { background: #94908e; }
+.campaign-detail-pair figure { min-width: 0; margin: 0; }
+.campaign-detail-pair img { aspect-ratio: 1280 / 1080; object-fit: contain; background: #94908e; }
+.campaign-detail-pair figcaption { padding: 22px 4vw 42px; font-size: 15px; }
+.campaign-closing-photo { aspect-ratio: 1271 / 617; object-fit: contain; }
+.campaign-shop-inner { display: grid; grid-template-columns: 280px 320px; justify-content: center; align-items: center; gap: 70px; padding: 70px 24px; }
+.campaign-shop-photo { display: block; }
+.consumer-site .campaign-shop-copy h2 { font-size: 40px; font-weight: 300; line-height: 1.2; }
+.campaign-shop-copy > p { margin-top: 14px; font-size: 14px; }
+.campaign-shop-copy .campaign-price { font-size: 24px; }
+.campaign-shop-copy .minimal-primary { margin-top: 24px; }
+.campaign-shop-copy .campaign-availability { font-size: 12px; line-height: 1.8; color: #626262; }
+.consumer-site:has(.campaign-home) .minimal-footer { margin-top: 0; }
+@media (max-width: 767px) {
+  .campaign-carousel-stage { aspect-ratio: 1837 / 2160; }
+  .campaign-carousel-controls { position: static; justify-content: center; border-width: 0 0 1px; padding: 4px 8px; background: #fff; }
+  .consumer-site:has(.campaign-home) .minimal-header-inner { min-height: 64px; }
+  .campaign-hero-picture img { aspect-ratio: 1837 / 2160; }
+  .campaign-intro { position: static; max-width: none; padding: 30px 20px 14px; text-align: center; }
+  .consumer-site .campaign-intro h1 { font-size: 38px; }
+  .campaign-intro p { margin-top: 10px; font-size: 13px; }
+  .campaign-intro .campaign-link { margin-top: 4px; }
+  .campaign-heading { padding: 32px 20px; min-height: 116px; gap: 8px; }
+  .consumer-site .campaign-heading h2 { font-size: 21px; }
+  .campaign-heading p { font-size: 12px; }
+  .campaign-detail-pair figcaption { padding: 14px 20px 28px; font-size: 13px; }
+  .campaign-shop-inner { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 22px; padding: 40px 20px; }
+  .consumer-site .campaign-shop-copy h2 { font-size: 30px; }
+  .campaign-shop-copy > p { font-size: 12px; margin-top: 10px; }
+  .campaign-shop-copy .campaign-price { font-size: 22px; }
+  .campaign-shop-copy .minimal-primary { min-height: 46px; margin-top: 18px; font-size: 13px; }
+  .campaign-shop-copy .campaign-availability { font-size: 11px; }
+}
+@media (prefers-reduced-motion: reduce) { .campaign-link, .campaign-slide { transition: none; } }

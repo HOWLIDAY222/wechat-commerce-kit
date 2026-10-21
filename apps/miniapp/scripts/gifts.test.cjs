@@ -1,0 +1,27 @@
+const test=require('node:test'),assert=require('node:assert/strict'),path=require('node:path');
+const {createLoader,root}=require('./test-loader.cjs');
+function page(file,services={},wx={}){
+  const l=createLoader({getStorageSync:()=>null,setStorageSync(){},removeStorageSync(){},switchTab(){},hideShareMenu(){},...wx},{
+    [path.join(root,'stores/session.js')]:{hasSession:()=>true,readStoredUser:()=>({id:'qa'})},
+    [path.join(root,'services/gifts.js')]:{giftError:x=>x,formatGift:x=>x,giftRequestId:()=> '11111111-1111-4111-8111-111111111111',...services.gifts},
+    [path.join(root,'services/addresses.js')]:{fetchAddresses:async()=>[],...services.addresses},
+    [path.join(root,'services/payments.js')]:{payOrderWithWeChat:async()=>({paid:true}),...services.payments},
+    [path.join(root,'services/orders.js')]:{cancelOrder:async()=>{},...services.orders},
+  });l.load(file);const p=l.page;p.setData=d=>Object.assign(p.data,d);return p;
+}
+const event=(key,value)=>({currentTarget:{dataset:{[key]:value}}});
+test('gift login destinations reject arbitrary redirects and preserve claim capability',()=>{
+  const l=createLoader(),nav=l.load('stores/navigation.js');nav.rememberGiftLoginReturn('/pages/gift-receive/index?id=card&token='+'a'.repeat(43));assert.equal(nav.consumeMemberLoginReturn(),'/pages/gift-receive/index?id=card&token='+'a'.repeat(43));
+  nav.rememberGiftLoginReturn('https://example.com');assert.equal(nav.consumeMemberLoginReturn(),'');
+  nav.rememberGiftLoginReturn('/pages/gift-redeem/index?id=card');assert.equal(nav.consumeMemberLoginReturn(),'/pages/gift-redeem/index?id=card');
+});
+test('gift wallet separates sent and received cards',()=>{const p=page('pages/gifts/index.js');p.data.cards=[{id:'sent',sent:true},{id:'received',received:true}];p.filterCards();assert.equal(p.data.visibleCards[0].id,'received');p.selectTab(event('tab','sent'));assert.equal(p.data.visibleCards[0].id,'sent');});
+test('gift wallet ignores stale server replies',async()=>{let old,calls=0;const p=page('pages/gifts/index.js',{gifts:{fetchGifts:()=>++calls===1?new Promise(r=>old=r):Promise.resolve({cards:[],offers:[{id:'new'}]})}});const first=p.load();await p.load();old({cards:[],offers:[{id:'old'}]});await first;assert.equal(p.data.offers[0].id,'new');});
+test('sharing only returns a selected prepared gift and never puts a secret in generic sharing',async()=>{const p=page('pages/gifts/index.js',{gifts:{giftAction:async()=>({share:{path:'/pages/gift-receive/index?id=card&token=secret',title:'Gift'}})}});p.onLoad();assert.equal(p.onShareAppMessage().path,'/pages/gifts/index');await p.prepareShare(event('id','card'));assert.match(p.onShareAppMessage({target:{dataset:{id:'card'}}}).path,/token=secret/);});
+test('receiving rejects malformed links before sending a request',async()=>{let calls=0;const p=page('pages/gift-receive/index.js',{gifts:{giftAction:async()=>{calls++;}}});p.onLoad({id:'card',token:'bad'});await p.load();assert.equal(calls,0);assert.equal(p.data.error,'GIFT_LINK_INVALID');});
+test('duplicate claim tap sends one request and returns directly to redemption',async()=>{let resolve,calls=0,route;const p=page('pages/gift-receive/index.js',{gifts:{giftAction:()=>{calls++;return new Promise(r=>resolve=r);}}},{redirectTo:o=>{route=o.url;}});p.data.loading=false;p.data.id='card';const first=p.claim();await p.claim();assert.equal(calls,1);resolve();await first;assert.equal(route,'/pages/gift-redeem/index?id=card');});
+test('missing size or address cannot create a redemption',async()=>{let calls=0;const p=page('pages/gift-redeem/index.js',{gifts:{giftAction:async()=>{calls++;}}});p.data.loading=false;p.data.card={status:'CLAIMED'};await p.submit();assert.equal(calls,0);assert.match(p.data.error,/尺码和收货地址/);});
+test('out-of-stock size cannot be selected',()=>{const p=page('pages/gift-redeem/index.js');p.data.sizes=[{size:'S',canRedeem:false},{size:'M',canRedeem:true}];p.selectSize(event('size','S'));assert.equal(p.data.size,'');p.selectSize(event('size','M'));assert.equal(p.data.size,'M');});
+test('redemption confirmation cancellation never creates an order',async()=>{let calls=0;const p=page('pages/gift-redeem/index.js',{gifts:{giftAction:async()=>{calls++;}}},{showModal:o=>o.success({confirm:false})});Object.assign(p.data,{loading:false,card:{status:'CLAIMED'},address:{id:'address'},size:'M',shippingFeeCents:0});await p.submit();assert.equal(calls,0);assert.equal(p.data.busy,false);});
+test('successful free-shipping redemption opens the resulting real order',async()=>{let input,route;const p=page('pages/gift-redeem/index.js',{gifts:{giftAction:async(action,data)=>{input={action,...data};return {orderNo:'GR1',needsPayment:false};}}},{showModal:o=>o.success({confirm:true}),redirectTo:o=>{route=o.url;}});p.onLoad({id:'card'});Object.assign(p.data,{loading:false,card:{status:'CLAIMED'},address:{id:'address'},size:'M',shippingFeeCents:0});await p.submit();assert.equal(input.expectedShippingCents,0);assert.equal(input.addressId,'address');assert.match(route,/orderNo=GR1/);});
+test('gift address selection does not overwrite shopping checkout selection',()=>{let saved;const l=createLoader({setStorageSync:(key)=>saved=key,navigateBack(){}});l.load('pages/addresses/index.js');const p=l.page;p.setData=d=>Object.assign(p.data,d);p.onLoad({select:'1',gift:'card'});p.data.addresses=[{id:'address'}];p.chooseAddress(event('id','address'));assert.equal(saved,'merchantkit.giftAddress.card');});

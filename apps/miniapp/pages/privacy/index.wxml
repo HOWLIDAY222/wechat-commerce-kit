@@ -1,0 +1,5 @@
+<view class="privacy-page" style="padding-top:{{statusBarHeight}}px">
+  <view class="privacy-heading"><image src="/assets/brand/wordmark.png" mode="aspectFit"/><view>隐私政策</view></view>
+  <scroll-view scroll-y class="privacy-document"><view class="privacy-document__body"><view class="privacy-choice">{{nativeRequired ? '请确认微信隐私授权。' : '同意后可登录、使用会员和下单；不同意仍可浏览商品。'}}</view><rich-text nodes="{{policyNodes}}" selectable/><view class="privacy-mini-title">小程序隐私说明</view><rich-text nodes="{{miniNodes}}" selectable/><button class="privacy-native-link" bindtap="openNativePolicy">微信隐私保护指引</button></view></scroll-view>
+  <view class="privacy-footer"><view wx:if="{{error}}" class="privacy-error" role="alert">{{error}}</view><button wx:if="{{nativeRequired}}" id="privacy-native-agree" class="privacy-primary" open-type="agreePrivacyAuthorization" bindagreeprivacyauthorization="acceptNative" disabled="{{busy}}" bindtap="feedbackTap">同意微信隐私授权</button><button wx:else class="privacy-primary" bindtap="accept" disabled="{{busy}}">同意并继续</button><button class="privacy-secondary" bindtap="decline" disabled="{{busy}}">{{nativeRequired ? '暂不授权' : '仅浏览商品'}}</button></view>
+</view>

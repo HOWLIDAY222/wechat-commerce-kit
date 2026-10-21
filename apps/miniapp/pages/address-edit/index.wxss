@@ -1,0 +1,13 @@
+.address-form-page { min-height: 100vh; padding: 48rpx 40rpx 80rpx; background: var(--tc-paper); }
+.form-error { margin-top: 26rpx; padding: 22rpx 0; border-top: 2rpx solid #a53327; border-bottom: 2rpx solid #a53327; color: #7a241a; font-size: 22rpx; }
+.address-form { margin-top: 30rpx; border-top: 2rpx solid var(--tc-ink); }
+.field, .default-row { display: block; padding: 24rpx 0; border-bottom: 2rpx solid var(--tc-line); }
+.field__label { margin-bottom: 12rpx; color: var(--tc-muted); font-size: 20rpx; }
+.field input, .field textarea, .field__picker { width: 100%; min-height: 52rpx; font-size: 26rpx; line-height: 1.52; }
+.field__placeholder { color: #8f8f8f; }
+.default-row { display: flex; align-items: center; justify-content: space-between; }
+.default-row__title { font-size: 25rpx; font-weight: 500; }
+.default-row__copy { margin-top: 6rpx; color: var(--tc-muted); font-size: 20rpx; }
+.save-button { margin-top: 28rpx; }
+
+@import '../../common/service-pages.wxss';

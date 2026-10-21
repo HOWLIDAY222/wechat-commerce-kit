@@ -1,0 +1,4 @@
+<brand-header back/>
+<view class="operations-page student-entry"><view class="operations-title">微信学生认证</view><view class="student-entry__copy">由微信验证学生身份。我们仅接收认证结果，用于发放学生权益。</view><view wx:if="{{error}}" class="operations-status operations-status--error">{{error}}</view><view wx:if="{{notice}}" class="operations-status">{{notice}}</view><button wx:if="{{guest}}" class="operations-button" bindtap="goLogin">登录会员</button><button wx:elif="{{overview && !overview.registered}}" class="operations-button" bindtap="joinMember">加入会员</button><button wx:else class="operations-button" bindtap="startVerification" loading="{{busy}}" disabled="{{busy || loading || syncFailed || !overview}}">{{busy ? '正在核验' : hasCode ? '查询认证状态' : '开始验证'}}</button></view>
+<student-verify show="{{showStudentVerifyDialog}}" isQuick="{{true}}" bind:auth="onStudentVerifyAuth" bind:reject="onStudentVerifyReject" bind:close="onStudentVerifyClose"/>
+<privacy-sheet id="privacy-sheet"/>

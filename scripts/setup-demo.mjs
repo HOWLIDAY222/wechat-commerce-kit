@@ -1,0 +1,10 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import crypto from 'node:crypto';
+import { fileURLToPath } from 'node:url';
+const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
+const file=path.join(root,'apps/web/.env.local');
+if(fs.existsSync(file))throw Error('Existing .env.local preserved. Edit it yourself or move it aside.');
+const sample=fs.readFileSync(path.join(root,'apps/web/.env.example'),'utf8');
+fs.writeFileSync(file,sample.replace('GENERATE_A_LOCAL_SECRET',crypto.randomBytes(32).toString('hex')).replace('GENERATE_A_LOCAL_PASSWORD',crypto.randomBytes(24).toString('base64url')),{mode:0o600});
+console.log('Created ignored local demo configuration. No existing source, data or configuration was replaced.');

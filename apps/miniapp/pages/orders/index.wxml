@@ -1,0 +1,23 @@
+<view class="orders-page">
+  <view class="eyebrow">Order history</view>
+  <view class="section-title">我的订单</view>
+
+  <view class="order-filters" wx:if="{{loggedIn}}">
+    <view class="order-filter {{activeFilter === item.value ? 'order-filter--active' : ''}}" wx:for="{{filters}}" wx:key="value" data-value="{{item.value}}" bindtap="chooseFilter">{{item.label}}</view>
+  </view>
+
+  <view class="state-card" wx:if="{{!loggedIn}}"><view class="state-card__title">登录后查看订单</view><button class="primary-button vk-button-content" bindtap="goLogin">前往登录</button></view>
+  <view class="error-card" wx:if="{{error}}">{{error}}</view>
+  <brand-loading wx:if="{{loggedIn && loading && !visibleOrders.length}}" label="正在同步订单状态…"/>
+  <view class="state-card" wx:if="{{loggedIn && !loading && !visibleOrders.length}}"><view class="state-card__title">当前没有相关订单</view><button class="primary-button vk-button-content" bindtap="browseProducts">浏览系列</button></view>
+
+  <view class="order-list" wx:if="{{visibleOrders.length}}">
+    <view class="order-card" wx:for="{{visibleOrders}}" wx:key="orderNo" data-order-no="{{item.orderNo}}" bindtap="openOrder">
+      <view class="order-card__head"><text>{{item.orderNo}}</text><text class="order-card__status">{{item.paymentStatusLabel}}</text></view>
+      <view class="order-card__items"><text wx:if="{{item.lifecycleLabel}}">{{item.lifecycleLabel}}</text><text wx:else>{{item.items.length}} 个规格</text><text> · {{item.fulfillmentStatusLabel}}</text></view>
+      <view class="order-card__foot"><text>{{item.createdAtLabel}}</text><text class="order-card__total">{{item.payableAmount}}</text></view>
+    </view>
+  </view>
+  <view class="list-progress" wx:if="{{visibleOrders.length}}">已显示 {{visibleOrders.length}} / {{matchedOrderCount}} {{hasMore ? '，继续上滑加载' : ''}}</view>
+</view>
+<privacy-sheet id="privacy-sheet"/>

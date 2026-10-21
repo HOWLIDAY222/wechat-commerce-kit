@@ -1,0 +1,56 @@
+<view class="checkout-page flow-page">
+
+  <view class="checkout-heading">
+    <view class="eyebrow">CHECKOUT</view>
+    <view class="section-title">确认订单</view>
+    <view class="section-copy">请核对商品、收货地址和应付金额。</view>
+  </view>
+
+  <view class="checkout-error" wx:if="{{error}}">{{error}}</view><button wx:if="{{error && !loading && !submissionUncertain}}" class="secondary-button checkout-retry vk-button-content" bindtap="retryCheckout">重新加载结算</button>
+  <button class="secondary-button vk-button-content" wx:if="{{submissionUncertain}}" bindtap="viewOrders" hover-class="vk-pressed" hover-stay-time="100">查看我的订单</button>
+  <button class="secondary-button vk-button-content" wx:if="{{error && !loading && !submissionUncertain}}" bindtap="backToBag" hover-class="vk-pressed" hover-stay-time="100">返回购物袋</button>
+  <view class="checkout-loading" wx:if="{{loading}}">正在确认订单信息…</view>
+
+  <view class="flow-empty checkout-empty" wx:if="{{!loading && cart && !cart.items.length && !error}}"><view class="flow-empty__title">还没有待结算的商品</view><view class="flow-empty__copy">返回购物袋选好商品，再确认订单。</view><button class="primary-button vk-button-content" bindtap="backToBag">返回购物袋</button></view>
+  <block wx:if="{{!loading && cart && cart.items.length}}">
+    <button class="checkout-section address-section vk-button-content" id="checkout-address" bindtap="chooseAddress" disabled="{{submitting || submissionUncertain}}" aria-label="{{address?'更换收货地址':'添加收货地址'}}">
+      <view class="checkout-section__head"><text>收货地址</text><view class="checkout-section__action">{{address ? '更换' : '添加地址'}}<image src="/assets/icons/chevron-right.png"/></view></view>
+      <view wx:if="{{address}}">
+        <view class="address-line"><text class="address-line__name">{{address.name}}</text><text>{{address.phone}}</text></view>
+        <view class="address-detail">{{address.province}}{{address.city}}{{address.district}}{{address.detail}}</view>
+      </view>
+      <view class="address-missing" wx:else>提交订单前需要新增收货地址。</view>
+    </button>
+
+    <view class="checkout-section pickup-choice">
+      <view class="checkout-section__head">交付方式</view>
+      <view class="pickup-methods"><button class="pickup-method {{deliveryMethod==='DELIVERY'?'pickup-method--selected':''}} vk-button-content" data-method="DELIVERY" bindtap="chooseDelivery" disabled="{{loading || submitting || submissionUncertain}}"><view class="pickup-method__radio"/><view>快递配送</view></button><button wx:if="{{pickup.eligible}}" id="choose-pickup" class="pickup-method {{deliveryMethod==='PICKUP'?'pickup-method--selected':''}} vk-button-content" data-method="PICKUP" bindtap="chooseDelivery" disabled="{{loading || submitting || submissionUncertain}}"><view class="pickup-method__radio"/><view>线下自提</view><text class="pickup-free">免运费</text></button></view>
+      <view class="pickup-unavailable" wx:if="{{!pickup.eligible}}">{{pickupLabel}}</view>
+      <view class="pickup-point" wx:if="{{deliveryMethod==='PICKUP' && pickup.point}}"><view class="pickup-point__name">{{pickup.point.name}}</view><view>{{pickup.point.address}}</view><view wx:if="{{pickup.point.hours}}">{{pickup.point.hours}}</view><view wx:if="{{pickup.point.phone}}">{{pickup.point.phone}}</view></view>
+    </view>
+    <view class="checkout-section" wx:if="{{cart}}">
+      <view class="checkout-section__head"><text>{{directMode?'本次购买':'商品清单'}} · {{cart.itemCount}} 件</text><button class="checkout-edit vk-button-content" id="checkout-edit-bag" bindtap="editBag" disabled="{{submitting || submissionUncertain}}">修改商品 ↗</button></view>
+      <view class="checkout-item" wx:for="{{cart.items}}" wx:key="id">
+        <image src="{{item.productImage}}" mode="aspectFit" lazy-load />
+        <view class="checkout-item__body">
+          <view class="checkout-item__name">{{item.productName}}</view>
+          <view class="checkout-item__variant">{{item.styleLabel}} · {{item.color}} / {{item.size}}</view><view class="checkout-item__quantity">× {{item.quantity}}</view>
+        </view>
+        <view class="checkout-item__total">{{item.lineTotal}}</view>
+      </view>
+    </view>
+
+    <view class="checkout-section benefits" wx:if="{{cart}}"><view class="checkout-section__head"><text>优惠与积分</text><text class="section-meta">自动择优</text></view><view class="benefits-status">{{quote && quote.discountCents ? (quote.discountLabel || '已使用优惠') : '可用优惠将自动计入订单'}}</view><view class="checkout-member-links"><button class="vk-button-content" id="checkout-wallet" data-section="wallet" bindtap="openMember" disabled="{{submitting || submissionUncertain}}">我的券<image src="/assets/icons/chevron-right.png"/></button><button class="vk-button-content" id="checkout-coupons" data-section="claim" bindtap="openMember" disabled="{{submitting || submissionUncertain}}">领取优惠券<image src="/assets/icons/chevron-right.png"/></button><button class="vk-button-content" id="checkout-points" data-section="points" bindtap="openMember" disabled="{{submitting || submissionUncertain}}">积分兑换<image src="/assets/icons/chevron-right.png"/></button></view><view class="benefits-note">优惠券与组合优惠择优使用，不叠加。领取或兑换后返回，将重新计算。</view></view>
+    <view class="checkout-section totals" wx:if="{{quote}}">
+      <view class="checkout-section__head"><text>金额明细</text></view>
+      <view><text>商品原价</text><text>{{quote.subtotal}}</text></view>
+      <view wx:if="{{quote.discountCents}}"><text>{{quote.discountLabel || '优惠抵扣'}}</text><text>−{{quote.discount}}</text></view>
+      <view><text>运费</text><text>{{quote.shippingFee}}</text></view>
+      <view class="totals__payable"><text>应付金额</text><text>{{quote.payableAmount}}</text></view>
+    </view>
+
+    <view class="checkout-section payment-section"><view class="checkout-section__head"><text>支付方式</text><view class="payment-method"><view class="payment-check">✓</view><text>微信支付</text></view></view><view class="checkout-notice">{{checkoutEnabled ? '提交后进入订单详情，再确认微信付款。' : '微信支付暂未开放，暂时无法提交订单。'}}</view></view>
+    <view class="checkout-bar"><view class="checkout-bar__amount"><text class="checkout-bar__label">{{!address?'请先添加地址':(deliveryMethod==='PICKUP'?'自提应付金额':'应付金额（含运费）')}}</text><text class="checkout-bar__price">{{quote ? quote.payableAmount : '待确认'}}</text></view><button id="checkout-submit" class="primary-button submit-button vk-button-content" disabled="{{loading || !checkoutEnabled || !address || !quote || submitting || submissionUncertain}}" loading="{{submitting}}" bindtap="submitOrder" hover-class="vk-pressed" hover-stay-time="100">{{submitting?'正在提交':'提交订单'}}</button></view>
+  </block>
+</view>
+<privacy-sheet id="privacy-sheet"/>

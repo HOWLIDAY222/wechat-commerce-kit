@@ -1,0 +1,24 @@
+Component({
+  properties:{
+    label:{type:String,value:''},
+    compact:{type:Boolean,value:false},
+    overlay:{type:Boolean,value:false},
+    timeout:{type:Number,value:0},
+  },
+  lifetimes:{
+    attached(){this.loaderAttached=true;this.armTimeout();},
+    detached(){this.loaderAttached=false;clearTimeout(this.loadingTimer);},
+  },
+  observers:{timeout(){this.armTimeout();}},
+  methods:{
+    armTimeout(){
+      clearTimeout(this.loadingTimer);
+      const delay=Number(this.properties.timeout);
+      if(!this.loaderAttached||!Number.isFinite(delay)||delay<=0)return;
+      this.loadingTimer=setTimeout(()=>{
+        this.loadingTimer=null;
+        if(this.loaderAttached)this.triggerEvent('timeout');
+      },Math.min(delay,60000));
+    },
+  },
+});

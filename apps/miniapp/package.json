@@ -1,0 +1,14 @@
+{
+  "name": "@merchantkit/miniapp",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Native WeChat client for MerchantKit Community",
+  "scripts": {
+    "check": "node scripts/check.cjs",
+    "test": "node --test scripts/*.test.cjs"
+  },
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}

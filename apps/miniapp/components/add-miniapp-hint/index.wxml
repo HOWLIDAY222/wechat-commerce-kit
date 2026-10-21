@@ -1,0 +1,8 @@
+<view wx:if="{{visible}}" class="add-miniapp-hint" role="note">
+ <view class="add-miniapp-hint__pointer" style="left:{{pointerLeft}}px"/>
+ <view class="add-miniapp-hint__copy">
+  <view class="add-miniapp-hint__title"><text>点击</text><text class="add-miniapp-hint__dots">•••</text><text>添加到我的小程序</text></view>
+  <text class="add-miniapp-hint__note">下次更快找到 MerchantKit</text>
+ </view>
+ <button id="dismiss-miniapp-hint" class="add-miniapp-hint__close" aria-label="关闭添加小程序提示" bindtap="dismiss"><text>×</text></button>
+</view>

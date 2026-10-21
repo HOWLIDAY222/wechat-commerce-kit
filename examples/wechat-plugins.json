@@ -1,0 +1,34 @@
+{
+  "plugins": {
+    "contactPlugin": {
+      "version": "1.4.3",
+      "provider": "wx104a1a20c3f81ec2"
+    }
+  },
+  "subpackages": [
+    {
+      "root": "packages/student",
+      "pages": [
+        "entry"
+      ],
+      "plugins": {
+        "studentVerify": {
+          "version": "latest",
+          "provider": "wxa16657d57059e0f0"
+        }
+      }
+    },
+    {
+      "root": "packages/logistics",
+      "pages": [
+        "entry"
+      ],
+      "plugins": {
+        "logisticsPlugin": {
+          "version": "2.1.5",
+          "provider": "wx9ad912bf20548d92"
+        }
+      }
+    }
+  ]
+}

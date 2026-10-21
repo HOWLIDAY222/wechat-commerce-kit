@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "收藏商品",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "product-card": "/components/product-card/index"
+  }
+}

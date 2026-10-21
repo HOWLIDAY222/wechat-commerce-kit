@@ -1,0 +1,87 @@
+<view class="after-sales-detail-page">
+  <view class="loading-card" wx:if="{{loading && !item}}">正在同步售后进度…</view>
+  <view class="error-card" wx:if="{{error}}">{{error}}</view>
+  <block wx:if="{{item}}">
+    <view class="status-card">
+      <view class="eyebrow">{{item.afterSalesNo}}</view>
+      <view class="status-card__title">{{item.statusTitle}}</view>
+      <view class="status-card__copy">{{item.typeLabel}}<text wx:if="{{item.stageLabel}}"> · {{item.stageLabel}}</text> · 原订单 {{item.orderNo}}</view>
+    </view>
+
+    <view id="after-sales-refund-summary" class="refund-summary" wx:if="{{refundDisplay.visible}}">
+      <view class="refund-summary__title">订单退款</view>
+      <view class="refund-summary__row" wx:if="{{refundDisplay.succeededAmount}}"><text>{{refundDisplay.succeededLabel}}</text><text>{{refundDisplay.succeededAmount}}</text></view>
+      <view class="refund-summary__row" wx:if="{{refundDisplay.processingAmount}}"><text>退款处理中</text><text>{{refundDisplay.processingAmount}}</text></view>
+    </view>
+
+    <view class="detail-card">
+      <view class="detail-card__title">申请说明</view>
+      <view class="detail-card__reason">{{item.reason}}</view>
+      <view class="detail-card__copy">{{item.description}}</view>
+    </view>
+
+    <view class="detail-card">
+      <view class="detail-card__title">涉及商品</view>
+      <view class="item-row" wx:for="{{item.items}}" wx:key="orderItemId">
+        <view>
+          <view class="item-row__name">{{item.productName}}</view>
+          <view class="item-row__meta">{{item.color}} · {{item.size}} · ×{{item.quantity}}</view>
+        </view>
+        <view>{{item.refundAmount}}</view>
+      </view>
+    </view>
+
+    <view class="detail-card" wx:if="{{item.returnAddress}}">
+      <view class="detail-card__title">退货地址</view>
+      <view class="detail-card__copy detail-card__copy--important">{{item.returnAddress}}</view>
+    </view>
+
+    <view class="detail-card return-form" wx:if="{{item.canSubmitReturnShipment}}">
+      <view class="detail-card__title">提交退货物流</view>
+      <input class="form-input" placeholder="物流公司" value="{{trackingCompany}}" bindinput="onTrackingCompanyInput" maxlength="80" />
+      <input class="form-input" placeholder="物流单号" value="{{trackingNo}}" bindinput="onTrackingNoInput" maxlength="100" />
+      <button class="primary-button vk-button-content" loading="{{submitting}}" disabled="{{submitting}}" bindtap="submitReturn">确认提交</button>
+    </view>
+
+    <view class="detail-card" wx:if="{{item.returnTrackingNo}}">
+      <view class="detail-card__title">退货物流</view>
+      <view class="detail-card__copy detail-card__copy--important">{{item.returnTrackingCompany}} {{item.returnTrackingNo}}</view>
+    </view>
+
+    <view class="detail-card" wx:if="{{item.type === 'quality_issue' || item.imageUrls.length}}">
+      <view class="section-heading">
+        <view class="detail-card__title">问题凭证</view>
+        <view class="section-heading__meta">{{item.imageUrls.length}} / 6</view>
+      </view>
+      <view class="evidence-grid" wx:if="{{item.evidenceImages.length}}">
+        <image class="evidence-image" wx:for="{{item.evidenceImages}}" wx:key="*this" src="{{item}}" mode="aspectFill" data-src="{{item}}" bindtap="previewImage" />
+      </view>
+      <view class="detail-card__hint" wx:if="{{item.evidenceLoadError}}">部分凭证暂未加载，请下拉刷新重试。</view>
+      <button class="secondary-button vk-button-content" wx:if="{{item.canUploadEvidence}}" loading="{{uploading}}" disabled="{{uploading}}" bindtap="chooseEvidence">上传图片凭证</button>
+    </view>
+
+    <view class="detail-card" wx:if="{{item.rejectReason}}">
+      <view class="detail-card__title">审核说明</view>
+      <view class="detail-card__copy">{{item.rejectReason}}</view>
+    </view>
+
+    <view class="detail-card">
+      <view class="amount-row"><text>申请退款金额</text><text>{{item.refundAmount}}</text></view>
+      <view class="detail-card__hint" wx:if="{{item.showRefundPendingNotice}}">退款将原路退回，到账进度请查看订单和微信支付账单。</view>
+    </view>
+
+    <view class="detail-card conversation-card">
+      <view class="detail-card__title">沟通记录</view>
+      <view class="empty-copy" wx:if="{{!item.messages.length}}">暂无沟通记录</view>
+      <view class="message-row message-row--{{item.senderType}}" wx:for="{{item.messages}}" wx:key="id">
+        <view class="message-row__meta">{{item.senderLabel}} · {{item.createdAtLabel}}</view>
+        <view class="message-row__body">{{item.message}}</view>
+      </view>
+      <view class="message-compose" wx:if="{{item.canMessage}}">
+        <textarea class="message-input" placeholder="补充问题说明或回复客服" value="{{messageText}}" bindinput="onMessageInput" maxlength="1000" auto-height />
+        <button class="primary-button vk-button-content" loading="{{submitting}}" disabled="{{submitting || !messageText}}" bindtap="sendMessage">发送留言</button>
+      </view>
+    </view>
+  </block>
+</view>
+<privacy-sheet id="privacy-sheet"/>

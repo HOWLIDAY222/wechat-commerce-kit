@@ -1,0 +1,125 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "type": "community-example"
+  },
+  "blocks": [
+    {
+      "type": "paragraph",
+      "sourceBlockIndex": 0,
+      "sourceParagraphIndex": 0,
+      "style": "Normal",
+      "numId": null,
+      "level": null,
+      "text": "MerchantKit Community"
+    },
+    {
+      "type": "paragraph",
+      "sourceBlockIndex": 1,
+      "sourceParagraphIndex": 1,
+      "style": "Normal",
+      "numId": null,
+      "level": null,
+      "text": "演示服务说明"
+    },
+    {
+      "type": "paragraph",
+      "sourceBlockIndex": 2,
+      "sourceParagraphIndex": 2,
+      "style": "Normal",
+      "numId": null,
+      "level": null,
+      "text": "开发与测试示例"
+    },
+    {
+      "type": "paragraph",
+      "sourceBlockIndex": 3,
+      "sourceParagraphIndex": 3,
+      "style": "Normal",
+      "numId": null,
+      "level": null,
+      "text": "运营者：请自行配置"
+    },
+    {
+      "type": "paragraph",
+      "sourceBlockIndex": 4,
+      "sourceParagraphIndex": 4,
+      "style": "Normal",
+      "numId": null,
+      "level": null,
+      "text": "联系方式：请自行配置"
+    },
+    {
+      "type": "paragraph",
+      "sourceBlockIndex": 5,
+      "sourceParagraphIndex": 5,
+      "style": "Normal",
+      "numId": null,
+      "level": null,
+      "text": "数据：仅使用虚构示例"
+    },
+    {
+      "type": "paragraph",
+      "sourceBlockIndex": 6,
+      "sourceParagraphIndex": 6,
+      "style": "Normal",
+      "numId": null,
+      "level": null,
+      "text": "支付：默认模拟模式"
+    },
+    {
+      "type": "paragraph",
+      "sourceBlockIndex": 7,
+      "sourceParagraphIndex": 7,
+      "style": "Normal",
+      "numId": null,
+      "level": null,
+      "text": "外部平台：需要运营者自行开通和授权"
+    },
+    {
+      "type": "paragraph",
+      "sourceBlockIndex": 8,
+      "sourceParagraphIndex": 8,
+      "style": "Normal",
+      "numId": null,
+      "level": null,
+      "text": "本说明不替代上线所需的正式协议"
+    },
+    {
+      "type": "paragraph",
+      "sourceBlockIndex": 9,
+      "sourceParagraphIndex": 9,
+      "style": "Heading 1",
+      "numId": null,
+      "level": 0,
+      "text": "功能范围"
+    },
+    {
+      "type": "paragraph",
+      "sourceBlockIndex": 10,
+      "sourceParagraphIndex": 10,
+      "style": "Normal",
+      "numId": null,
+      "level": null,
+      "text": "演示商品、会员、订单和售后用于展示软件流程，不构成商品销售、支付或发奖承诺。"
+    },
+    {
+      "type": "paragraph",
+      "sourceBlockIndex": 11,
+      "sourceParagraphIndex": 11,
+      "style": "Heading 1",
+      "numId": null,
+      "level": 0,
+      "text": "部署责任"
+    },
+    {
+      "type": "paragraph",
+      "sourceBlockIndex": 12,
+      "sourceParagraphIndex": 12,
+      "style": "Normal",
+      "numId": null,
+      "level": null,
+      "text": "部署者应配置自己的规则、平台权限与必要安全措施，并按实际运行情况编写服务及隐私说明。"
+    }
+  ]
+}

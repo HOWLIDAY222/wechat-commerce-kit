@@ -1,0 +1,51 @@
+<brand-header back/>
+<view class="operations-page survey-page">
+  <view wx:if="{{guest}}" class="operations-card"><view class="operations-card__title">登录查看会员问卷</view><view class="operations-copy">回答会保存到你的会员账户。</view><button class="operations-button" bindtap="goLogin">前往登录</button></view>
+  <brand-loader wx:if="{{loading && !overview}}" label="正在加载会员信息"/>
+  <view wx:if="{{error}}" class="operations-status operations-status--error" role="alert"><view>{{error}}</view><button wx:if="{{syncFailed}}" class="operations-link" bindtap="loadOperations" disabled="{{busy || loading}}">重新加载</button></view>
+  <view wx:if="{{notice}}" class="operations-status">{{notice}}</view>
+  <view wx:if="{{overview && !overview.registered}}" class="operations-status"><view>加入品牌会员后，可按当前规则参与问卷。</view><button class="operations-button operations-button--plain" bindtap="joinMember">前往会员中心</button></view>
+  <block wx:if="{{!selected}}">
+    <view class="operations-title">听听你的想法</view>
+    <view class="operations-copy survey-intro">从穿着感受到风格选择，帮助我们把产品做得更贴近你。</view>
+    <block wx:if="{{overview}}">
+      <view class="operations-card survey-list-card" wx:for="{{overview.surveys}}" wx:key="id">
+        <view class="survey-list-card__top"><view class="operations-card__title">{{item.title}}</view><view class="survey-count">{{item.questions.length}} 题</view></view>
+        <view class="operations-copy">{{item.id === 'PREFERENCES' ? '版型、面料与日常穿着感受' : item.id === 'STYLE_SURVEY' ? '色彩、设计与产品选择' : '分享实际穿着中的体验'}}</view>
+        <view wx:if="{{item.rewardLabel}}" class="operations-meta">{{item.rewardLabel}}</view>
+        <button class="operations-button {{item.completed || !item.enabled ? 'operations-button--plain' : ''}}" data-id="{{item.id}}" bindtap="selectSurvey">{{item.completed ? '已完成 · 查看题目' : item.enabled ? '开始回答' : '查看问卷'}}</button>
+      </view>
+      <view wx:if="{{overview.surveysEmpty}}" class="operations-status">问卷正在准备中。</view>
+    </block>
+  </block>
+  <block wx:elif="{{overview}}">
+    <view class="survey-topline"><view class="survey-name">{{selected.title}}</view><button class="survey-close" bindtap="closeSurvey" disabled="{{busy}}">返回列表</button></view>
+    <view wx:if="{{!selected.enabled}}" class="operations-status">问卷暂未开放，可先查看题目。</view>
+    <view wx:elif="{{selected.completed}}" class="operations-status">谢谢你的回答。这份问卷已完成，记录和奖励资格均已保留。</view>
+    <view class="survey-progress"><text>{{stepLabel}}</text><text>{{answeredCount}} 题已填</text></view>
+    <view class="survey-progress__track"><view class="survey-progress__fill" style="width:{{progressPercent}}%"/></view>
+    <view wx:if="{{!reviewing && currentQuestion}}" class="operations-card survey-question-card">
+      <view class="survey-question-meta">{{currentQuestion.typeLabel}} · {{currentQuestion.required ? '必填' : '可选，可跳过'}}</view>
+      <view class="survey-question-title">{{currentQuestion.title}}</view>
+      <radio-group wx:if="{{currentQuestion.type === 'SINGLE'}}" data-id="{{currentQuestion.id}}" bindchange="changeAnswer">
+        <label class="operations-option survey-choice {{choice.selected ? 'is-selected' : ''}}" wx:for="{{currentQuestion.choices}}" wx:key="value" wx:for-item="choice"><radio value="{{choice.value}}" checked="{{choice.selected}}" disabled="{{busy || !selected.enabled || selected.completed}}" color="#111111"/><text>{{choice.value}}</text></label>
+      </radio-group>
+      <checkbox-group wx:elif="{{currentQuestion.type === 'MULTIPLE'}}" data-id="{{currentQuestion.id}}" bindchange="changeAnswer">
+        <label class="operations-option survey-choice {{choice.selected ? 'is-selected' : ''}}" wx:for="{{currentQuestion.choices}}" wx:key="value" wx:for-item="choice"><checkbox value="{{choice.value}}" checked="{{choice.selected}}" disabled="{{busy || !selected.enabled || selected.completed}}" color="#111111"/><text>{{choice.value}}</text></label>
+      </checkbox-group>
+      <block wx:else><textarea class="operations-textarea survey-written" value="{{currentQuestion.answerText}}" maxlength="1000" data-id="{{currentQuestion.id}}" bindinput="changeAnswer" disabled="{{busy || !selected.enabled || selected.completed}}" placeholder="写下你的想法，也可以跳过可选题"/><view class="survey-text-count">{{currentQuestion.answerText.length}} / 1000</view></block>
+    </view>
+    <view wx:if="{{reviewing}}" class="survey-review">
+      <view class="survey-question-title">核对你的回答</view>
+      <view class="operations-copy">可选题可以留空。提交后，本份问卷不能重复领取奖励。</view>
+      <view class="survey-review-row" wx:for="{{reviewAnswers}}" wx:key="id"><view class="survey-review-row__body"><view class="survey-review-row__title">{{item.title}}</view><view class="survey-review-row__answer">{{item.answer}}</view></view><button class="survey-edit" data-index="{{item.index}}" bindtap="editQuestion" disabled="{{busy}}">{{selected.completed || !selected.enabled ? '查看' : '修改'}}</button></view>
+      <checkbox-group wx:if="{{selected.enabled && !selected.completed}}" bindchange="changeConsent"><label class="operations-confirm"><checkbox value="confirmed" checked="{{confirmed}}" disabled="{{busy}}" color="#111111"/><text>我确认以上回答，同意将回答用于产品体验与偏好分析。</text></label></checkbox-group>
+    </view>
+    <view class="survey-footer">
+      <view class="survey-footer__actions"><button class="operations-button operations-button--plain" bindtap="previousQuestion" disabled="{{busy || (!reviewing && stepIndex === 0)}}">上一步</button><button wx:if="{{!reviewing}}" class="operations-button" bindtap="nextQuestion" disabled="{{busy || loading || !currentQuestion}}">{{stepIndex + 1 === questionCount ? '核对回答' : '下一步'}}</button><button wx:elif="{{selected.enabled && !selected.completed}}" class="operations-button" bindtap="submit" loading="{{busy}}" disabled="{{busy || loading || syncFailed || !overview.registered || !confirmed}}">提交问卷</button><button wx:else class="operations-button" bindtap="closeSurvey">返回列表</button></view>
+      <button wx:if="{{!reviewing && currentQuestion && !currentQuestion.required && selected.enabled && !selected.completed}}" class="survey-skip" bindtap="skipQuestion" disabled="{{busy}}">跳过这一题</button>
+      <view wx:if="{{!reviewing}}" class="survey-footer__note">只在最后确认后提交，返回上一步不会清空回答。</view>
+    </view>
+  </block>
+</view>
+<privacy-sheet id="privacy-sheet"/>

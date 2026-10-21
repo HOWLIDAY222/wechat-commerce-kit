@@ -1,0 +1,23 @@
+<brand-header back/>
+<view class="operations-page lottery-page">
+  <view class="operations-title">积分抽奖</view>
+  <view wx:if="{{guest}}" class="operations-card"><button class="operations-button" bindtap="goLogin">登录 / 注册</button></view>
+  <brand-loader wx:if="{{loading && !overview}}" label="正在加载积分"/>
+  <view wx:if="{{error}}" class="operations-status operations-status--error"><view>{{error}}</view><button class="operations-link" bindtap="loadOperations" disabled="{{busy || loading}}">重新加载</button></view>
+  <view wx:if="{{notice}}" class="operations-status">{{notice}}</view>
+  <view wx:if="{{overview && !overview.registered}}" class="operations-card"><button class="operations-button" bindtap="joinMember">完成会员注册</button></view>
+  <block wx:if="{{overview}}">
+    <view class="operations-balance"><view>我的积分</view><view class="operations-balance__number">{{overview.pointsBalance}}</view></view>
+    <view wx:if="{{result}}" class="lottery-result"><view class="lottery-result__title">本次获得</view><view class="lottery-result__prize">{{result.kind === 'POINTS' ? '+' + result.points + ' 积分' : result.prizeTitle}}</view><view class="lottery-result__cost">已使用 {{result.costPoints}} 积分</view><button wx:if="{{result.kind === 'COUPON'}}" class="operations-button" bindtap="openWallet">查看优惠券</button></view>
+    <view class="operations-card lottery-card" wx:for="{{lotteries}}" wx:key="id"><view class="operations-card__title">{{item.title}}</view>
+      <block wx:if="{{item.enabled}}"><view class="lottery-range" wx:if="{{item.uniformPoints}}"><view>{{item.uniformRangeLabel}}</view><view class="lottery-range__probability">每个结果 {{item.uniformProbabilityLabel}}</view></view>
+        <block wx:else><view class="lottery-prize" wx:for="{{item.prizes}}" wx:key="id" wx:for-item="prize"><view>{{prize.title}}</view><view>{{prize.probabilityLabel}}</view></view></block>
+        <view class="lottery-cost"><text>{{item.costPoints}} 积分 / 次</text><text>剩余 {{item.remainingDraws}} 次</text></view>
+      </block>
+      <view wx:else class="operations-copy">活动暂未开放</view>
+      <button class="operations-button" data-id="{{item.id}}" bindtap="draw" loading="{{busy}}" disabled="{{busy || loading || syncFailed || !item.canAttempt}}">{{item.retryPending ? '核对上次结果' : item.canDraw ? '立即抽奖' : item.statusLabel}}</button>
+    </view>
+    <view wx:if="{{overview.lotteriesEmpty}}" class="operations-status">积分抽奖暂未开放</view>
+  </block>
+</view>
+<privacy-sheet id="privacy-sheet"/>

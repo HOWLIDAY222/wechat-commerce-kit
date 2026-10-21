@@ -1,0 +1,9 @@
+{
+  "navigationStyle": "custom",
+  "backgroundColor": "#ffffff",
+  "usingComponents": {
+    "brand-header": "/components/brand-header/index",
+    "brand-loading": "/components/brand-loading/index"
+  },
+  "enablePullDownRefresh": true
+}

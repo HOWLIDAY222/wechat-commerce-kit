@@ -1,0 +1,5 @@
+.document{padding:44rpx 36rpx 80rpx;overflow-wrap:break-word}.document-title{font-size:48rpx;line-height:1.4;margin-bottom:36rpx}.document-source{font-size:25rpx;color:var(--tc-muted);line-height:1.8;border-top:1rpx solid var(--tc-line);padding-top:28rpx;margin-top:40rpx}.document-source button{padding:22rpx 0;margin:0;background:transparent;text-align:left;text-decoration:underline;font-size:26rpx}.document--editorial .document-title{font-size:26rpx;letter-spacing:2rpx;color:var(--tc-muted);margin-bottom:38rpx}.document-actions{display:flex;gap:18rpx;border-top:1rpx solid var(--tc-line);padding-top:32rpx;margin-top:40rpx}.document-actions button{flex:1;min-width:0;font-size:28rpx}
+
+.content-title,.document-title{font-weight:650}.content-page{background:#fff}.content-body{color:#111}
+
+.document-source button{justify-content:flex-start}

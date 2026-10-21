@@ -1,0 +1,35 @@
+<brand-header back/>
+<view class="operations-page">
+ <view wx:if="{{guest}}" class="operations-card"><view class="operations-card__title">登录查看会员任务</view><view class="operations-copy">登录后展示你的积分、申请记录与会员活动。</view><button class="operations-button" hover-class="operations-pressed" bindtap="goLogin">前往登录</button></view>
+ <brand-loader wx:if="{{loading && !overview}}" label="正在加载会员信息"/>
+ <view wx:if="{{error}}" class="operations-status operations-status--error"><view>{{error}}</view><button class="operations-link" hover-class="operations-pressed" bindtap="loadOperations" disabled="{{busy || loading}}">重新加载</button></view>
+ <view wx:if="{{notice}}" class="operations-status">{{notice}}</view>
+ <view wx:if="{{overview && !overview.registered}}" class="operations-status"><view>加入品牌会员后，可按当前规则参与任务。</view><button class="operations-link" hover-class="operations-pressed" bindtap="joinMember">前往会员中心</button></view>
+<view class="operations-title">积分计划</view>
+ <block wx:if="{{overview}}">
+  <view class="operations-balance"><view><view class="operations-copy">我的积分</view><view class="operations-balance__number">{{overview.pointsBalance}}</view></view><button class="operations-inline" hover-class="operations-pressed" bindtap="openPoints">积分兑换</button></view>
+  <view class="operations-section"><view class="operations-heading">购物与积分</view><view class="earn-shopping"><view class="operations-copy">{{overview.shoppingRule.description}}</view><view class="operations-meta">{{overview.shoppingRule.settlementLabel}}</view><button class="operations-link" hover-class="operations-pressed" bindtap="goShopping">浏览商品</button></view><view class="operations-small earn-shopping__note">{{overview.summary}}</view></view>
+  <view class="operations-section"><view class="operations-heading">会员日常</view><view class="operations-row points-task {{item.state !== 'AVAILABLE' ? 'points-task--quiet' : ''}}" wx:for="{{overview.basicTasks}}" wx:key="key"><view class="operations-row__body"><view class="operations-row__title">{{item.title}}</view><view class="operations-row__detail">{{item.description}}</view></view><text wx:if="{{item.rewardLabel}}" class="operations-row__reward">{{item.rewardLabel}}</text><view class="points-task__footer"><view wx:if="{{item.limitLabel}}" class="points-task__limit">{{item.limitLabel}}</view><button class="operations-inline" hover-class="operations-pressed" data-key="{{item.key}}" bindtap="openTask" disabled="{{busy || loading || item.actionDisabled}}">{{item.stateLabel}}</button></view></view><view wx:if="{{overview.basicTasksEmpty}}" class="operations-copy">任务正在准备中。</view><button wx:if="{{overview.profileClaimable}}" class="operations-link" hover-class="operations-pressed" bindtap="claimProfile" disabled="{{busy || loading || syncFailed}}">资料已完善？核验奖励</button></view>
+  <view class="operations-section"><view class="operations-heading">分享与交流</view><view class="operations-row points-task {{item.state !== 'AVAILABLE' ? 'points-task--quiet' : ''}}" wx:for="{{overview.communityTasks}}" wx:key="key"><view class="operations-row__body"><view class="operations-row__title">{{item.title}}</view><view class="operations-row__detail">{{item.description}}</view></view><text wx:if="{{item.rewardLabel}}" class="operations-row__reward">{{item.rewardLabel}}</text><view class="points-task__footer"><view wx:if="{{item.limitLabel}}" class="points-task__limit">{{item.limitLabel}}</view><button class="operations-inline" hover-class="operations-pressed" data-key="{{item.key}}" bindtap="openTask" disabled="{{busy || loading || item.actionDisabled}}">{{item.stateLabel}}</button></view></view><button class="operations-link" hover-class="operations-pressed" data-route="/pages/member-community/index" bindtap="openRoute">查看社媒分享活动</button></view>
+  <view class="operations-section"><view class="operations-heading">继续探索</view><view class="operations-grid earn-explore"><button class="operations-button operations-button--plain" hover-class="operations-pressed" data-route="/pages/member-lottery/index" bindtap="openRoute">积分抽奖</button><button class="operations-button operations-button--plain" hover-class="operations-pressed" data-route="/pages/member-invite/index" bindtap="openRoute">邀请入会</button></view></view>
+  <view wx:if="{{contactKey === 'ENTERPRISE'}}" id="member-contact" class="operations-section operations-card earn-contact">
+    <view class="operations-heading">添加品牌企微</view>
+    <block wx:if="{{contactAvailable}}">
+      <enterprise-contact wx:if="{{enterpriseContactConfigured}}" heading="品牌顾问"/>
+      <image wx:if="{{contactQrAvailable}}" class="operations-qr" src="{{contactInfo.qrImageUrl}}" mode="aspectFit" show-menu-by-longpress bindtap="previewContact"/>
+    </block>
+    <view wx:else class="operations-copy">品牌顾问入口暂未开放。</view>
+    <view wx:if="{{contactApplication}}" class="operations-status"><view>{{contactApplication.statusLabel}}</view><view wx:if="{{contactApplication.note}}">{{contactApplication.note}}</view><view class="earn-contact__history"><button wx:for="{{contactApplicationProofs}}" wx:key="id" class="operations-link" data-id="{{item.id}}" bindtap="previewContactProof" disabled="{{!!contactPreviewingProofId}}">查看截图 {{index + 1}}</button></view></view>
+    <view wx:if="{{contactPendingReady}}" class="operations-status"><view>上次提交待确认</view><button class="operations-button" bindtap="retryContactSubmission" loading="{{busy}}" disabled="{{busy || loading || syncFailed || contactUploading || !contactCanSubmit}}">重试提交</button><button class="operations-link" bindtap="loadOperations" disabled="{{busy || contactUploading}}">刷新记录</button></view>
+    <block wx:if="{{contactCanSubmit && !contactPendingReady}}">
+      <view class="earn-contact__proof-heading">添加成功截图</view>
+      <view class="earn-contact__proofs"><view class="earn-contact__proof" wx:for="{{contactProofItems}}" wx:key="localId"><button class="earn-contact__preview" data-index="{{index}}" bindtap="previewContactProof" disabled="{{!!contactPreviewingProofId}}"><image wx:if="{{item.localPath}}" src="{{item.localPath}}" mode="aspectFill"/><text wx:else>查看截图 {{index + 1}}</text></button><button class="earn-contact__remove" data-index="{{index}}" bindtap="removeContactProof" disabled="{{busy || contactUploading}}">移除</button></view></view>
+      <button wx:if="{{contactProofItems.length < 3}}" class="operations-button operations-button--plain" bindtap="chooseContactProof" disabled="{{busy || loading || syncFailed || contactUploading}}">添加截图</button>
+      <view class="operations-label">核验说明（选填）</view><textarea class="operations-textarea" maxlength="300" value="{{contactNote}}" placeholder="填写添加时使用的昵称" bindinput="changeContactNote" disabled="{{busy || contactUploading}}"/>
+      <button class="operations-button" bindtap="submitContact" loading="{{busy || contactUploading}}" disabled="{{busy || loading || syncFailed || contactUploading || !contactProofItems.length}}">提交核验</button>
+    </block>
+    <button class="operations-link" bindtap="closeContact" disabled="{{busy || contactUploading}}">收起</button>
+  </view>
+ </block>
+</view>
+<privacy-sheet id="privacy-sheet"/>

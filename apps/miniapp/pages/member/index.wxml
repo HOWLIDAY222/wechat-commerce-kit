@@ -1,0 +1,71 @@
+<view class="member-page flow-page">
+  <view class="flow-heading"><view class="flow-kicker">MEMBER SERVICES</view><view class="flow-title">会员中心</view><view class="flow-copy">优惠券与积分，分开查看、随时使用。</view></view><view class="checkout-return" wx:if="{{fromCheckout}}"><text>领券或兑换后，返回结算更新金额。</text><button class="vk-button-content" id="member-return-checkout" bindtap="goShopping" disabled="{{busy || loading}}">返回结算 ↗</button></view>
+  <button class="gift-entry vk-button-content" bindtap="openGifts">商品礼品卡 · 赠送与领取 ↗</button>
+  <brand-loading wx:if="{{loading && !overview}}" label="正在同步会员信息…" />
+  <view class="member-error" wx:if="{{error}}"><text>{{error}}</text><button id="member-retry" class="vk-button-content" bindtap="loadMember" disabled="{{loading || busy}}" hover-class="vk-pressed"><text>重新加载</text></button></view>
+  <block wx:if="{{overview}}">
+    <view wx:if="{{overview.newcomer}}" class="member-newcomer" id="member-newcomer">
+      <view class="member-newcomer__title">{{overview.newcomer.claimed?'新客礼已到账':'领取新客首单礼'}}</view><view class="member-newcomer__benefit">{{overview.newcomer.couponText}}<text wx:if="{{overview.newcomer.bonusPoints}}"> ＋ {{overview.newcomer.bonusPoints}} 积分</text></view>
+      <view class="member-newcomer__note">每个会员账号和手机号限领一次。首单券与组合价自动择优，不叠加；赠分可兑换已开放的优惠券。</view>
+      <button wx:if="{{overview.member}}" id="claim-newcomer-benefits" class="primary-button vk-button-content" bindtap="claimNewcomer" loading="{{busy}}" disabled="{{busy || loading || syncFailed}}">{{overview.newcomer.claimed?'查看我的券':'领取新客礼'}}</button>
+      <view wx:else class="member-newcomer__note">阅读会员规则并同意免费入会后，首单券和赠送积分会一起到账。</view>
+    </view>
+    <view class="member-summary">
+      <view class="member-summary__brand">MerchantKit</view>
+      <view class="member-summary__head"><view class="member-summary__title">{{overview.member ? '品牌会员' : '加入品牌会员'}}</view><text wx:if="{{overview.member}}">{{overview.joinedLabel}} 加入</text></view>
+      <view class="member-summary__stats" wx:if="{{overview.member}}">
+        <button class="vk-button-content" bindtap="openWallet" aria-label="查看我的优惠券"><view class="member-summary__number">{{overview.availableCount}}</view><view>可用优惠券</view></button>
+        <button class="vk-button-content" bindtap="openPoints" aria-label="查看积分与兑换权益"><view class="member-summary__number">{{overview.points.balance}}</view><view>可用积分</view></button>
+      </view>
+      <view class="member-summary__copy" wx:else>免费加入，领取优惠券，使用积分兑换权益。</view>
+    </view>
+    <view class="member-join" wx:if="{{!overview.member}}">
+      <checkbox-group bindchange="toggleConsent"><label><checkbox value="accepted" checked="{{accepted}}" color="#111111"/><text>我已阅读下方会员规则，自愿免费加入品牌会员。</text></label></checkbox-group>
+      <button class="primary-button vk-button-content" bindtap="join" disabled="{{!accepted || busy || loading || syncFailed}}" loading="{{busy}}">{{overview.newcomer?'免费入会，领取新客礼':'免费加入会员'}}</button>
+    </view>
+    <view class="member-tabs" role="tablist">
+      <button id="member-wallet" disabled="{{busy}}" class="{{showWallet ? 'is-active' : ''}} vk-button-content" data-tab="wallet" bindtap="changeTab" role="tab" aria-selected="{{showWallet}}">我的券</button>
+      <button id="member-claim" disabled="{{busy}}" class="{{showClaim ? 'is-active' : ''}} vk-button-content" data-tab="claim" bindtap="changeTab" role="tab" aria-selected="{{showClaim}}">领券</button>
+      <button id="member-points" disabled="{{busy}}" class="{{showPoints ? 'is-active' : ''}} vk-button-content" data-tab="points" bindtap="changeTab" role="tab" aria-selected="{{showPoints}}">积分兑换</button>
+    </view>
+    <view class="member-promotions" wx:if="{{overview.promotions && (showClaim || showPoints)}}"><view class="member-promotions__title">{{showClaim?'限时活动券':'长期积分兑换'}}</view><view wx:if="{{showClaim}}">{{overview.promotions.campaign.visible?overview.promotions.campaign.tiersText:'当前限时活动未开放领取'}}<text wx:if="{{overview.promotions.campaign.periodLabel}}">{{overview.promotions.campaign.periodLabel}}</text><text>每档每位会员限领一次，每单一张，与组合价择优，不叠加。</text></view><view wx:elif="{{overview.promotions.exchange.available}}">100积分兑换1元，支持5至50元、每档相差5元的优惠券。<text>积分足够可重复兑换，无额外满减门槛，兑换券长期有效，不受限时活动结束影响。</text></view><view wx:else>长期积分兑换当前未开放；已兑换且未使用的有效券仍可使用。</view></view>
+    <view class="member-notice" wx:if="{{notice}}" role="status">{{notice}}</view>
+    <view class="member-refresh" wx:if="{{loading}}">正在更新权益…</view>
+    <view class="member-panel" wx:if="{{showWallet}}">
+      <view class="wallet-filters"><button class="{{walletCurrent ? 'is-active' : ''}} vk-button-content" data-filter="current" bindtap="changeWalletFilter">未使用 {{walletCurrentCount}}</button><button class="{{walletHistory ? 'is-active' : ''}} vk-button-content" data-filter="history" bindtap="changeWalletFilter">已用 / 失效 {{walletHistoryCount}}</button></view>
+      <view class="member-empty" wx:if="{{walletEmpty}}"><view>{{walletHistory ? '暂无使用记录' : '暂无未使用的优惠券'}}</view><text>{{walletHistory ? '使用、过期或撤回的优惠券会保留在这里。' : '领取或兑换成功后，优惠券会存入这里。'}}</text><button class="secondary-button vk-button-content" data-tab="claim" bindtap="changeTab" wx:if="{{walletCurrent}}">查看可领取的券</button></view>
+      <view class="coupon {{item.status === 'AVAILABLE' ? '' : 'coupon--muted'}}" wx:for="{{walletItems}}" wx:key="id">
+        <view class="coupon__head"><view class="coupon__value"><text>¥</text>{{item.amount}}</view><view class="coupon__body"><view class="coupon__title">{{item.title}}</view><view class="coupon__threshold">{{item.threshold}}</view></view></view>
+        <view class="coupon__meta">{{item.scope}}</view><view class="coupon__meta">{{item.validityLabel}}</view>
+        <view class="coupon__footer"><text class="coupon__status">{{item.statusLabel}}</text><button class="vk-button-content" wx:if="{{item.status === 'AVAILABLE'}}" bindtap="goShopping" disabled="{{busy || loading || syncFailed}}">{{fromCheckout ? '返回结算使用' : '去选购'}}</button><button class="vk-button-content" wx:elif="{{item.orderNo}}" data-no="{{item.orderNo}}" bindtap="openOrder">查看关联订单</button></view>
+      </view>
+      <view class="member-hint" wx:if="{{walletCurrent}}">结算会自动比较优惠券与组合优惠，采用更优惠的方案。</view>
+    </view>
+    <view class="member-panel" wx:if="{{showClaim}}">
+      <view class="member-panel__title">可领取优惠券</view><view class="member-hint">领取成功后存入「我的券」，结算时自动择优使用。</view>
+      <view class="member-empty" wx:if="{{claimsEmpty}}"><view>暂无可领取的券</view><text>有积分的话，可以看看兑换权益。</text><button class="secondary-button vk-button-content" data-tab="points" bindtap="changeTab">查看积分兑换</button></view>
+      <view class="coupon" wx:for="{{claimItems}}" wx:key="templateId">
+        <view class="coupon__head"><view class="coupon__value"><text>¥</text>{{item.amount}}</view><view class="coupon__body"><view class="coupon__title">{{item.title}}</view><view class="coupon__threshold">{{item.threshold}}</view></view></view>
+        <view class="coupon__meta">{{item.scope}}{{item.newcomerOnly ? ' · 仅限首购会员' : ''}}</view><view class="coupon__meta">{{item.validityLabel}}</view>
+        <view class="coupon__footer"><text>{{item.claimed ? '已存入我的券' : '每位会员限领一次'}}</text><button class="vk-button-content" id="claim-{{index}}" data-id="{{item.templateId}}" bindtap="claim" disabled="{{busy || loading || syncFailed || (!item.claimed && (item.soldOut || !item.eligible || !overview.member))}}">{{item.claimed ? '查看我的券' : overview.member ? item.claimLabel : '加入会员后领取'}}</button></view>
+      </view>
+    </view>
+    <view class="member-panel" wx:if="{{showPoints}}">
+      <view class="member-panel__title">积分兑换</view><view class="member-hint">使用积分兑换优惠券。扣分前会再次确认，兑换后存入「我的券」。</view>
+      <view class="member-empty" wx:if="{{rewardsEmpty}}"><view>{{hasRedeemedRewards ? '已兑换的券已存入卡包' : '暂无可兑换权益'}}</view><text>{{hasRedeemedRewards ? '到「我的券」查看优惠和有效期。' : '新的兑换权益会在这里更新。'}}</text><button class="secondary-button vk-button-content" wx:if="{{hasRedeemedRewards}}" bindtap="openWallet">查看我的券</button></view>
+      <view class="coupon" wx:for="{{rewardItems}}" wx:key="templateId">
+        <view class="coupon__head"><view class="coupon__value"><text>¥</text>{{item.amount}}</view><view class="coupon__body"><view class="coupon__title">{{item.title}}</view><view class="coupon__threshold">{{item.threshold}}</view></view></view>
+        <view class="coupon__meta">{{item.scope}} · {{item.validityLabel}}</view><view class="coupon__meta"><text wx:if="{{item.unlimitedRedemption}}">积分足够可重复兑换</text><text wx:else>每人限兑 {{item.perUserLimit || 1}} 次</text> · 已兑换 {{item.redemptionCount || 0}} 次</view>
+        <view class="coupon__footer"><text class="points-price">{{item.pointsCost}} 积分</text><button class="vk-button-content" id="redeem-{{index}}" data-id="{{item.templateId}}" bindtap="redeem" disabled="{{busy || loading || syncFailed || item.soldOut || !item.eligible || !item.canAfford || !overview.member}}">{{overview.member ? item.redeemLabel : '加入会员后兑换'}}</button></view>
+      </view>
+      <view class="member-hint">{{pointsPaused ? '当前暂无购物积分活动，已获得的积分仍可用于兑换。' : '按下单时的规则，在确认收货后按商品实付金额累计积分，不含运费。'}}</view>
+      <button class="member-disclosure vk-button-content" bindtap="toggleLedger" aria-expanded="{{showLedger}}"><text>积分明细</text><text>{{showLedger ? '收起' : '查看'}}</text></button>
+      <view wx:if="{{showLedger}}"><view class="member-hint" wx:if="{{ledgerEmpty}}">暂无积分变动。</view><view class="points-entry" wx:for="{{ledgerItems}}" wx:key="id"><view class="points-entry__body"><view>{{item.reason}}</view><text>{{item.dateLabel}} · 变动后余额 {{item.balanceAfter}}</text></view><text class="points-entry__delta">{{item.deltaLabel}}</text></view><button class="member-more vk-button-content" wx:if="{{ledgerHasMore}}" bindtap="toggleAllEntries">{{showAllEntries ? '收起更多记录' : '查看全部记录'}}</button></view>
+    </view>
+
+    <button class="member-disclosure member-disclosure--rules vk-button-content" bindtap="toggleRules" aria-expanded="{{showRules}}"><text>会员权益与使用规则</text><text>{{showRules ? '收起' : '查看'}}</text></button>
+    <view class="member-rules" wx:if="{{showRules}}"><view class="member-benefit" wx:for="{{overview.benefits}}" wx:key="*this">{{item}}</view><text>{{overview.rules}}</text><text wx:if="{{showPoints}}">{{overview.points.description}}</text></view>
+  </block>
+  <view class="member-actions" wx:if="{{error && !overview}}"><button class="secondary-button vk-button-content" bindtap="goAccount">返回个人中心</button></view>
+</view>
+<privacy-sheet id="privacy-sheet"/>

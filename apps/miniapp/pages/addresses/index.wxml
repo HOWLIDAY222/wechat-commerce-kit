@@ -1,0 +1,40 @@
+<view class="addresses-page">
+  <view class="page-heading">
+    <view class="eyebrow">Delivery addresses</view>
+    <view class="section-title">收货地址</view>
+    <view class="section-copy">{{selectMode ? '选择本次订单使用的收货地址。' : '统一账户中的地址会在官网与小程序共用。'}}</view>
+  </view>
+
+  <view class="state-card" wx:if="{{!loggedIn}}">
+    <view class="state-card__title">登录后管理地址</view>
+    <button class="primary-button vk-button-content" bindtap="goLogin">前往登录</button>
+  </view>
+
+  <block wx:else>
+    <view class="error-card" wx:if="{{error}}">{{error}}</view>
+    <view class="loading-card" wx:if="{{loading && !addresses.length}}">正在同步收货地址…</view>
+
+    <view class="address-list">
+      <view class="address-card" wx:for="{{addresses}}" wx:key="id" data-id="{{item.id}}" bindtap="chooseAddress">
+        <view class="address-card__top">
+          <view class="address-card__name">{{item.name}}</view>
+          <view class="address-card__phone">{{item.phone}}</view>
+          <view class="address-card__default" wx:if="{{item.isDefault}}">默认</view>
+        </view>
+        <view class="address-card__detail">{{item.province}}{{item.city}}{{item.district}}{{item.detail}}</view>
+        <view class="address-card__actions">
+          <text wx:if="{{!item.isDefault}}" data-id="{{item.id}}" catchtap="setDefault">设为默认</text>
+          <text data-id="{{item.id}}" catchtap="editAddress">编辑</text>
+          <text class="danger" data-id="{{item.id}}" catchtap="removeAddress">删除</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="state-card" wx:if="{{!loading && !addresses.length}}">
+      <view class="state-card__title">还没有收货地址</view>
+      <view class="state-card__copy">新增地址后才能提交实物商品订单。</view>
+    </view>
+    <button class="primary-button add-button vk-button-content" bindtap="addAddress">新增收货地址</button>
+  </block>
+</view>
+<privacy-sheet id="privacy-sheet"/>

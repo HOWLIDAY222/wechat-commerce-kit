@@ -1,0 +1,30 @@
+<brand-header back show-search="{{false}}" show-bag="{{false}}" />
+<view wx:if="{{checking}}" class="guide-state" role="status">正在进入尺码查询</view>
+<view wx:elif="{{!authorized}}" class="guide-state"><view class="guide-state__title">尺码查询</view><text>{{accessError || '登录后继续使用'}}</text><button class="primary-button" bindtap="checkAccess" hover-class="vk-pressed">{{accessError ? '重新进入' : '前往登录'}}</button></view>
+<view wx:else class="guide-page">
+  <view class="guide-heading"><view class="guide-title">尺码查询</view><view wx:if="{{productName}}" class="guide-product">{{productName}}</view></view>
+  <view wx:if="{{loading}}" class="guide-state" role="status">正在加载尺码表</view>
+  <view wx:elif="{{error}}" class="guide-state"><text>{{error}}</text><button class="primary-button" bindtap="loadGuide" hover-class="vk-pressed">重新加载</button><button class="guide-text-button" bindtap="openHelp" hover-class="vk-pressed">联系与帮助</button></view>
+  <block wx:else>
+    <view class="guide-tabs"><button class="{{activeTab==='table'?'is-active':''}}" data-tab="table" bindtap="changeTab" aria-pressed="{{activeTab==='table'}}" hover-class="vk-pressed">尺码表</button><button class="{{activeTab==='query'?'is-active':''}}" data-tab="query" bindtap="changeTab" aria-pressed="{{activeTab==='query'}}" hover-class="vk-pressed">查我的尺码</button></view>
+    <view wx:if="{{activeTab==='table'}}" class="size-panel">
+      <view class="size-panel__head"><text>人体尺寸参考</text><text wx:if="{{selectedSize}}" class="size-selected">已选 {{selectedSize}}</text></view>
+      <view class="size-table" role="table" aria-label="X1 Air人体尺寸尺码表">
+        <view class="size-row size-row--head" role="row"><text role="columnheader">尺码</text><text role="columnheader">腰围 cm</text><text role="columnheader">体重 kg</text></view>
+        <button wx:for="{{rows}}" wx:key="size" class="size-row {{selectedSize===item.size?'size-row--selected':''}}" data-size="{{item.size}}" bindtap="selectSize" aria-label="{{item.size}}码，腰围{{item.waistLabel}}厘米，参考体重{{item.weightLabel}}公斤" aria-pressed="{{selectedSize===item.size}}" hover-class="size-row--pressed"><text class="size-row__name">{{item.size}}</text><text>{{item.waistLabel}}</text><text>{{item.weightLabel}}</text></button>
+      </view>
+      <view class="size-unit-note">腰围为主要依据，体重辅助参考。</view>
+    </view>
+    <view wx:else class="size-query">
+      <view class="size-fields"><label><text>腰围 / cm</text><input id="size-waist" type="digit" value="{{fields.waistCm}}" placeholder="请输入腰围" data-key="waistCm" bindinput="input" maxlength="5" aria-label="腰围，厘米" /></label><label><text>体重 / kg</text><input id="size-weight" type="digit" value="{{fields.weightKg}}" placeholder="选填" data-key="weightKg" bindinput="input" maxlength="5" aria-label="体重，公斤，选填" /></label></view>
+      <view class="size-preference-label">穿着偏好</view><view class="size-preferences"><button class="{{fields.preference==='regular'?'is-active':''}}" data-preference="regular" bindtap="choosePreference" aria-pressed="{{fields.preference==='regular'}}" hover-class="vk-pressed">合身</button><button class="{{fields.preference==='relaxed'?'is-active':''}}" data-preference="relaxed" bindtap="choosePreference" aria-pressed="{{fields.preference==='relaxed'}}" hover-class="vk-pressed">宽松</button></view>
+      <view wx:if="{{queryError}}" class="size-query-error" role="alert">{{queryError}}</view>
+      <button id="size-query" class="primary-button size-query-button" bindtap="querySize" hover-class="vk-pressed">查询尺码</button>
+      <view wx:if="{{result}}" class="size-result {{result.recommended?'':'size-result--outside'}}" role="status"><view class="size-result__title">{{result.title}}</view><view class="size-result__copy">{{result.detail}}</view><button wx:if="{{result.recommended}}" class="size-result__button" bindtap="showResultTable" hover-class="vk-pressed">查看对应尺码表</button><button wx:else class="size-result__button" bindtap="openHelp" hover-class="vk-pressed">联系与帮助</button></view>
+    </view>
+    <button wx:if="{{tips.length}}" class="size-measure-button" bindtap="openMeasure" hover-class="vk-pressed"><image src="/assets/icons/package-ruler.png" mode="aspectFit"/><text>如何正确测量</text><text class="size-measure-button__plus">＋</text></button>
+    <view class="guide-footer"><button bindtap="openProfile" hover-class="vk-pressed">我的尺码档案</button><button bindtap="openHelp" hover-class="vk-pressed">联系与帮助</button></view>
+  </block>
+</view>
+<view wx:if="{{authorized && measureOpen}}" class="measure-overlay" bindtap="closeMeasure" catchtouchmove="stopTouch"><view class="measure-sheet" catchtap="stopTouch" role="dialog" aria-label="测量方法"><view class="measure-sheet__head"><text>测量与选码</text><button bindtap="closeMeasure" aria-label="关闭测量方法" hover-class="vk-pressed"><image src="/assets/icons/close.png" mode="aspectFit"/></button></view><scroll-view scroll-y class="measure-sheet__body"><view wx:for="{{tips}}" wx:key="id" class="measure-step"><view class="measure-step__index">{{index+1}}</view><view><view class="measure-step__title">{{item.title}}</view><view class="measure-step__copy">{{item.body}}</view></view></view></scroll-view><button class="primary-button measure-sheet__done" bindtap="closeMeasure" hover-class="vk-pressed">完成</button></view></view>
+<privacy-sheet id="privacy-sheet" />

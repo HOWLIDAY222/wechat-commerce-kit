@@ -1,0 +1,64 @@
+.order-detail-page { min-height: 100vh; padding: 40rpx 36rpx 72rpx; background: #ffffff; color: #171717; }
+.loading-card { padding: 70rpx 0; color: #737373; text-align: center; }
+.error-card { margin-bottom: 28rpx; padding: 22rpx 24rpx; border: 1rpx solid #e7d4d0; color: #7a241a; font-size: 24rpx; line-height: 1.6; }
+.order-heading { padding: 10rpx 0 40rpx; }
+.order-heading__eyebrow { color: #737373; font-size: 23rpx; }
+.order-heading__title { margin-top: 10rpx; font-size: 52rpx; line-height: 1.25; font-weight: 600; letter-spacing: -1rpx; }
+.order-heading__copy { margin-top: 18rpx; color: #626262; font-size: 25rpx; line-height: 1.7; }
+.order-reference { display: flex; flex-wrap: wrap; align-items: center; gap: 8rpx 20rpx; margin-top: 24rpx; color: #737373; font-size: 22rpx; word-break: break-all; }
+.refund-summary { margin-top: 30rpx; padding: 22rpx 24rpx; background: #f6f6f6; border-radius: 10rpx; }
+.refund-summary__row { display: flex; justify-content: space-between; gap: 24rpx; font-size: 28rpx; line-height: 1.7; font-weight: 500; }
+.refund-summary__row + .refund-summary__row { margin-top: 12rpx; }
+.refund-summary__row text:last-child { min-width: 0; text-align: right; word-break: break-all; }
+.text-link { color: #333333; text-decoration: underline; text-underline-offset: 4rpx; }
+.detail-section { padding: 34rpx 0; border-top: 1rpx solid #e7e7e7; }
+.detail-title { font-size: 29rpx; line-height: 1.45; font-weight: 600; }
+.section-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12rpx; }
+.section-note { color: #737373; font-size: 23rpx; }
+.detail-copy { margin-top: 16rpx; color: #737373; font-size: 24rpx; line-height: 1.75; }
+.order-item { display: flex; align-items: flex-start; gap: 22rpx; padding: 30rpx 0 0; }
+.order-item + .order-item { margin-top: 26rpx; border-top: 1rpx solid #eeeeee; }
+.order-item__image { flex: 0 0 126rpx; width: 126rpx; height: 140rpx; background: #f6f6f6; }
+.order-item__content { flex: 1; min-width: 0; }
+.order-item__name { font-size: 28rpx; font-weight: 500; line-height: 1.5; word-break: break-word; }
+.order-item__variant,.order-item__quantity { margin-top: 7rpx; color: #737373; font-size: 23rpx; }
+.order-item__price { flex-shrink: 0; font-size: 25rpx; line-height: 1.6; }
+.delivery-progress { display: flex; margin: 34rpx -6rpx 4rpx; }
+.delivery-step { position: relative; flex: 1; min-width: 0; text-align: center; }
+.delivery-step__line { position: absolute; top: 14rpx; left: 50%; width: 100%; height: 2rpx; background: #e4e4e4; }
+.delivery-step__line--complete { background: #252525; }
+.delivery-step__dot { position: relative; z-index: 1; display: flex; align-items: center; justify-content: center; width: 30rpx; height: 30rpx; margin: 0 auto; border: 2rpx solid #d4d4d4; border-radius: 50%; background: #ffffff; }
+.delivery-step--complete .delivery-step__dot { border-color: #252525; background: #252525; }
+.delivery-step--current .delivery-step__dot { box-shadow: 0 0 0 7rpx #eeeeee; border-color: #252525; }
+.delivery-step__check { width: 13rpx; height: 8rpx; margin-top: -3rpx; border-left: 2rpx solid #ffffff; border-bottom: 2rpx solid #ffffff; transform: rotate(-45deg); }
+.delivery-step__label { margin-top: 22rpx; color: #898989; font-size: 22rpx; line-height: 1.4; white-space: nowrap; }
+.delivery-step--complete .delivery-step__label,.delivery-step--current .delivery-step__label { color: #252525; }
+.delivery-step--current .delivery-step__label { font-weight: 600; }
+.dispatch-estimate { margin-top: 30rpx; padding: 24rpx; border: 1rpx solid #ebebeb; border-radius: 12rpx; background: #fafafa; }
+.dispatch-estimate__label { margin-bottom: 8rpx; color: #737373; font-size: 22rpx; }
+.dispatch-estimate__title { font-size: 27rpx; line-height: 1.6; font-weight: 500; }
+.dispatch-estimate__hint { margin-top: 8rpx; color: #737373; font-size: 23rpx; line-height: 1.7; }
+.dispatch-estimate--overdue .dispatch-estimate__hint,.dispatch-estimate--error .dispatch-estimate__hint { color: #86523d; }
+.logistics-status { color: #737373; font-size: 21rpx; }
+.logistics-status--ready { color: #42613d; }
+.logistics-status--error,.logistics-status--exception { color: #86523d; }
+.logistics-company { margin-top: 24rpx; font-size: 28rpx; font-weight: 500; }
+.tracking-row { display: flex; align-items: flex-start; gap: 18rpx; margin-top: 12rpx; font-size: 24rpx; line-height: 1.7; }
+.tracking-row__label { flex-shrink: 0; color: #737373; }
+.tracking-row__number { min-width: 0; word-break: break-all; }
+.logistics-trace { display: flex; gap: 18rpx; margin-top: 22rpx; font-size: 24rpx; }
+.logistics-trace__label { color: #737373; }
+.logistics-error { margin-top: 16rpx; color: #7a241a; font-size: 24rpx; line-height: 1.75; }
+.logistics-actions { display: flex; flex-wrap: wrap; gap: 16rpx; margin-top: 24rpx; }
+.logistics-actions button.primary-button,.logistics-actions button.secondary-button { flex: 1 1 42%; width: auto !important; min-width: 0; min-height: 82rpx; padding: 19rpx 16rpx; margin: 0 !important; font-size: 25rpx; font-weight: 500; line-height: 1.45; }
+.recipient { display: flex; flex-wrap: wrap; gap: 10rpx 24rpx; margin-top: 22rpx; font-size: 26rpx; }
+.recipient-address { margin-top: 10rpx; color: #626262; font-size: 25rpx; line-height: 1.75; word-break: break-word; }
+.totals .detail-title { margin-bottom: 20rpx; }
+.amount-row,.meta-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 26rpx; padding: 9rpx 0; font-size: 25rpx; line-height: 1.6; }
+.amount-row text:last-child,.meta-row text:last-child { text-align: right; word-break: break-word; }
+.amount-row--total { margin: 12rpx 0 26rpx; padding-top: 20rpx; border-top: 1rpx solid #eeeeee; font-weight: 600; font-size: 28rpx; }
+.meta-row { color: #737373; font-size: 23rpx; }
+.order-actions { display: flex; flex-direction: column; gap: 16rpx; padding-top: 6rpx; margin-bottom: 22rpx; }
+.order-actions button { margin-top: 0; margin-bottom: 0; font-size: 27rpx; min-height: 88rpx; }
+
+.pickup-code{margin:28rpx 0;padding:30rpx 22rpx;text-align:center;background:#f6f6f6;border-radius:16rpx}.pickup-code__label{font-size:25rpx;color:#777}.pickup-code__number{font-size:58rpx;letter-spacing:4rpx;font-weight:600;margin-top:16rpx;color:#111}.pickup-location{font-size:27rpx;line-height:1.85;color:#666;margin-top:24rpx;overflow-wrap:anywhere}.pickup-location__name{font-size:29rpx;font-weight:600;color:#111;margin-bottom:12rpx}

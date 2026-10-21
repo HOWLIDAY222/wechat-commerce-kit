@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "会员中心",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "brand-loading": "/components/brand-loading/index"
+  }
+}

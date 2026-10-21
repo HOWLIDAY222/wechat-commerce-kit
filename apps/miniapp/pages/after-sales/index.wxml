@@ -1,0 +1,22 @@
+<view class="after-sales-page">
+  <view class="eyebrow">After-sales service</view>
+  <view class="section-title">售后服务</view>
+  <view class="section-copy">在这里查看退款、换货、补发的处理进度。</view>
+  <view class="after-sales-filters" wx:if="{{loggedIn && items.length}}"><button id="after-sales-filter-all" class="after-sales-filter {{activeFilter === 'all' ? 'after-sales-filter--active' : ''}}" data-value="all" bindtap="chooseFilter">全部记录</button><button id="after-sales-filter-active" class="after-sales-filter {{activeFilter === 'active' ? 'after-sales-filter--active' : ''}}" data-value="active" bindtap="chooseFilter">进行中（{{activeCount}}）</button></view>
+
+  <view class="state-card" wx:if="{{!loggedIn}}"><view class="state-card__title">登录后查看售后</view><button class="primary-button vk-button-content" bindtap="goLogin">前往登录</button></view>
+  <view class="error-card" wx:if="{{error}}">{{error}}</view>
+  <view class="loading-card" wx:if="{{loading}}">正在同步售后进度…</view>
+  <view class="state-card" wx:if="{{loggedIn && !loading && !items.length}}"><view class="state-card__title">还没有售后记录</view><view class="state-card__copy">从已支付订单详情发起售后申请。</view><button class="primary-button vk-button-content" bindtap="openOrders">查看订单</button></view>
+
+  <view class="state-card" wx:if="{{loggedIn && !loading && items.length && !visibleItems.length}}"><view class="state-card__title">没有进行中的售后</view></view>
+  <view class="after-sales-list" wx:if="{{visibleItems.length}}">
+    <view class="after-sales-card" wx:for="{{visibleItems}}" wx:key="afterSalesNo" data-after-sales-no="{{item.afterSalesNo}}" bindtap="openItem">
+      <view class="after-sales-card__head"><text>{{item.afterSalesNo}}</text><text class="status">{{item.statusTitle}}</text></view>
+      <view class="after-sales-card__type">{{item.typeLabel}}<text wx:if="{{item.stageLabel}}"> · {{item.stageLabel}}</text></view>
+      <view class="after-sales-card__reason">{{item.reason}}</view>
+      <view class="after-sales-card__foot"><text>{{item.createdAtLabel}}</text><text>{{item.refundAmount}}</text></view>
+    </view>
+  </view>
+</view>
+<privacy-sheet id="privacy-sheet"/>

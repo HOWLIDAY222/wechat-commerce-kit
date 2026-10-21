@@ -1,0 +1,40 @@
+<view class="address-form-page">
+  <view class="form-heading">
+    <view class="eyebrow">Delivery details</view>
+    <view class="section-title">{{editing ? '编辑地址' : '新增地址'}}</view>
+  </view>
+
+  <view class="form-error" wx:if="{{error}}">{{error}}</view>
+  <view class="address-form">
+    <label class="field">
+      <view class="field__label">收货人</view>
+      <input value="{{form.name}}" maxlength="40" placeholder="真实姓名" data-field="name" bindinput="updateField" />
+    </label>
+    <label class="field">
+      <view class="field__label">联系电话</view>
+      <input value="{{form.phone}}" type="number" maxlength="11" placeholder="中国大陆手机号" data-field="phone" bindinput="updateField" />
+    </label>
+    <picker class="field" mode="region" value="{{region}}" bindchange="chooseRegion">
+      <view class="field__label">省市区</view>
+      <view class="field__picker {{region.length ? '' : 'field__placeholder'}}">{{region.length ? regionLabel : '请选择省市区'}}</view>
+    </picker>
+    <label class="field">
+      <view class="field__label">详细地址</view>
+      <textarea value="{{form.detail}}" maxlength="160" auto-height placeholder="街道、门牌号、楼栋和房间号" data-field="detail" bindinput="updateField" />
+    </label>
+    <label class="field">
+      <view class="field__label">邮政编码（选填）</view>
+      <input value="{{form.postalCode}}" maxlength="12" placeholder="邮政编码" data-field="postalCode" bindinput="updateField" />
+    </label>
+    <view class="default-row">
+      <view>
+        <view class="default-row__title">设为默认地址</view>
+        <view class="default-row__copy">结算时优先选择该地址</view>
+      </view>
+      <switch checked="{{form.isDefault}}" color="#111111" bindchange="toggleDefault" />
+    </view>
+  </view>
+
+  <button class="primary-button save-button vk-button-content" loading="{{loading}}" disabled="{{loading || loadFailed}}" bindtap="save">保存地址</button>
+</view>
+<privacy-sheet id="privacy-sheet"/>

@@ -1,0 +1,28 @@
+<brand-header back/>
+<view class="operations-page">
+  <view class="operations-title">{{incomingInvitation ? '朋友邀请你加入' : '邀请好友'}}</view>
+  <view wx:if="{{guest}}" class="operations-card"><button class="operations-button" hover-class="operations-pressed" bindtap="goLogin">登录 / 注册</button></view>
+  <brand-loader wx:if="{{loading && !overview}}" label="正在加载会员信息"/>
+  <view wx:if="{{error}}" class="operations-status operations-status--error"><view>{{error}}</view><button class="operations-link" hover-class="operations-pressed" bindtap="loadOperations" disabled="{{busy || loading}}">重新加载</button></view>
+  <view wx:if="{{referralText}}" class="operations-status">{{referralText}}</view>
+  <view wx:if="{{referralError}}" class="operations-status operations-status--error"><view>{{referralError}}</view><button wx:if="{{referralCanRetry}}" class="operations-button" hover-class="operations-pressed" bindtap="retryReferral" disabled="{{busy || loading || autoProcessing}}" loading="{{busy}}">重试</button></view>
+  <view wx:if="{{overview && !overview.registered}}" class="operations-card"><button class="operations-button" hover-class="operations-pressed" bindtap="joinMember">完成会员注册</button></view>
+  <block wx:if="{{overview && overview.registered}}">
+    <view class="operations-card invite-card">
+      <view wx:if="{{inviteBenefitsVisible}}" class="invite-benefits">
+        <view class="invite-benefits__title">好友入会，双方有礼</view>
+        <view class="invite-benefit"><view>好友入会</view><view class="invite-benefit__value">额外 100 积分</view></view>
+        <view class="invite-benefit"><view>你邀请的前 {{registrationRewardLimit}} 位好友入会</view><view class="invite-benefit__value">每位 +100 积分</view></view>
+        <view class="invite-purchase-gift"><view>好友完成消费并收货，你得</view><view class="invite-purchase-gift__amount">满600减200元券</view><view class="invite-purchase-gift__validity">每位限奖1张 · 有效期2个月 · 不限邀请人数</view></view>
+      </view>
+      <block wx:if="{{inviteTask.enabled}}">
+        <brand-loader wx:if="{{preparingInvite}}" label="正在准备邀请"/>
+        <button wx:if="{{inviteReady}}" class="operations-button" hover-class="operations-pressed" open-type="share" disabled="{{busy || loading || syncFailed || autoProcessing}}" bindtap="feedbackTap">邀请好友</button>
+        <button wx:elif="{{invitePrepareFailed}}" class="operations-button" hover-class="operations-pressed" bindtap="retryInvitePreparation" disabled="{{busy || loading || autoProcessing}}">重新准备邀请</button>
+      </block>
+      <view wx:else class="invite-unavailable">邀请活动暂未开放</view>
+    </view>
+    <view class="operations-section"><view class="operations-heading">邀请记录 · {{overview.referral.invited}} 人</view><view class="invite-statistics"><view class="invite-statistic"><view class="invite-statistic__label">已获入会奖励</view><view class="invite-statistic__number">{{registrationRewardCount}}<text>人</text></view></view><view class="invite-statistic"><view class="invite-statistic__label">已获消费礼券</view><view class="invite-statistic__number">{{purchaseCouponCount}}<text>张</text></view></view></view></view>
+  </block>
+</view>
+<privacy-sheet id="privacy-sheet"/>

@@ -1,0 +1,15 @@
+@import "../../common/member-operations.wxss";
+.student-page{padding-top:44rpx}
+.student-coupons{display:grid;gap:20rpx;margin-top:40rpx}
+.student-coupon{display:flex;align-items:center;gap:30rpx;padding:36rpx 30rpx;border-radius:22rpx;background:#fff;border:1rpx solid #e5e5e5}
+.student-coupon__amount{min-width:198rpx;font-size:76rpx;line-height:1.15;font-weight:500;letter-spacing:-2rpx}
+.student-coupon__currency{font-size:32rpx;letter-spacing:0;margin-right:6rpx}
+.student-coupon__title{font-size:28rpx;font-weight:500;line-height:1.5}
+.student-coupon__condition{font-size:26rpx;color:#686868;margin-top:9rpx;line-height:1.5}
+.student-rewards{margin-top:30rpx;padding:8rpx 4rpx}
+.student-reward{display:flex;justify-content:space-between;gap:20rpx;padding:22rpx 0;font-size:27rpx;line-height:1.6}
+.student-reward__value{font-weight:500;white-space:nowrap}
+.student-certification{margin-top:34rpx;padding:34rpx 30rpx;background:#fff;border-radius:22rpx}
+.student-certification__title{font-size:30rpx;font-weight:600;line-height:1.6}
+.student-certification__date{font-size:27rpx;color:#626262;line-height:1.7;margin-top:8rpx}
+.student-state{padding:56rpx 0;font-size:28rpx;line-height:1.8;text-align:center}

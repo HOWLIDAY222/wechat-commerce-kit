@@ -1,0 +1,6 @@
+<view class="brand-loading brand-loading--{{variant}}" aria-label="{{label}}">
+ <view wx:if="{{variant === 'home' || variant === 'detail'}}" class="skeleton skeleton--hero" aria-hidden="true"/>
+ <view wx:if="{{variant === 'catalog'}}" class="skeleton-grid" aria-hidden="true"><view wx:for="{{rows}}" wx:key="*this"><view class="skeleton skeleton--card"/><view class="skeleton skeleton--line"/><view class="skeleton skeleton--line skeleton--short"/></view></view>
+ <block wx:else><view wx:for="{{rows}}" wx:key="*this" class="skeleton-row" aria-hidden="true"><view wx:if="{{variant === 'cart'}}" class="skeleton skeleton--thumb"/><view class="skeleton-copy"><view class="skeleton skeleton--line"/><view class="skeleton skeleton--line skeleton--short"/></view></view></block>
+ <text class="brand-loading__label">{{label}}</text>
+</view>

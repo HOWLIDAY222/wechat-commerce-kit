@@ -1,0 +1,41 @@
+<brand-header back show-search="{{false}}" show-bag="{{false}}" />
+
+<view wx:if="{{checking}}" class="package-status" role="status"><view class="package-spinner" /><text>正在进入包裹服务</text></view>
+<view wx:elif="{{!authorized}}" class="package-status">
+  <view class="package-status__title">包裹服务</view>
+  <text>{{accessError || '登录后继续使用'}}</text>
+  <button class="primary-button" bindtap="checkAccess" hover-class="vk-pressed">{{accessError ? '重新进入' : '前往登录'}}</button>
+  <button class="package-text-button" bindtap="goShopping" hover-class="vk-pressed">返回商城</button>
+</view>
+
+<view wx:else class="package-page">
+  <view class="package-heading"><view class="package-title">包裹服务</view></view>
+  <view class="package-grid">
+    <button class="service-card service-card--size" data-service="size" bindtap="openService" hover-class="service-card--pressed" aria-label="尺码查询，查看尺码表">
+      <view class="service-card__icon"><image src="/assets/icons/package-ruler.png" mode="aspectFit" /></view>
+      <view class="service-card__title">尺码查询</view>
+      <view class="service-card__action">查看尺码表</view>
+    </button>
+    <button class="service-card service-card--care" data-service="care" bindtap="openService" hover-class="service-card--pressed" aria-label="洗护说明，查看洗护指南">
+      <view class="service-card__icon"><image src="/assets/icons/package-care.png" mode="aspectFit" /></view>
+      <view class="service-card__title">洗护说明</view>
+      <view class="service-card__action">查看洗护</view>
+    </button>
+    <button class="service-card service-card--member" data-service="member" bindtap="openService" hover-class="service-card--pressed" aria-label="品牌会员，进入会员中心">
+      <view class="service-card__icon"><image src="/assets/icons/package-member.png" mode="aspectFit" /></view>
+      <view class="service-card__title">品牌会员</view>
+      <view class="service-card__action">会员中心</view>
+    </button>
+    <button class="service-card service-card--after" data-service="after-sales" bindtap="openService" hover-class="service-card--pressed" aria-label="退换售后，查看与申请售后">
+      <view class="service-card__icon"><image src="/assets/icons/package-support.png" mode="aspectFit" /></view>
+      <view class="service-card__title">退换售后</view>
+      <view class="service-card__action">进入售后</view>
+    </button>
+  </view>
+  <view class="package-footer">
+    <button class="package-help" bindtap="openHelp" hover-class="vk-pressed">联系与帮助</button>
+    <button class="package-shop" bindtap="goShopping" hover-class="vk-pressed">继续选购</button>
+  </view>
+</view>
+
+<privacy-sheet id="privacy-sheet" />

@@ -1,0 +1,126 @@
+<view class="account-page flow-page">
+  <brand-header show-search="{{false}}" show-bag="{{false}}" />
+  <view class="preview-ribbon" wx:if="{{isLocalPreview}}">
+    <text class="preview-ribbon__label">LOCAL PREVIEW</text>
+    <text>本地独立测试账户</text>
+  </view>
+  <view class="account-intro">
+    <view class="account-intro__copy"><view class="account-intro__title">会员中心</view></view>
+  </view>
+
+  <view class="account-login-entry" wx:if="{{!loggedIn}}"><button class="account-login-entry__title vk-button-content" bindtap="startMemberRegistration"><text>登录 / 注册</text></button><view class="account-login-entry__copy">加入品牌会员，管理订单与专属权益。</view></view>
+  <view class="profile-card" wx:if="{{loggedIn}}">
+    <button class="profile-card__head vk-button-content" bindtap="openProfile" hover-class="vk-pressed" aria-label="编辑头像与会员资料"><image wx:if="{{memberAvatarPath}}" class="profile-card__avatar" src="{{memberAvatarPath}}" mode="aspectFill" binderror="onMemberAvatarError"/><view wx:else class="profile-card__avatar-fallback"><image src="/assets/icons/account.png" mode="aspectFit"/></view><view class="profile-card__body"><view class="profile-card__name">{{memberDisplayName || user.name || '品牌会员'}}</view><view class="profile-card__meta">{{user.phone || '尚未绑定手机号'}}</view></view><view class="profile-card__status">编辑资料</view></button>
+    <view class="profile-card__stats"><button class="vk-button-content" data-section="points" bindtap="openMemberBenefit"><view>{{memberPoints}}</view><text>可用积分</text></button><button class="vk-button-content" data-section="wallet" bindtap="openMemberBenefit"><view>{{memberCouponCount}}</view><text>可用优惠券</text></button><button class="vk-button-content profile-card__benefit" bindtap="openMember"><view>我的权益</view></button></view>
+  </view>
+  <view class="login-card" wx:if="{{!loggedIn && loginOpen}}">
+    <view class="login-card__mark"></view>
+    <view class="login-card__title">欢迎回来</view>
+    <view class="login-card__copy">{{loginReturnHint || '登录后查看订单、会员权益与优惠券。'}}</view>
+
+    <checkbox-group class="consent" bindchange="toggleConsent">
+      <label class="consent__label">
+        <checkbox value="accepted" checked="{{consented}}" color="#111111" />
+        <view class="consent__copy">我已阅读并同意《服务条款》《隐私政策》及《小程序隐私说明》。</view>
+      </label>
+    </checkbox-group>
+    <checkbox-group class="consent" bindchange="toggleCrossBorderConsent"><label class="consent__label"><checkbox value="accepted" checked="{{crossBorderConsented}}" color="#111111"/><view class="consent__copy">我已阅读并单独同意《隐私政策》附录四说明的信息处理安排，涉及账户、订单、收货信息、支付状态及售后记录。</view></label></checkbox-group>
+    <view class="legal-links">
+      <text bindtap="openPrivacy">《隐私政策》</text>
+      <text bindtap="openMiniPrivacy">《小程序隐私说明》</text>
+      <text bindtap="openTerms">《服务条款》</text>
+    </view>
+
+    <button class="primary-button login-button vk-button-content" open-type="getPhoneNumber" bindgetphonenumber="authorizePhone" disabled="{{!privacyAccepted || !accountEnabled || !consented || !crossBorderConsented || loading || phoneAuthorizing}}" loading="{{phoneAuthorizing}}" hover-class="vk-pressed" hover-stay-time="100" bindtap="feedbackTap">手机号一键登录</button>
+    <button class="login-more vk-button-content" bindtap="toggleOtherLogin" aria-expanded="{{otherLoginOpen}}">其他登录方式 <text>{{otherLoginOpen ? "−" : "+"}}</text></button>
+    <view class="login-alternatives" wx:if="{{otherLoginOpen}}">
+    <button class="login-alternative vk-button-content" wx:if="{{realtimePhoneSupported}}" open-type="getRealtimePhoneNumber" bindgetrealtimephonenumber="authorizePhone" disabled="{{!privacyAccepted || !accountEnabled || !consented || !crossBorderConsented || loading || phoneAuthorizing}}" bindtap="feedbackTap">验证手机号登录</button>
+    <button class="login-alternative vk-button-content" disabled="{{!privacyAccepted || !accountEnabled || !consented || !crossBorderConsented || loading || phoneAuthorizing}}" loading="{{loading}}" bindtap="signIn">微信账号登录</button>
+    </view>
+    <view class="login-card__copy login-note">手机号用于关联你的品牌账户。</view>
+    <view class="login-error" wx:if="{{error}}">{{error}}</view>
+  </view>
+
+    <view class="order-hub">
+      <button class="order-hub__head vk-button-content" data-route="/pages/orders/index" bindtap="openEntry" hover-class="vk-pressed"><text>我的订单</text><view>全部订单<image src="/assets/icons/chevron-right.png" /></view></button>
+      <view class="order-hub__grid">
+        <button data-route="/pages/orders/index?filter=unpaid" bindtap="openEntry" hover-class="vk-pressed vk-button-content"><image src="/assets/icons/bag.png" mode="aspectFit" /><text>待支付</text></button>
+        <button data-route="/pages/orders/index?filter=unshipped" bindtap="openEntry" hover-class="vk-pressed vk-button-content"><image src="/assets/icons/shopping-bag.png" mode="aspectFit" /><text>待发货</text></button>
+        <button data-route="/pages/orders/index?filter=shipped" bindtap="openEntry" hover-class="vk-pressed vk-button-content"><image src="/assets/icons/check.png" mode="aspectFit" /><text>待收货</text></button>
+        <button data-route="/pages/after-sales/index" bindtap="openEntry" hover-class="vk-pressed vk-button-content"><image src="/assets/icons/heart.png" mode="aspectFit" /><text>退货 / 售后</text></button>
+        <button data-route="/pages/orders/index" bindtap="openEntry" hover-class="vk-pressed vk-button-content"><image src="/assets/icons/catalog.png" mode="aspectFit" /><text>全部订单</text></button>
+      </view>
+    </view>
+  <view class="account-benefits" id="account-benefits">
+    <view class="account-benefits__head">会员权益</view>
+    <button wx:if="{{newcomerOffer}}" id="account-newcomer" class="account-benefits__newcomer vk-button-content" bindtap="openNewcomer"><view><view class="account-benefits__newcomer-title">{{newcomerOffer.claimed ? '新客礼已领取' : '新客首单礼'}}</view><view class="account-benefits__newcomer-copy">{{newcomerOffer.couponText}}<text wx:if="{{newcomerOffer.bonusPoints}}"> ＋ {{newcomerOffer.bonusPoints}} 积分</text></view></view><text class="account-benefits__newcomer-action">{{newcomerOffer.claimed ? '查看权益' : '领取'}}</text></button>
+    <view class="account-benefits__grid">
+      <button class="vk-button-content" id="account-wallet" data-section="wallet" bindtap="openMemberBenefit"><text>我的券</text><view>查看已领优惠</view></button>
+      <button class="vk-button-content" id="account-claim" data-section="claim" bindtap="openMemberBenefit"><text>领券</text><view>{{promotions && promotions.campaign.visible ? '限时活动券' : '查看可领优惠'}}</view></button>
+      <button class="vk-button-content" id="account-points" data-section="points" bindtap="openMemberBenefit"><text>积分兑换</text><view>{{promotions && promotions.exchange.available ? '100积分兑1元' : '余额与兑换权益'}}</view></button>
+    </view>
+  </view>
+  <view class="account-activities">
+    <view class="account-section-heading"><view>会员活动</view></view>
+    <view class="account-services-grid">
+      <button class="account-service vk-button-content" hover-class="vk-pressed" bindtap="openMemberBenefit" data-section="points"><view class="account-service__head"><view class="account-service__title">积分兑换</view></view><view class="account-service__description">兑换适用权益</view></button>
+      <button class="account-service vk-button-content" hover-class="vk-pressed" bindtap="openMemberOperation" data-route="/pages/member-earn/index"><view class="account-service__head"><view class="account-service__title">会员任务</view></view><view class="account-service__description">查看任务与参与规则</view></button>
+      <button class="account-service vk-button-content" hover-class="vk-pressed" bindtap="openMemberOperation" data-route="/pages/member-invite/index"><view class="account-service__head"><view class="account-service__title">邀请好友</view></view><view class="account-service__description">分享品牌体验</view></button>
+      <button class="account-service vk-button-content" hover-class="vk-pressed" bindtap="openMemberOperation" data-route="/pages/member-lottery/index"><view class="account-service__head"><view class="account-service__title">积分抽奖</view></view><view class="account-service__description">查看活动规则</view></button>
+      <button class="account-service vk-button-content" hover-class="vk-pressed" bindtap="openMemberOperation" data-route="/pages/member-student/index"><view class="account-service__head"><view class="account-service__title">学生认证</view></view><view class="account-service__description">微信认证，领取专属权益</view></button>
+      <button class="account-service vk-button-content" hover-class="vk-pressed" bindtap="openMemberOperation" data-route="/pages/member-surveys/index"><view class="account-service__head"><view class="account-service__title">会员问卷</view></view><view class="account-service__description">告诉我们你的偏好</view></button>
+    </view>
+    <button class="account-community vk-button-content" hover-class="vk-pressed" bindtap="openMemberOperation" data-route="/pages/member-community/index"><view><view class="account-community__title">社媒分享</view><text>分享小红书、抖音或朋友圈内容</text></view></button>
+    <view class="account-contact-services" wx:if="{{enterpriseContactConfigured || operations.xiaohongshuVisible || operations.enterpriseVisible}}">
+      <view class="account-contact-services__title">保持联系</view>
+      <button wx:if="{{operations.xiaohongshuVisible}}" class="account-contact-service vk-button-content" bindtap="openXiaohongshu" hover-class="vk-pressed"><view><view>{{operations.xiaohongshuAccount.name || '品牌小红书'}}</view><text>关注品牌动态与穿着灵感</text></view></button>
+      <enterprise-contact wx:if="{{enterpriseContactConfigured}}" heading="{{operations.enterpriseContact.name || '品牌顾问'}}" />
+      <button wx:elif="{{operations.enterpriseVisible}}" class="account-contact-service vk-button-content" bindtap="openAccountQr" data-key="enterpriseContact"><view><view>{{operations.enterpriseContact.name || '品牌顾问'}}</view><text>查看联系二维码</text></view></button>
+    </view>
+  </view>
+  <block wx:if="{{loggedIn}}">
+    <view class="phone-link-card" wx:if="{{!user.phone}}">
+      <view class="phone-link-card__title">关联已有 MerchantKit 账户</view>
+      <view class="phone-link-card__copy">验证官网账户手机号后，可查看该账户的订单、地址与售后记录。尺码档案沿用已有品牌账户的资料；已有账户未建档时，转入当前档案。</view>
+      <checkbox-group class="consent" bindchange="togglePhoneConsent"><label class="consent__label"><checkbox value="accepted" checked="{{phoneConsent}}" color="#111111" /><view class="consent__copy">我已阅读更新的《小程序隐私说明》，同意授权手机号用于账户绑定或合并，并单独同意其中说明的信息处理安排。</view></label></checkbox-group>
+      <view class="legal-links"><text bindtap="openMiniPrivacy">查看《小程序隐私说明》</text></view>
+      <button class="primary-button vk-button-content" open-type="getPhoneNumber" bindgetphonenumber="authorizePhone" loading="{{phoneAuthorizing}}" disabled="{{!privacyAccepted || !phoneConsent || phoneAuthorizing || smsVerifying}}" hover-class="vk-pressed" hover-stay-time="100" bindtap="feedbackTap">微信手机号一键绑定</button>
+      <button class="secondary-button vk-button-content" wx:if="{{realtimePhoneSupported}}" open-type="getRealtimePhoneNumber" bindgetrealtimephonenumber="authorizePhone" disabled="{{!privacyAccepted || !phoneConsent || phoneAuthorizing || smsVerifying}}" hover-class="vk-pressed" hover-stay-time="100" bindtap="feedbackTap">使用手机号实时验证</button>
+      <button class="secondary-button phone-link-card__button vk-button-content" wx:if="{{!phoneLinkOpen}}" bindtap="openPhoneLink" disabled="{{phoneAuthorizing}}" hover-class="vk-pressed" hover-stay-time="100">使用短信验证码绑定</button>
+      <view class="phone-link-form" wx:else>
+        <input class="phone-link-input" type="number" maxlength="11" placeholder="中国大陆手机号" value="{{phone}}" bindinput="onPhoneInput" />
+        <view class="phone-link-code-row">
+          <input class="phone-link-input" type="number" maxlength="6" placeholder="6 位验证码" value="{{smsCode}}" bindinput="onSmsCodeInput" />
+          <button class="secondary-button phone-link-code-button vk-button-content" loading="{{smsSending}}" disabled="{{smsSending}}" bindtap="sendSmsCode" hover-class="vk-pressed" hover-stay-time="100">{{smsSent ? '重新发送' : '发送验证码'}}</button>
+        </view>
+        <view class="phone-link-card__dev" wx:if="{{devCode}}">本地测试验证码：{{devCode}}</view>
+        <view class="phone-link-actions">
+          <button class="primary-button vk-button-content" loading="{{smsVerifying}}" disabled="{{smsVerifying || !smsSent}}" bindtap="verifyPhoneLink" hover-class="vk-pressed" hover-stay-time="100">验证并合并</button>
+          <button class="secondary-button vk-button-content" disabled="{{smsSending || smsVerifying}}" bindtap="closePhoneLink" hover-class="vk-pressed" hover-stay-time="100">取消</button>
+        </view>
+      </view>
+    </view>
+
+    <view class="account-section-title">账户服务</view>
+    <view class="account-menu">
+      <view class="account-menu__item" wx:for="{{accountEntries}}" wx:key="route" data-route="{{item.route}}" bindtap="openEntry">
+        <view>
+          <view class="account-menu__label">{{item.label}}</view>
+          <view class="account-menu__description">{{item.description}}</view>
+        </view>
+        <image class="account-menu__arrow" src="/assets/icons/chevron-right.png"/>
+      </view>
+    </view>
+
+    <view class="account-menu account-menu--secondary">
+      <view class="account-menu__item" bindtap="openStory"><view class="account-menu__label">品牌故事</view><image class="account-menu__arrow" src="/assets/icons/chevron-right.png"/></view>
+      <view class="account-menu__item" bindtap="openContact"><view class="account-menu__label">帮助与客服</view><image class="account-menu__arrow" src="/assets/icons/chevron-right.png"/></view>
+      <view class="account-menu__item" bindtap="openPrivacy"><view class="account-menu__label">隐私政策</view><image class="account-menu__arrow" src="/assets/icons/chevron-right.png"/></view>
+      <view class="account-menu__item" bindtap="openTerms"><view class="account-menu__label">服务条款</view><image class="account-menu__arrow" src="/assets/icons/chevron-right.png"/></view>
+    </view>
+
+    <view class="account-error" wx:if="{{error}}">{{error}}</view>
+    <button class="secondary-button logout-button vk-button-content" bindtap="signOut" hover-class="vk-pressed" hover-stay-time="100">退出登录</button>
+  </block>
+<view class="guest-help" wx:if="{{!loggedIn}}"><button class="vk-button-content" bindtap="openStory">关于 MerchantKit<image src="/assets/icons/chevron-right.png"/></button><button class="vk-button-content" bindtap="openContact">帮助与客服<image src="/assets/icons/chevron-right.png"/></button></view></view>
+<privacy-sheet id="privacy-sheet"/>

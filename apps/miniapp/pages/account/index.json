@@ -1,0 +1,9 @@
+{
+  "navigationStyle": "custom",
+  "enablePullDownRefresh": true,
+  "backgroundColor": "#ffffff",
+  "usingComponents": {
+    "enterprise-contact": "/components/enterprise-contact/index",
+    "brand-header": "/components/brand-header/index"
+  }
+}

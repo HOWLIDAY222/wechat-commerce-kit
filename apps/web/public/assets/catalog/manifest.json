@@ -1,0 +1,189 @@
+[
+  {
+    "slug": "x1-air-white",
+    "images": [
+      {
+        "role": "primary",
+        "url": "/assets/catalog/x1-air-white/vk-20260818/offers/white-3.webp",
+        "width": 1200,
+        "height": 1200,
+        "bytes": 142380
+      },
+      {
+        "role": "offer-white-1",
+        "url": "/assets/catalog/x1-air-white/vk-20260818/offers/white-1.webp",
+        "width": 1200,
+        "height": 1200,
+        "bytes": 100858
+      },
+      {
+        "role": "offer-white-2",
+        "url": "/assets/catalog/x1-air-white/vk-20260818/offers/white-2.webp",
+        "width": 1200,
+        "height": 1200,
+        "bytes": 109308
+      },
+      {
+        "role": "offer-white-3",
+        "url": "/assets/catalog/x1-air-white/vk-20260818/offers/white-3.webp",
+        "width": 1200,
+        "height": 1200,
+        "bytes": 142380
+      },
+      {
+        "role": "offer-gray-1",
+        "url": "/assets/catalog/x1-air-white/vk-20260818/offers/gray-1.webp",
+        "width": 1200,
+        "height": 1200,
+        "bytes": 164916
+      },
+      {
+        "role": "offer-gray-2",
+        "url": "/assets/catalog/x1-air-white/vk-20260818/offers/gray-2.webp",
+        "width": 1200,
+        "height": 1200,
+        "bytes": 223552
+      },
+      {
+        "role": "offer-gray-3",
+        "url": "/assets/catalog/x1-air-white/vk-20260818/offers/gray-3.webp",
+        "width": 1200,
+        "height": 1200,
+        "bytes": 239342
+      },
+      {
+        "role": "offer-black-1",
+        "url": "/assets/catalog/x1-air-white/vk-20260818/offers/black-1.webp",
+        "width": 1200,
+        "height": 1200,
+        "bytes": 98628
+      },
+      {
+        "role": "offer-black-2",
+        "url": "/assets/catalog/x1-air-white/vk-20260818/offers/black-2.webp",
+        "width": 1200,
+        "height": 1200,
+        "bytes": 121970
+      },
+      {
+        "role": "offer-black-3",
+        "url": "/assets/catalog/x1-air-white/vk-20260818/offers/black-3.webp",
+        "width": 1200,
+        "height": 1200,
+        "bytes": 130030
+      },
+      {
+        "role": "offer-mixed-3",
+        "url": "/assets/catalog/x1-air-white/vk-20260818/offers/mixed-3.webp",
+        "width": 1200,
+        "height": 1200,
+        "bytes": 152434
+      },
+      {
+        "role": "gallery-white-full-1",
+        "url": "/assets/catalog/x1-air-white/vk-20260818/gallery/white-full-1.webp",
+        "width": 1200,
+        "height": 1499,
+        "bytes": 84950
+      },
+      {
+        "role": "gallery-white-full-2",
+        "url": "/assets/catalog/x1-air-white/vk-20260818/gallery/white-full-2.webp",
+        "width": 1200,
+        "height": 1499,
+        "bytes": 103288
+      },
+      {
+        "role": "gallery-white-front-detail",
+        "url": "/assets/catalog/x1-air-white/vk-20260818/gallery/white-front-detail.webp",
+        "width": 1001,
+        "height": 1500,
+        "bytes": 97442
+      },
+      {
+        "role": "gallery-white-side-detail",
+        "url": "/assets/catalog/x1-air-white/vk-20260818/gallery/white-side-detail.webp",
+        "width": 998,
+        "height": 1500,
+        "bytes": 90466
+      },
+      {
+        "role": "gallery-white-back-detail",
+        "url": "/assets/catalog/x1-air-white/vk-20260818/gallery/white-back-detail.webp",
+        "width": 998,
+        "height": 1500,
+        "bytes": 71214
+      },
+      {
+        "role": "gallery-gray-front-full",
+        "url": "/assets/catalog/x1-air-white/vk-20260818/gallery/gray-front-full.webp",
+        "width": 1125,
+        "height": 1500,
+        "bytes": 64634
+      },
+      {
+        "role": "gallery-gray-side-full",
+        "url": "/assets/catalog/x1-air-white/vk-20260818/gallery/gray-side-full.webp",
+        "width": 1125,
+        "height": 1500,
+        "bytes": 51812
+      },
+      {
+        "role": "gallery-gray-back-full",
+        "url": "/assets/catalog/x1-air-white/vk-20260818/gallery/gray-back-full.webp",
+        "width": 1200,
+        "height": 1499,
+        "bytes": 68870
+      },
+      {
+        "role": "gallery-gray-side-detail",
+        "url": "/assets/catalog/x1-air-white/vk-20260818/gallery/gray-side-detail.webp",
+        "width": 1200,
+        "height": 1499,
+        "bytes": 132122
+      },
+      {
+        "role": "gallery-gray-side-detail-zoom",
+        "url": "/assets/catalog/x1-air-white/vk-20260818/gallery/gray-side-detail-zoom.webp",
+        "width": 1200,
+        "height": 1499,
+        "bytes": 199302
+      },
+      {
+        "role": "gallery-black-front-full",
+        "url": "/assets/catalog/x1-air-white/vk-20260818/gallery/black-front-full.webp",
+        "width": 1125,
+        "height": 1500,
+        "bytes": 45424
+      },
+      {
+        "role": "gallery-black-side-full",
+        "url": "/assets/catalog/x1-air-white/vk-20260818/gallery/black-side-full.webp",
+        "width": 1125,
+        "height": 1500,
+        "bytes": 49340
+      },
+      {
+        "role": "gallery-black-back-full",
+        "url": "/assets/catalog/x1-air-white/vk-20260818/gallery/black-back-full.webp",
+        "width": 1125,
+        "height": 1500,
+        "bytes": 54204
+      },
+      {
+        "role": "gallery-black-side-detail",
+        "url": "/assets/catalog/x1-air-white/vk-20260818/gallery/black-side-detail.webp",
+        "width": 1125,
+        "height": 1500,
+        "bytes": 113652
+      },
+      {
+        "role": "gallery-black-side-detail-zoom",
+        "url": "/assets/catalog/x1-air-white/vk-20260818/gallery/black-side-detail-zoom.webp",
+        "width": 1125,
+        "height": 1500,
+        "bytes": 136322
+      }
+    ]
+  }
+]

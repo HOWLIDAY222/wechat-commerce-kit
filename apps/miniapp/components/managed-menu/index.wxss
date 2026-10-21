@@ -1,0 +1,28 @@
+.managed-menu {
+  width: 100%;
+  border-bottom: 2rpx solid rgba(17, 17, 17, 0.1);
+  background: #fffdf8;
+  white-space: nowrap;
+}
+
+.managed-menu__inner {
+  display: inline-flex;
+  min-width: 100%;
+  padding: 0 24rpx;
+  box-sizing: border-box;
+}
+
+.managed-menu__item {
+  flex: none;
+  padding: 22rpx 18rpx 18rpx;
+  border-bottom: 4rpx solid transparent;
+  color: #6e6a63;
+  font-size: 22rpx;
+  font-weight: 800;
+  letter-spacing: 1rpx;
+}
+
+.managed-menu__item--active {
+  border-bottom-color: #111111;
+  color: #111111;
+}

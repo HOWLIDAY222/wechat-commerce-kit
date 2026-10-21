@@ -1,0 +1,7 @@
+<view class="enterprise-contact" wx:if="{{configured}}">
+  <view class="enterprise-contact__row">
+    <view class="enterprise-contact__copy"><view class="enterprise-contact__title">{{heading || '品牌顾问'}}</view><view class="enterprise-contact__description">咨询尺码与商品问题</view></view>
+    <view class="enterprise-contact__action"><contact-cell plugid="{{contactWayId}}" styleType="{{2}}" blockStyle="bubble" bubbleColor="111111" bind:startmessage="onContactStart" bind:completemessage="onContactComplete" /></view>
+  </view>
+  <view wx:if="{{statusMessage}}" class="enterprise-contact__status {{statusError ? 'enterprise-contact__status--error' : ''}}" role="status">{{statusMessage}}</view>
+</view>

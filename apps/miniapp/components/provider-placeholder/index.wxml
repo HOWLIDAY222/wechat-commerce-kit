@@ -1,0 +1,1 @@
+<view class="provider-placeholder" wx:if="{{show}}"><text>此功能需配置运营者自己的平台插件</text><button bindtap="explain">查看接入要求</button></view>

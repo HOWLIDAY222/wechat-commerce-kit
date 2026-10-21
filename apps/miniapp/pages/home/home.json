@@ -1,0 +1,15 @@
+{
+  "navigationStyle": "custom",
+  "backgroundColor": "#ffffff",
+  "usingComponents": {
+    "add-miniapp-hint": "/components/add-miniapp-hint/index",
+    "brand-header": "/components/brand-header/index",
+    "brand-loader": "/components/brand-loader/index",
+    "share-entry": "/components/share-entry/index"
+  },
+  "enablePullDownRefresh": true,
+  "navigationBarTitleText": "MerchantKit",
+  "singlePage": {
+    "navigationBarFit": "squeezed"
+  }
+}

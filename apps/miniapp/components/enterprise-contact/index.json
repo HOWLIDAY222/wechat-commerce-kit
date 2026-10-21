@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "contact-cell": "/components/provider-placeholder/index"
+  }
+}

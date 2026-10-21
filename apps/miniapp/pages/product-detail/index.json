@@ -1,0 +1,14 @@
+{
+  "navigationStyle": "custom",
+  "backgroundColor": "#ffffff",
+  "usingComponents": {
+    "brand-loader": "/components/brand-loader/index",
+    "share-entry": "/components/share-entry/index",
+    "fit-assistant": "/components/fit-assistant/index",
+    "service-contact": "/components/service-contact/index"
+  },
+  "navigationBarTitleText": "商品详情 · MerchantKit",
+  "singlePage": {
+    "navigationBarFit": "float"
+  }
+}

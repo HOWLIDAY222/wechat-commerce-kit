@@ -1,0 +1,2 @@
+<view class="fit-profile-page flow-page"><view class="flow-heading"><view class="flow-kicker">PERSONAL FIT</view><view class="flow-title">我的尺码档案</view><view class="flow-copy">保存身体数据，选购时少一步。官网与小程序使用同一品牌账户即可共用。</view></view><fit-assistant id="fit-profile-assistant"/></view>
+<privacy-sheet id="privacy-sheet"/>

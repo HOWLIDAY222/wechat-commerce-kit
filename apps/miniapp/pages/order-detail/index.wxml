@@ -1,0 +1,83 @@
+<view class="order-detail-page">
+  <view class="loading-card" wx:if="{{loading && !order}}">正在同步订单状态…</view>
+  <view class="error-card" wx:if="{{error}}">{{error}}</view>
+  <block wx:if="{{order}}">
+    <view class="order-heading">
+      <view class="order-heading__eyebrow">订单详情</view>
+      <view class="order-heading__title">{{order.delivery.title}}</view>
+      <view class="order-heading__copy">{{order.delivery.copy}}</view>
+      <view class="order-reference" bindtap="copyOrderNo"><text>{{order.orderNo}}</text><text class="text-link">复制订单号</text></view>
+      <view id="order-refund-summary" class="refund-summary" wx:if="{{refundDisplay.visible}}">
+        <view class="refund-summary__row" wx:if="{{refundDisplay.succeededAmount}}"><text>{{refundDisplay.succeededLabel}}</text><text>{{refundDisplay.succeededAmount}}</text></view>
+        <view class="refund-summary__row" wx:if="{{refundDisplay.processingAmount}}"><text>退款处理中</text><text>{{refundDisplay.processingAmount}}</text></view>
+      </view>
+    </view>
+    <view wx:if="{{order.isPickup}}" class="detail-section pickup-details">
+      <view class="section-head"><view class="detail-title">线下自提</view><view class="section-note">{{order.pickup.title}}</view></view>
+      <view class="pickup-code" wx:if="{{order.pickup.showCode}}"><view class="pickup-code__label">取货码</view><view class="pickup-code__number" selectable>{{order.pickup.codeLabel}}</view></view>
+      <view class="pickup-location"><view class="pickup-location__name">{{order.pickup.name}}</view><view>{{order.pickup.address}}</view><view wx:if="{{order.pickup.hours}}">{{order.pickup.hours}}</view><view wx:if="{{order.pickup.phone}}">{{order.pickup.phone}}</view></view>
+    </view>
+    <view class="order-products detail-section">
+      <view class="section-head"><view class="detail-title">{{order.giftRedemption ? '礼品卡兑换商品' : '商品信息'}}</view><view class="section-note">共 {{order.totalQuantity}} 件</view></view>
+      <view class="detail-copy" wx:if="{{order.giftRedemption}}">商品由礼品卡兑换，无需再次支付商品款项；退换问题请联系客服。</view>
+      <view class="order-item" wx:for="{{order.items}}" wx:key="id">
+        <image class="order-item__image" wx:if="{{item.thumbnail}}" src="{{item.thumbnail}}" mode="aspectFit" lazy-load/>
+        <view class="order-item__content"><view class="order-item__name">{{item.productName}}</view><view class="order-item__variant">{{item.color}} · {{item.size}}</view><view class="order-item__quantity">数量 {{item.quantity}}</view></view>
+        <view class="order-item__price">{{item.lineTotal}}</view>
+      </view>
+    </view>
+    <view class="delivery-section detail-section" wx:if="{{order.delivery.showProgress}}">
+      <view class="detail-title">{{order.isPickup ? '自提进度' : '配送进度'}}</view>
+      <view class="delivery-progress">
+        <view class="delivery-step {{item.complete ? 'delivery-step--complete' : ''}} {{item.current ? 'delivery-step--current' : ''}}" wx:for="{{order.delivery.steps}}" wx:key="key">
+          <view class="delivery-step__line {{item.lineComplete ? 'delivery-step__line--complete' : ''}}" wx:if="{{!item.last}}"/>
+          <view class="delivery-step__dot"><view wx:if="{{item.complete}}" class="delivery-step__check"/></view>
+          <view class="delivery-step__label">{{item.label}}</view>
+        </view>
+      </view>
+      <view id="dispatch-estimate" class="dispatch-estimate dispatch-estimate--{{dispatchEstimate.state}}" wx:if="{{dispatchEstimate.visible}}">
+        <view class="dispatch-estimate__label">发货安排</view>
+        <view class="dispatch-estimate__title">{{dispatchEstimate.title}}</view>
+        <view class="dispatch-estimate__hint" wx:if="{{dispatchEstimate.hint}}">{{dispatchEstimate.hint}}</view>
+      </view>
+      <view class="detail-copy" wx:if="{{order.delivery.shippedAtLabel}}">发货时间 {{order.delivery.shippedAtLabel}}</view>
+    </view>
+    <view class="logistics-section detail-section" wx:if="{{order.shipment && !order.isPickup}}">
+      <view class="section-head"><view class="detail-title">物流信息</view><text class="logistics-status logistics-status--{{logisticsState}}" wx:if="{{order.canViewLogistics && logisticsStatusLabel}}">{{logisticsStatusLabel}}</text></view>
+      <view class="logistics-company">{{order.shipment.trackingCompany || '快递公司待补充'}}</view>
+      <view class="tracking-row" wx:if="{{order.shipment.trackingNo}}"><text class="tracking-row__label">运单号</text><text class="tracking-row__number" selectable>{{order.shipment.trackingNo}}</text></view>
+      <view class="detail-copy" wx:else>配送信息已记录，运单号待补充。</view>
+      <view class="logistics-trace" wx:if="{{logisticsTraceLabel && order.canViewLogistics}}"><text class="logistics-trace__label">微信物流</text><text>{{logisticsTraceLabel}}</text></view>
+      <view class="logistics-error" wx:if="{{logisticsError}}" role="alert">{{logisticsError}}</view>
+      <view class="detail-copy logistics-hint" wx:elif="{{order.canViewLogistics && logisticsHint}}">{{logisticsHint}}</view>
+      <view class="logistics-actions" wx:if="{{order.shipment.trackingNo}}">
+        <button id="view-logistics" class="primary-button vk-button-content" wx:if="{{order.canViewLogistics}}" loading="{{logisticsLoading || logisticsState === 'checking'}}" disabled="{{logisticsLoading || logisticsState === 'checking'}}" bindtap="viewLogistics">查看物流</button>
+        <button id="copy-tracking" class="secondary-button vk-button-content" bindtap="copyTrackingNo">复制运单号</button>
+      </view>
+    </view>
+    <view class="recipient-section detail-section">
+      <view class="detail-title">{{order.isPickup ? '取货人信息' : '收货信息'}}</view>
+      <view class="recipient"><text>{{order.customerName}}</text><text>{{order.customerPhone}}</text></view>
+      <view wx:if="{{!order.isPickup}}" class="recipient-address">{{order.addressSnapshot}}</view>
+    </view>
+    <view class="totals detail-section">
+      <view class="detail-title">付款信息</view>
+      <view class="amount-row"><text>商品小计</text><text>{{order.subtotal}}</text></view>
+      <view class="amount-row" wx:if="{{order.discountCents}}"><text>{{order.discountLabel || '组合优惠'}}</text><text>−{{order.discount}}</text></view>
+      <view class="amount-row"><text>运费</text><text>{{order.shippingFee}}</text></view>
+      <view class="amount-row amount-row--total"><text>订单金额</text><text>{{order.payableAmount}}</text></view>
+      <view class="meta-row"><text>支付状态</text><text>{{order.paymentStatusLabel}}</text></view>
+      <view class="meta-row"><text>配送状态</text><text>{{order.fulfillmentStatusLabel}}</text></view>
+      <view class="meta-row"><text>下单时间</text><text>{{order.createdAtLabel}}</text></view>
+    </view>
+    <view class="order-actions">
+      <button class="primary-button vk-button-content" wx:if="{{order.canPay}}" loading="{{paying}}" disabled="{{paying || cancelling || !paymentEnabled}}" bindtap="payOrder">{{paymentEnabled ? '微信支付' : '微信支付暂未开放'}}</button>
+      <button class="secondary-button vk-button-content" wx:if="{{order.canCancel}}" loading="{{cancelling}}" disabled="{{cancelling || paying}}" bindtap="cancelOrder">取消订单</button>
+      <button class="primary-button vk-button-content" wx:if="{{order.canConfirmReceipt}}" loading="{{confirmingReceipt}}" disabled="{{confirmingReceipt}}" bindtap="confirmReceipt">确认收货</button>
+      <button class="secondary-button vk-button-content" wx:if="{{order.canRepurchase}}" loading="{{repurchasing}}" disabled="{{repurchasing}}" bindtap="repurchase">再次购买</button>
+      <button class="secondary-button vk-button-content" wx:if="{{order.canRequestAfterSales}}" bindtap="requestAfterSales">申请售后</button>
+    </view>
+    <service-contact id="order-contact" mode="order" scene="order" order-no="{{order.orderNo}}"/>
+  </block>
+</view>
+<privacy-sheet id="privacy-sheet"/>

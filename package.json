@@ -1,0 +1,17 @@
+{
+  "name": "wechat-commerce-kit",
+  "version": "0.1.0",
+  "private": true,
+  "license": "Apache-2.0",
+  "description": "MerchantKit Community — native WeChat storefront and merchant administration starter",
+  "engines": { "node": ">=22.14.0" },
+  "scripts": {
+    "setup": "node scripts/setup-demo.mjs",
+    "test": "node scripts/check.mjs test",
+    "check": "node scripts/check.mjs all",
+    "audit:public": "node scripts/public-audit.mjs",
+    "assets:generate": "node scripts/generate-demo-assets.mjs",
+    "dev": "pnpm --dir apps/web dev",
+    "build": "pnpm --dir apps/web build"
+  }
+}

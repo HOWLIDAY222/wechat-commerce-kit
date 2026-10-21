@@ -1,0 +1,68 @@
+<view class="member-profile-page">
+  <view class="member-cover" style="padding-top:{{navigationTop + 64}}px">
+    <view class="member-nav" style="top:{{navigationTop}}px"><button class="member-back vk-button-content" bindtap="back" aria-label="返回"><image src="/assets/icons/arrow-left.png" mode="aspectFit" /></button></view>
+    <view class="member-cover__copy"><view>会员资料</view></view>
+  </view>
+
+  <view class="member-identity">
+    <image class="member-identity__wordmark" src="/assets/brand/wordmark.png" mode="aspectFit" />
+    <button class="member-identity__name vk-button-content" bindtap="editName" disabled="{{!loggedIn || !loaded || saving}}"><text>{{memberName}}</text><text class="member-identity__edit" wx:if="{{loggedIn && loaded}}">编辑</text></button>
+  </view>
+
+  <view wx:if="{{!loggedIn}}" class="member-guest">
+    <view class="member-guest__title">成为 MerchantKit 会员</view>
+    <view class="member-guest__copy">登录后填写会员资料，管理你的订单、积分与优惠券。</view>
+    <button class="primary-button vk-button-content" bindtap="goToLogin">注册 / 登录</button>
+    <view class="member-policy"><text bindtap="openTerms">《服务条款》</text><text bindtap="openPrivacy">《隐私政策》</text><text bindtap="openMiniPrivacy">《小程序隐私说明》</text></view>
+  </view>
+
+  <block wx:else>
+    <brand-loader wx:if="{{loading && !loaded}}" label="正在同步会员资料" />
+    <view class="member-form" wx:if="{{loaded}}">
+      <view class="member-avatar-card">
+        <view class="member-avatar-card__head">
+          <button wx:if="{{canEdit && accountPhone && avatarSupported && avatar.available && !avatarConflict}}" class="member-avatar-preview vk-button-content" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar" binderror="onAvatarChooseError" disabled="{{avatarBusy || saving || loading}}" aria-label="{{avatar.hasAvatar ? '更换头像' : '设置头像'}}" bindtap="feedbackTap"><image wx:if="{{avatarPath}}" src="{{avatarPath}}" mode="aspectFill" binderror="onAvatarImageError" /><image wx:else class="member-avatar-preview__default" src="/assets/icons/account.png" mode="aspectFit" /></button>
+          <button wx:else class="member-avatar-preview vk-button-content" bindtap="openAvatarSettings" disabled="{{avatarBusy || saving || loading}}" aria-label="{{!canEdit || !accountPhone ? '绑定手机号，设置头像' : '设置头像'}}"><image wx:if="{{avatarPath}}" src="{{avatarPath}}" mode="aspectFill" binderror="onAvatarImageError" /><image wx:else class="member-avatar-preview__default" src="/assets/icons/account.png" mode="aspectFit" /></button>
+          <view class="member-avatar-card__title">会员头像 <text>选填</text></view>
+        </view>
+        <view class="member-avatar-actions">
+          <button wx:if="{{canEdit && accountPhone && avatarSupported && avatar.available && !avatarConflict}}" class="member-avatar-choose vk-button-content" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar" binderror="onAvatarChooseError" loading="{{avatarBusy}}" disabled="{{avatarBusy || saving || loading}}" bindtap="feedbackTap">{{avatar.hasAvatar ? '更换头像' : '设置头像'}}</button>
+          <button wx:else class="member-avatar-choose vk-button-content" bindtap="openAvatarSettings" loading="{{avatarBusy}}" disabled="{{avatarBusy || saving || loading}}" aria-label="{{!canEdit || !accountPhone ? '绑定手机号，设置头像' : '设置头像'}}">{{canEdit && accountPhone && avatarSupported && (!avatar.available || avatarConflict) ? '刷新头像' : '设置头像'}}</button>
+          <button wx:if="{{avatar.hasAvatar && canEdit && accountPhone}}" class="member-avatar-remove vk-button-content" bindtap="removeAvatar" disabled="{{avatarBusy || saving || avatarConflict}}">移除头像</button>
+        </view>
+        <view wx:if="{{avatarError}}" class="member-avatar-feedback"><view>{{avatarError}}</view><button class="member-avatar-refresh vk-button-content" bindtap="refreshAvatar" disabled="{{avatarBusy || saving}}">刷新头像</button></view>
+        <view wx:if="{{avatarMessage && !avatarError}}" class="member-avatar-card__hint">{{avatarMessage}}</view>
+      </view>
+      <view class="member-field" id="member-display-name">
+        <view class="member-label">昵称 <text>选填</text></view>
+        <input wx:if="{{canEdit && accountPhone}}" class="member-input" type="nickname" data-field="displayName" value="{{form.displayName}}" maxlength="80" placeholder="填写昵称" placeholder-class="member-placeholder" bindinput="onFieldInput" focus="{{nameFocused}}" bindblur="onNameBlur" disabled="{{saving}}" />
+        <button wx:else class="member-input member-input-button vk-button-content {{!form.displayName ? 'member-placeholder' : ''}}" bindtap="editName" disabled="{{loading || saving || avatarBusy}}" aria-label="绑定手机号，设置昵称">{{form.displayName || '填写昵称'}}</button>
+      </view>
+      <view class="member-field"><view class="member-label"><view>生日 <text>选填</text></view><button wx:if="{{form.birthday}}" class="member-clear vk-button-content" bindtap="clearBirthday" disabled="{{saving}}">清空</button></view><picker mode="date" start="1900-01-01" end="{{birthdayEnd}}" value="{{form.birthday}}" bindchange="onBirthdayChange" disabled="{{saving || !canEdit}}"><view class="member-picker {{!form.birthday ? 'member-picker--empty' : ''}}"><text>{{form.birthday || '年-月-日'}}</text><image class="member-picker__arrow" src="/assets/icons/chevron-right.png" /></view></picker></view>
+      <view class="member-field"><view class="member-label">性别 <text>选填</text></view><picker mode="selector" range="{{genderOptions}}" value="{{genderIndex}}" bindchange="onGenderChange" disabled="{{saving || !canEdit}}"><view class="member-picker {{!form.gender ? 'member-picker--empty' : ''}}"><text>{{genderOptions[genderIndex]}}</text><image class="member-picker__arrow" src="/assets/icons/chevron-right.png" /></view></picker></view>
+      <button class="member-more vk-button-content" bindtap="toggleMore" disabled="{{saving}}" aria-expanded="{{moreOpen}}"><text>更多资料</text><text>{{moreOpen ? '收起' : '展开'}}</text></button>
+      <view class="member-more-fields" wx:if="{{moreOpen}}">
+      <view class="member-name-grid">
+        <view class="member-field"><view class="member-label">姓氏 <text>选填</text></view><input class="member-input" data-field="surname" value="{{form.surname}}" maxlength="40" placeholder="姓" placeholder-class="member-placeholder" bindinput="onFieldInput" disabled="{{saving || !canEdit}}" /></view>
+        <view class="member-field"><view class="member-label">名字 <text>选填</text></view><input class="member-input" data-field="givenName" value="{{form.givenName}}" maxlength="40" placeholder="名" placeholder-class="member-placeholder" bindinput="onFieldInput" disabled="{{saving || !canEdit}}" /></view>
+      </view>
+      <view class="member-field" id="member-phone"><view class="member-label">手机</view><view class="member-phone"><view class="member-input member-phone__value {{!accountPhone ? 'member-picker--empty' : ''}}">{{accountPhone || '未绑定'}}</view><text wx:if="{{accountPhone}}" class="member-phone__bound">已绑定</text></view></view>
+
+      <view class="member-field"><view class="member-label"><view>当前所在区域 <text>选填</text></view><button wx:if="{{form.region.length}}" class="member-clear vk-button-content" bindtap="clearRegion" disabled="{{saving}}">清空</button></view><picker mode="region" value="{{form.region}}" bindchange="onRegionChange" disabled="{{saving || !canEdit}}"><view class="member-picker {{!regionLabel ? 'member-picker--empty' : ''}}"><text>{{regionLabel || '请选择省、市、区'}}</text><image class="member-picker__arrow" src="/assets/icons/chevron-right.png" /></view></picker></view>
+      </view>
+
+      <view class="member-policy"><text bindtap="openTerms">《服务条款》</text><text bindtap="openPrivacy">《隐私政策》</text><text bindtap="openMiniPrivacy">《小程序隐私说明》</text></view>
+
+      <button class="member-subscriptions vk-button-content" bindtap="openSubscriptions" disabled="{{saving}}"><view>订阅品牌消息 <text>可选</text></view><image src="/assets/icons/chevron-right.png" /></button>
+    </view>
+
+    <view class="member-feedback member-feedback--error" wx:if="{{error}}"><view>{{error}}</view><button wx:if="{{!saving}}" class="member-retry vk-button-content" bindtap="loadProfile">重新加载</button></view>
+    <view class="member-feedback" wx:if="{{savedMessage}}">{{savedMessage}}</view>
+    <view class="member-save-space" wx:if="{{loaded}}"></view>
+    <view class="member-save" wx:if="{{loaded}}">
+      <button wx:if="{{!canEdit || !accountPhone}}" class="member-save__button vk-button-content" disabled="{{loading || saving || avatarBusy}}" bindtap="bindPhone">绑定手机号</button>
+      <button wx:else class="member-save__button vk-button-content" loading="{{saving}}" disabled="{{loading || saving || avatarBusy || conflict}}" bindtap="saveProfile">{{profile.registeredAt ? '保存资料' : '完成注册'}}</button>
+    </view>
+  </block>
+</view>
+<privacy-sheet id="privacy-sheet"/>

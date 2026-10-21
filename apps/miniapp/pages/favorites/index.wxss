@@ -1,0 +1,10 @@
+.favorites-page { min-height: 100vh; padding: 48rpx 40rpx 80rpx; background: var(--tc-paper); }
+.state-card, .loading-card, .error-card { margin-top: 30rpx; padding: 34rpx 0; border-top: 2rpx solid var(--tc-line); border-bottom: 2rpx solid var(--tc-line); }
+.state-card__title { font-size: 31rpx; font-weight: 500; }
+.state-card__copy { margin: 14rpx 0 28rpx; color: var(--tc-muted); font-size: 23rpx; line-height: 1.62; }
+.loading-card { color: var(--tc-muted); text-align: center; }
+.error-card { border-color: #a53327; color: #7a241a; font-size: 22rpx; }
+.favorites-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rpx; margin-top: 30rpx; }
+.favorite-item__remove { width: 100%; min-height: 66rpx; margin-top: 4rpx; padding: 0; border-radius: 0; background: var(--tc-soft); color: #4f4f4f; font-size: 20rpx; line-height: 66rpx; }
+
+@import '../../common/service-pages.wxss';

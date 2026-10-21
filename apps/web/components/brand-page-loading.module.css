@@ -1,0 +1,4 @@
+.page { min-height: 55svh; display: grid; place-items: center; background: #f5f4f1 !important; }
+.recovery { padding: 32px 20px; text-align: center; font-size: 14px; line-height: 1.8; }
+.recovery button { margin-top: 20px; padding: 12px 24px; min-height: 48px; border: 1px solid #161616; background: #161616; color: #fff; cursor: pointer; }
+.recovery button:focus-visible { outline: 2px solid #161616; outline-offset: 4px; }

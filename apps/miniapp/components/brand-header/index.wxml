@@ -1,0 +1,13 @@
+<view class="brand-header {{showSubscription && !back ? 'brand-header--home' : ''}}" style="padding-top:{{statusBarHeight}}px">
+ <view class="brand-header__bar {{showSubscription && !back ? 'brand-header__bar--home' : ''}}" style="height:{{navigationBarHeight}}px;padding-right:{{showSubscription && !back ? 0 : capsuleInset}}px">
+  <button wx:if="{{back}}" class="brand-header__icon-button" aria-label="返回" bindtap="goBack" hover-class="brand-header__button--pressed"><image class="brand-header__icon" src="/assets/icons/arrow-left.png"/></button>
+  <view wx:if="{{showSubscription && !back}}" class="brand-header__actions">
+   <button class="brand-header__search-button" aria-label="搜索商品" bindtap="openSearch" hover-class="brand-header__button--pressed"><image class="brand-header__search-icon" src="/assets/icons/search.png"/></button>
+   <button class="brand-header__subscribe-button" aria-label="订阅上新、补货和活动提醒" bindtap="openSubscriptions" hover-class="brand-header__button--pressed"><image class="brand-header__bell-icon" src="/assets/icons/bell.png"/><text>订阅</text></button>
+  </view>
+  <button class="brand-header__brand {{back ? 'brand-header__brand--compact' : ''}} {{showSubscription && !back ? 'brand-header__brand--centered' : ''}}" style="{{showSubscription && !back ? 'width:'+homeLogoWidth+'px' : ''}}" aria-label="MerchantKit 首页" bindtap="goHome" hover-class="brand-header__button--pressed">
+   <image wx:if="{{!logoFailed}}" class="brand-header__logo" src="/assets/brand/wordmark.png" mode="aspectFit" binderror="onLogoError"/>
+   <text wx:else class="brand-header__fallback">MerchantKit</text>
+  </button>
+ </view>
+</view>

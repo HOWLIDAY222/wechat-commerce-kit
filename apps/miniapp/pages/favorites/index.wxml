@@ -1,0 +1,31 @@
+<view class="favorites-page">
+  <view class="page-heading">
+    <view class="eyebrow">Saved products</view>
+    <view class="section-title">收藏商品</view>
+    <view class="section-copy">喜欢的商品，留待下次慢慢挑选。</view>
+  </view>
+
+  <view class="state-card" wx:if="{{!loggedIn}}">
+    <view class="state-card__title">登录后查看收藏</view>
+    <view class="state-card__copy">登录后，在这里查看和管理心仪的商品。</view>
+    <button class="primary-button vk-button-content" bindtap="goLogin">前往登录</button>
+  </view>
+
+  <block wx:else>
+    <view class="error-card" wx:if="{{error}}">{{error}}</view>
+    <view class="loading-card" wx:if="{{loading && !favorites.length}}">正在同步收藏…</view>
+    <view class="state-card" wx:if="{{!loading && !favorites.length}}">
+      <view class="state-card__title">还没有收藏商品</view>
+      <view class="state-card__copy">浏览系列，找到适合自己的日常穿着。</view>
+      <button class="primary-button vk-button-content" bindtap="browseProducts">浏览系列</button>
+    </view>
+
+    <view class="favorites-grid" wx:if="{{favorites.length}}">
+      <view class="favorite-item" wx:for="{{favorites}}" wx:key="slug">
+        <product-card product="{{item}}" bindselect="openProduct" />
+        <button class="favorite-item__remove vk-button-content" data-slug="{{item.slug}}" loading="{{removingSlug === item.slug}}" bindtap="remove">移除收藏</button>
+      </view>
+    </view>
+  </block>
+</view>
+<privacy-sheet id="privacy-sheet"/>

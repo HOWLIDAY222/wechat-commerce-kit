@@ -1,0 +1,6 @@
+{
+  "navigationStyle": "custom",
+  "navigationBarTitleText": "会员资料",
+  "backgroundColor": "#ffffff",
+  "usingComponents": { "brand-loader": "/components/brand-loader/index" }
+}

@@ -1,0 +1,158 @@
+@import "../../common/commerce.wxss";
+
+/* Keep account essentials first; optional services use a quiet monochrome layout. */
+.account-page{min-height:100vh;padding-bottom:40rpx;background:#f5f5f5;color:#111111;--vk-bg:#f5f5f5;--vk-card:#fff;--vk-line:#e3e3e3;--vk-muted:#777777}
+.account-page .primary-button{background:#111111;color:#fff}
+.account-page .secondary-button{border-color:#cccccc;color:#111111}
+.account-intro{display:flex;align-items:center;gap:24rpx;padding:30rpx 32rpx}
+.account-intro__copy{flex:1;min-width:0}
+.account-intro__title{font-size:42rpx;line-height:1.35;font-weight:500;margin-top:0}
+.account-login-entry,.profile-card{margin:0 32rpx 30rpx;padding:30rpx 28rpx;background:#111111;color:#fff;border-radius:6rpx;box-shadow:none}
+.account-login-entry .account-login-entry__title{display:flex;align-items:center;justify-content:space-between;gap:20rpx;width:100%!important;max-width:none;margin:0!important;padding:0;background:transparent;color:#fff;border-radius:0;font-size:36rpx;line-height:1.65;font-weight:500;text-align:left}
+.account-login-entry__arrow{font-size:34rpx;color:#cccccc}
+.account-login-entry__copy{font-size:24rpx;line-height:1.8;margin-top:12rpx;color:#dddddd}
+.profile-card__head{display:flex;align-items:center;gap:18rpx}
+.profile-card__body{flex:1;min-width:0}
+.profile-card__name{font-size:34rpx;line-height:1.5;font-weight:500;overflow-wrap:anywhere;margin-top:0}
+.profile-card__meta{font-size:23rpx;line-height:1.6;color:#dddddd;margin-top:8rpx}
+.profile-card__status{display:flex;align-items:center;gap:12rpx;flex-shrink:0;font-size:21rpx;line-height:1.6;padding:9rpx 12rpx;border:1rpx solid #666666;border-radius:3rpx;color:#eeeeee}
+.profile-card__status>text{font-size:25rpx}
+.profile-card__stats{display:flex;gap:0;border-top:1rpx solid #555555;margin-top:26rpx;padding-top:24rpx}
+.profile-card__stats button{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;flex:1;min-width:0;width:auto!important;margin:0!important;padding:0 16rpx;border-radius:0;background:transparent;color:#fff;line-height:1.5;text-align:left}
+.profile-card__stats button:first-child{padding-left:0}
+.profile-card__stats button:last-child{padding-right:0}
+.profile-card__stats button+button{border-left:1rpx solid #555555}
+.profile-card__stats button>view{font-size:35rpx;font-weight:400;line-height:1.45;overflow-wrap:anywhere}
+.profile-card__stats button>text{font-size:21rpx;line-height:1.65;color:#cccccc;margin-top:7rpx}
+.profile-card__stats .profile-card__benefit>view{font-size:25rpx;line-height:1.65}
+.profile-card__benefit>view>text{margin-left:6rpx;color:#cccccc}
+.profile-card__stats .profile-card__benefit{align-self:stretch}
+
+.login-card,.phone-link-card{margin:0 32rpx 30rpx;padding:28rpx;background:#fff;border:1rpx solid #e3e3e3;border-radius:6rpx}
+.login-card__mark:empty{display:none}
+.login-card__title,.phone-link-card__title{font-size:31rpx;font-weight:500;line-height:1.6}
+.login-card__copy,.phone-link-card__copy{font-size:24rpx;line-height:1.8;color:#707070;margin-top:12rpx}
+.consent{margin-top:22rpx}
+.consent__label{display:flex;align-items:flex-start;gap:12rpx}
+.consent__label checkbox{transform:scale(.85);transform-origin:left top;flex-shrink:0;margin-right:-6rpx}
+.consent__copy{flex:1;font-size:23rpx;line-height:1.8;color:#707070}
+.legal-links{display:flex;flex-wrap:wrap;gap:8rpx 16rpx;font-size:23rpx;line-height:1.8;margin-top:18rpx;text-decoration:underline;color:#555555}
+.legal-links text{padding:6rpx 0}
+.login-button{margin-top:24rpx}
+.login-more{width:100%!important;margin:12rpx 0 0!important;padding:22rpx 0;display:flex;justify-content:center;gap:12rpx;background:transparent;color:#111111;font-size:25rpx;line-height:1.6}
+.login-alternatives{display:flex;gap:12rpx}
+.login-alternative{width:auto!important;flex:1;min-width:0;margin:0!important;padding:22rpx 12rpx;font-size:23rpx;line-height:1.6;background:#f5f5f5;color:#111111;border-radius:4rpx}
+.login-note{font-size:22rpx;text-align:center;margin-top:12rpx}
+.login-error,.account-error{padding:22rpx;background:#efefef;border:1rpx solid #d8d8d8;border-radius:4rpx;color:#6a6a6a;font-size:24rpx;line-height:1.8;margin-top:18rpx}
+.account-error{margin:18rpx 32rpx}
+
+.order-hub{margin:0 32rpx 36rpx;padding:26rpx 18rpx 16rpx;background:#fff;border-radius:6rpx}
+.order-hub__head{display:flex;align-items:center;justify-content:space-between;gap:18rpx;width:100%!important;margin:0!important;padding:0 8rpx 18rpx;background:transparent;color:#111111;font-size:29rpx;font-weight:500;border-radius:0;line-height:1.6;text-align:left}
+.order-hub__head>view{display:flex;gap:6rpx;align-items:center;font-size:21rpx;font-weight:400;color:#707070}
+.order-hub__head image{width:22rpx;height:22rpx}
+.order-hub__grid{display:flex;padding-top:8rpx;border-top:1rpx solid #eeeeee}
+.order-hub__grid button{width:auto!important;flex:1;min-width:0;margin:0!important;padding:18rpx 0;display:flex;flex-direction:column;align-items:center;gap:12rpx;background:transparent;color:#444444;font-size:21rpx;line-height:1.6;border-radius:0}
+.order-hub__grid image{width:37rpx;height:37rpx;opacity:.8}
+
+.account-activities{padding:10rpx 32rpx 40rpx}
+.account-section-heading{margin-bottom:10rpx}
+.account-section-heading>view{font-size:29rpx;line-height:1.6;font-weight:500}
+.account-services-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:32rpx;row-gap:2rpx}
+.account-service{display:block;width:100%!important;min-width:0;margin:0!important;padding:26rpx 0;background:transparent;border:0;border-bottom:1rpx solid #e3e3e3;border-radius:0;text-align:left;line-height:1.6;color:#111111}
+.account-service__head{display:flex;align-items:center;justify-content:space-between;gap:12rpx}
+.account-service__arrow{font-size:26rpx;line-height:1;color:#777777;margin-left:auto}
+.account-service__title{font-size:28rpx;line-height:1.5;font-weight:500}
+.account-service__description{font-size:23rpx;font-weight:400;line-height:1.7;color:#707070;margin-top:8rpx}
+.account-community{display:flex;align-items:center;justify-content:space-between;gap:20rpx;width:100%!important;margin:14rpx 0 0!important;padding:24rpx 24rpx;background:#eeeeee;border:0;border-radius:4rpx;text-align:left;line-height:1.6;color:#111111}
+.account-community>view{flex:1;min-width:0}
+.account-community__title{font-size:27rpx;font-weight:500;line-height:1.6}
+.account-community>view>text{display:block;font-size:22rpx;font-weight:400;line-height:1.7;color:#666666;margin-top:6rpx}
+.account-community__arrow{font-size:32rpx;color:#666666;flex-shrink:0}
+.account-contact-services{margin-top:30rpx;border-top:1rpx solid #e3e3e3}
+.account-contact-services__title{padding:24rpx 0 4rpx;font-size:24rpx;line-height:1.6;color:#777777}
+.account-contact-service{display:flex;align-items:center;gap:18rpx;width:100%!important;margin:0!important;padding:22rpx 0;background:transparent;border-radius:0;border-bottom:1rpx solid #e3e3e3;text-align:left;line-height:1.6;color:#111111}
+.account-contact-service>view{flex:1;min-width:0}
+.account-contact-service>view>view{font-size:26rpx;overflow-wrap:anywhere}
+.account-contact-service>view>text{display:block;font-size:22rpx;color:#707070;margin-top:3rpx}
+.account-contact-service__arrow{font-size:28rpx;color:#777777;flex-shrink:0}
+
+.account-benefits{margin:0 32rpx 38rpx;padding:26rpx 24rpx;background:#fff;border-radius:6rpx}
+.account-benefits__head{font-size:29rpx;font-weight:500;margin-bottom:20rpx;line-height:1.6}
+.account-benefits__newcomer{display:flex;align-items:center;justify-content:space-between;gap:20rpx;width:100%!important;margin:0 0 20rpx!important;padding:0 0 22rpx;background:transparent;border-radius:0;border-bottom:1rpx solid #e3e3e3;text-align:left;line-height:1.6;color:#111111}
+.account-benefits__newcomer>view{flex:1;min-width:0}
+.account-benefits__newcomer-title{font-size:25rpx;font-weight:500}
+.account-benefits__newcomer-copy{font-size:22rpx;color:#707070;margin-top:6rpx}
+.account-benefits__newcomer-action{font-size:23rpx;flex-shrink:0;color:#777777}
+.account-benefits__grid{display:flex;gap:10rpx}
+.account-benefits__grid button{display:flex;flex-direction:column;align-items:center;width:auto!important;flex:1;min-width:0;margin:0!important;background:#f5f5f5;color:#111111;padding:20rpx 6rpx;border-radius:4rpx;text-align:center;line-height:1.6}
+.account-benefits__grid text{font-size:25rpx;font-weight:500}
+.account-benefits__grid view{font-size:18rpx;font-weight:400;color:#707070;margin-top:9rpx;line-height:1.7}
+.account-section-title{font-size:28rpx;font-weight:500;padding:8rpx 32rpx 16rpx}
+.account-menu{margin:0 32rpx 24rpx;padding:0 22rpx;background:#fff;border:1rpx solid #e3e3e3;border-radius:6rpx}
+.account-menu__item{display:flex;align-items:center;justify-content:space-between;gap:18rpx;padding:24rpx 0;min-height:100rpx;border-bottom:1rpx solid #eeeeee}
+.account-menu__item:last-child{border:0}
+.account-menu__label{font-size:26rpx}
+.account-menu__description{font-size:22rpx;color:#707070;margin-top:6rpx;line-height:1.7}
+.account-menu__arrow{width:23rpx;height:23rpx;flex-shrink:0;opacity:.7}
+.account-menu--secondary .account-menu__item{min-height:88rpx}
+.logout-button.logout-button{width:calc(100% - 64rpx)!important;margin:28rpx 32rpx 0!important;background:transparent;border-color:#bbbbbb;color:#555555}
+.phone-link-card>button{margin-top:18rpx}
+.phone-link-form{margin-top:20rpx}
+.phone-link-input{width:100%;padding:22rpx 16rpx;background:#f5f5f5;border:1rpx solid #e3e3e3;border-radius:4rpx;font-size:25rpx;height:88rpx}
+.phone-link-code-row{display:grid;grid-template-columns:minmax(0,1fr) 200rpx;gap:12rpx;margin-top:14rpx}
+.phone-link-code-row button{font-size:23rpx!important;padding:10rpx}
+.phone-link-actions{display:grid;grid-template-columns:1fr 160rpx;gap:12rpx;margin-top:18rpx}
+.phone-link-card__dev{font-size:23rpx;color:#6a6a6a;margin-top:12rpx}
+.guest-help{margin:0 32rpx;padding:0 22rpx;background:#fff;border:1rpx solid #e3e3e3;border-radius:6rpx}
+.guest-help button{display:flex;align-items:center;justify-content:space-between;width:100%!important;margin:0!important;background:transparent;color:#111111;padding:24rpx 0;font-size:25rpx;text-align:left;line-height:1.6;border-radius:0;border-bottom:1rpx solid #eeeeee}
+.guest-help button:last-child{border:0}
+.guest-help image{width:22rpx;height:22rpx;opacity:.7}
+
+/* Clear service cards replace the former thin text rows. */
+.account-intro{padding-top:34rpx;padding-bottom:30rpx}
+.account-intro__title{font-size:44rpx;font-weight:600}
+.account-login-entry,.profile-card{padding:34rpx 30rpx;border-radius:22rpx;background:#191919}
+.profile-card__head{justify-content:flex-start;width:100%!important;min-height:104rpx;gap:22rpx;padding:0;margin:0!important;background:transparent;color:#fff;text-align:left;border-radius:12rpx;line-height:1.5}
+.profile-card__avatar,.profile-card__avatar-fallback{display:flex;align-items:center;justify-content:center;width:88rpx;height:88rpx;flex:none;border-radius:50%;background:#f2f2f2;overflow:hidden;color:#333;font-size:28rpx;line-height:1}
+.profile-card__avatar-fallback image{width:42rpx;height:42rpx;opacity:.6}
+.profile-card__status{justify-content:center;min-width:116rpx;min-height:76rpx;padding:16rpx 18rpx;background:#333;border:0;border-radius:12rpx;font-size:23rpx;color:#eee}
+.profile-card__stats{padding-top:28rpx;margin-top:30rpx}
+.profile-card__stats button{min-height:100rpx}
+.login-card,.phone-link-card{padding:32rpx;border-radius:22rpx}
+.account-login-entry .account-login-entry__title{min-height:72rpx}
+.order-hub{padding:30rpx 20rpx 20rpx;border-radius:22rpx;border:1rpx solid #e7e7e7}
+.order-hub__head{padding-bottom:24rpx;font-size:30rpx}
+.order-hub__grid button{min-height:124rpx;padding:26rpx 0 18rpx;gap:14rpx}
+.order-hub__grid image{width:40rpx;height:40rpx}
+.account-activities{padding-top:8rpx;padding-bottom:42rpx}
+.account-section-heading{margin-bottom:24rpx}
+.account-section-heading>view{font-size:31rpx;font-weight:600}
+.account-services-grid{column-gap:20rpx;row-gap:20rpx}
+.account-service{padding:30rpx 24rpx;min-height:174rpx;background:#fff;border:1rpx solid #e7e7e7;border-radius:20rpx;text-align:left}
+.account-service__title{font-size:29rpx;line-height:1.5;font-weight:500}
+.account-service__description{margin-top:14rpx;font-size:23rpx;line-height:1.8;color:#777}
+.account-community{padding:30rpx;margin-top:22rpx;border:1rpx solid #dedede;border-radius:20rpx;min-height:142rpx;background:#eaeaea}
+.account-community__title{font-size:29rpx;font-weight:500}
+.account-community>view>text{margin-top:10rpx;font-size:24rpx}
+.account-contact-services{margin-top:40rpx;border-top:0}
+.account-contact-services__title{padding:0 0 20rpx;font-size:28rpx;font-weight:500;color:#333}
+.account-contact-service{padding:28rpx;margin-top:18rpx;border:1rpx solid #e1e1e1;border-radius:18rpx;background:#fff;min-height:128rpx}
+.account-contact-service>view>view{font-size:27rpx}
+.account-contact-service>view>text{font-size:24rpx;margin-top:8rpx}
+.account-benefits{padding:30rpx 26rpx;border-radius:22rpx;border:1rpx solid #e7e7e7}
+.account-benefits__head{font-size:30rpx;font-weight:600;margin-bottom:24rpx}
+.account-benefits__grid{gap:14rpx}
+.account-benefits__grid button{padding:26rpx 6rpx;min-height:140rpx;border-radius:14rpx}
+.account-benefits__grid text{font-size:26rpx}
+.account-benefits__grid view{font-size:21rpx;line-height:1.8}
+.account-benefits__newcomer-action{padding:12rpx 20rpx;min-width:92rpx;background:#191919;color:#fff;border-radius:10rpx;text-align:center;font-size:23rpx}
+.account-section-title{font-size:29rpx;font-weight:500;padding-bottom:22rpx}
+.account-menu,.guest-help{padding-left:28rpx;padding-right:28rpx;border-radius:20rpx}
+.account-menu__item{padding:28rpx 0;min-height:118rpx}
+.account-menu__label{font-size:27rpx}
+.account-menu__description{font-size:24rpx;line-height:1.8;margin-top:8rpx}
+.account-menu--secondary .account-menu__item{min-height:100rpx}
+.logout-button.logout-button{min-height:92rpx!important;border-radius:14rpx;background:#fff}
+.guest-help button{min-height:106rpx;padding-top:28rpx;padding-bottom:28rpx}
+.account-page .vk-pressed{opacity:.7}
+@media(max-width:340px){.account-services-grid{gap:16rpx}.account-service{padding:26rpx 20rpx;min-height:164rpx}.account-service__title{font-size:28rpx}.profile-card__status{min-width:108rpx;padding-left:14rpx;padding-right:14rpx}.profile-card__head{gap:16rpx}}

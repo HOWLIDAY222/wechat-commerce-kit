@@ -1,0 +1,19 @@
+.addresses-page { min-height: 100vh; padding: 48rpx 40rpx 80rpx; background: var(--tc-paper); }
+.state-card, .loading-card, .error-card { margin-top: 30rpx; padding: 34rpx 0; border-top: 2rpx solid var(--tc-line); border-bottom: 2rpx solid var(--tc-line); }
+.state-card__title { font-size: 30rpx; font-weight: 500; }
+.state-card__copy { margin: 12rpx 0 26rpx; color: var(--tc-muted); font-size: 22rpx; }
+.state-card .primary-button { margin-top: 26rpx; }
+.loading-card { color: var(--tc-muted); text-align: center; }
+.error-card { border-color: #a53327; color: #7a241a; font-size: 22rpx; }
+.address-list { margin-top: 30rpx; border-top: 2rpx solid var(--tc-ink); }
+.address-card { padding: 28rpx 0; border-bottom: 2rpx solid var(--tc-line); }
+.address-card__top { display: flex; align-items: center; gap: 16rpx; }
+.address-card__name { font-size: 28rpx; font-weight: 500; }
+.address-card__phone { color: var(--tc-muted); font-size: 22rpx; }
+.address-card__default { margin-left: auto; color: var(--tc-muted); font-size: 18rpx; }
+.address-card__detail { margin-top: 17rpx; color: #4f4f4f; font-size: 23rpx; line-height: 1.62; }
+.address-card__actions { display: flex; justify-content: flex-end; gap: 28rpx; margin-top: 24rpx; padding-top: 20rpx; border-top: 2rpx solid var(--tc-line); font-size: 21rpx; }
+.address-card__actions .danger { color: #7a241a; }
+.add-button { margin-top: 26rpx; }
+
+@import '../../common/service-pages.wxss';

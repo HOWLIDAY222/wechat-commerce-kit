@@ -1,0 +1,29 @@
+@import "../../common/member-operations.wxss";
+.invite-benefits__title{font-size:34rpx;line-height:1.6;font-weight:600;margin-bottom:30rpx}
+.invite-benefit{padding:26rpx 0;border-bottom:1rpx solid #e8e8e8;font-size:26rpx;line-height:1.8;color:#666}
+.invite-benefit__value{font-size:40rpx;font-weight:500;color:#171717;margin-top:10rpx}
+.invite-purchase-gift{padding:30rpx;margin-top:30rpx;background:#f2f2f2;border-radius:18rpx;font-size:27rpx;line-height:1.8}
+.invite-purchase-gift__amount{font-size:38rpx;font-weight:500;margin-top:10rpx}
+.invite-purchase-gift__validity{font-size:25rpx;color:#666;line-height:1.9;margin-top:18rpx}
+.invite-statistic__number text{font-size:25rpx;margin-left:7rpx;color:#777}
+.invite-intro{max-width:620rpx;margin-bottom:30rpx}
+.invite-card{margin-top:0;padding:34rpx;border-radius:24rpx;background:#fff}
+.invite-card__top{display:flex;align-items:flex-start;justify-content:space-between;gap:22rpx}
+.invite-card__top>view{flex:1;min-width:0}
+.invite-badge{flex:none;padding:8rpx 16rpx;background:#efefef;color:#555;border-radius:10rpx;font-size:22rpx;line-height:1.6}
+.invite-steps{padding:6rpx 0 10rpx}
+.invite-step{display:flex;align-items:flex-start;gap:20rpx;margin-top:28rpx}
+.invite-step__number{display:flex;align-items:center;justify-content:center;flex:none;width:50rpx;height:50rpx;border-radius:50%;background:#f0f0f0;color:#3c3c3c;font-size:24rpx;line-height:1}
+.invite-step__title{font-size:27rpx;line-height:1.6;font-weight:500}
+.invite-step__copy{font-size:24rpx;line-height:1.85;color:#777;margin-top:5rpx}
+.invite-rule{padding-top:8rpx}
+.invite-code-label{font-size:23rpx;color:#777;line-height:1.6;margin-top:28rpx}
+.invite-code{font-size:38rpx;letter-spacing:3rpx;padding:22rpx;margin:12rpx 0 0;background:#f5f5f5;border:1rpx dashed #d4d4d4;border-radius:14rpx;text-align:center;overflow-wrap:anywhere}
+.invite-unavailable{padding:24rpx;background:#f2f2f2;border:1rpx solid #e8e8e8;border-radius:14rpx;margin-top:28rpx;color:#747474;font-size:25rpx;line-height:1.8;text-align:center}
+.invite-unavailable__title{font-size:27rpx;color:#555;font-weight:500;margin-bottom:6rpx}
+.invite-statistics{display:flex;gap:22rpx;justify-content:space-between;padding:32rpx;background:#fff;border:1rpx solid #e7e7e7;border-radius:22rpx}
+.invite-statistic{flex:1;min-width:0;text-align:center}
+.invite-statistic+.invite-statistic{border-left:1rpx solid #e5e5e5}
+.invite-statistic__label{font-size:24rpx;color:#777}
+.invite-statistic__number{font-size:60rpx;line-height:1.4;margin-top:10rpx;color:#171717}
+.invite-received{margin-top:34rpx}

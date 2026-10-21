@@ -1,0 +1,10 @@
+import nextEnv from '@next/env';
+import { spawnSync } from 'node:child_process';
+import { requireLocalDemoDatabase } from './demo-guard.mjs';
+nextEnv.loadEnvConfig(process.cwd(),true);
+requireLocalDemoDatabase(process.env.DATABASE_URL);
+if(process.env.DEMO_SEED!=='true')throw Error('DEMO_SEED=true must be set for local demo database commands');
+const action=process.argv[2];
+const args=action==='migrate'?['node_modules/prisma/build/index.js','migrate','deploy']:action==='seed'?['--import','tsx','prisma/seed.ts']:null;
+if(!args)throw Error('Expected migrate or seed');
+const result=spawnSync(process.execPath,args,{stdio:'inherit',env:process.env});process.exit(result.status??1);

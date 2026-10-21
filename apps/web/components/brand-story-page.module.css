@@ -1,0 +1,28 @@
+.page { background: #faf9f7; color: #191919; padding: 0 0 96px; }
+.header { max-width: 1280px; margin: 0 auto; padding: 70px 48px 64px; text-align: center; }
+.header h1 { font-size: 13px; font-weight: 400; letter-spacing: .15em; }
+.signature { width: min(100%, 520px); margin: 36px auto 24px; }
+.tagline { font-size: clamp(18px, 2vw, 25px); line-height: 1.6; font-weight: 300; }
+.layout { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1fr); align-items: start; gap: clamp(40px, 6vw, 96px); max-width: 1280px; margin: 0 auto; padding: 0 48px; }
+.portrait { margin: 0; position: sticky; top: 100px; }
+.portrait img { display: block; width: 100%; height: auto; }
+.portrait figcaption { padding-top: 18px; font-size: 11px; letter-spacing: .06em; color: #666; }
+.story { min-width: 0; max-width: 620px; padding-top: 4px; }
+.chapter { margin: 0 0 36px; }
+.chapter p { margin: 0 0 22px; font-size: 15px; line-height: 2; white-space: pre-line; overflow-wrap: break-word; }
+.chapter .lead { font-size: 21px; line-height: 1.9; margin-bottom: 32px; }
+.chapter:last-of-type p:nth-of-type(2) { font-weight: 600; }
+.explore { display: inline-flex; align-items: center; gap: 28px; min-height: 44px; border-bottom: 1px solid currentColor; font-size: 13px; }
+.explore:hover { opacity: .65; }
+.explore:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }
+@media (max-width: 767px) {
+  .page { padding-bottom: 60px; }
+  .header { padding: 44px 24px 36px; }
+  .signature { margin: 28px auto 20px; max-width: 340px; }
+  .tagline { font-size: 16px; }
+  .layout { display: flex; flex-direction: column; gap: 38px; padding: 0 24px; }
+  .portrait { position: static; width: 100%; max-width: 480px; margin: 0 auto; }
+  .story { padding: 0; max-width: none; }
+  .chapter p { font-size: 15px; line-height: 1.95; }
+  .chapter .lead { font-size: 19px; }
+}

@@ -1,0 +1,30 @@
+<brand-header back show-search="{{false}}" show-bag="{{false}}"/>
+<view class="subscriptions-page">
+  <view class="subscriptions-title">消息提醒</view>
+  <brand-loader wx:if="{{loading && !channels.length}}" label="正在加载"/>
+  <view class="subscriptions-error" wx:if="{{error}}" role="alert"><view>{{error}}</view><button wx:if="{{!pendingReceipt}}" class="subscriptions-text-button" disabled="{{busy}}" bindtap="load">重试</button></view>
+  <view class="subscriptions-notice" wx:if="{{notice}}" role="status">{{notice}}</view>
+  <view class="subscriptions-account" wx:if="{{!loading && !loggedIn}}"><button class="primary-button" bindtap="goLogin" hover-class="subscriptions-pressed">登录</button></view>
+  <view class="subscriptions-account" wx:elif="{{!loading && loggedIn && !canSubscribe}}"><button class="primary-button" bindtap="bindPhone" hover-class="subscriptions-pressed">关联账户</button></view>
+  <view class="subscriptions-group" wx:for="{{channelGroups}}" wx:key="key" wx:for-item="group">
+    <view class="subscriptions-group-title">{{group.title}}</view>
+    <view class="subscriptions-row" wx:for="{{group.rows}}" wx:key="key">
+      <button class="subscriptions-select {{item.selected && item.available ? 'subscriptions-select--selected' : ''}} {{item.available ? '' : 'subscriptions-select--unavailable'}}" disabled="{{!item.available || busy || loading || pendingReceipt}}" data-key="{{item.key}}" bindtap="selectChannel" aria-label="选择{{item.title}}" hover-class="subscriptions-pressed">
+        <view class="subscriptions-check {{item.selected && item.available ? 'subscriptions-check--checked' : ''}}"><text wx:if="{{item.selected && item.available}}">✓</text></view>
+        <view class="subscriptions-select__body"><view class="subscriptions-row-title">{{item.title}}</view><view class="subscriptions-row-meta">{{item.stateLabel}}</view></view>
+      </button>
+    </view>
+    <button wx:if="{{loggedIn && canSubscribe}}" class="primary-button subscriptions-authorize" loading="{{busy}}" disabled="{{busy || loading || pendingReceipt || !group.ready}}" data-group="{{group.key}}" bindtap="subscribeSelectedGroup" hover-class="subscriptions-pressed">{{group.actionLabel || group.buttonLabel}}</button>
+  </view>
+  <view class="subscriptions-sync" wx:if="{{diagnosticAvailable}}"><button class="secondary-button" disabled="{{busy || loading}}" bindtap="copyDiagnostic" hover-class="subscriptions-pressed">复制诊断</button></view>
+  <view class="subscriptions-sync" wx:if="{{pendingReceipt}}"><button class="secondary-button" loading="{{busy}}" disabled="{{busy || loading}}" bindtap="retryReceipt" hover-class="subscriptions-pressed">重试同步</button></view>
+  <view class="subscriptions-management" wx:if="{{loggedIn && channels.length}}">
+    <button class="subscriptions-management__toggle" bindtap="toggleManagement" aria-expanded="{{managementOpen}}" disabled="{{busy || loading || pendingReceipt}}" hover-class="subscriptions-pressed"><view class="subscriptions-management__title">管理提醒</view><text>{{managementOpen ? '收起' : '展开'}}</text></button>
+    <view wx:if="{{managementOpen}}" class="subscriptions-management__body">
+      <view wx:if="{{!managementChannels.length}}" class="subscriptions-management__empty">暂无提醒</view>
+      <view class="subscriptions-management__row" wx:for="{{managementChannels}}" wx:key="key"><view><view class="subscriptions-row-title">{{item.title}}</view><view class="subscriptions-row-meta">{{item.stateLabel}}</view></view><switch wx:if="{{item.canManageSwitch}}" checked="{{item.enabled}}" disabled="{{busy || loading || pendingReceipt}}" color="#111111" data-key="{{item.key}}" bindchange="changeEnabled" aria-label="开启{{item.title}}提醒"/><button wx:elif="{{item.canDisablePreference}}" class="subscriptions-remove" data-key="{{item.key}}" bindtap="disableReminder" disabled="{{busy || loading || pendingReceipt}}">移除</button></view>
+    </view>
+  </view>
+  <button class="subscriptions-privacy" bindtap="openPrivacy">隐私说明</button>
+</view>
+<privacy-sheet id="privacy-sheet"/>

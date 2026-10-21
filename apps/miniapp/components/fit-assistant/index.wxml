@@ -1,0 +1,19 @@
+<view class="fit-assistant">
+ <view class="fit-title">我的尺码助手</view>
+ <view class="fit-copy">各项均可选填。腰围为主要依据，体重辅助参考，身高用于档案记录。</view>
+ <view class="fit-fields">
+  <label><text>腰围（cm）</text><input id="fit-waist" type="digit" value="{{fields.waistCm}}" placeholder="选填" data-key="waistCm" bindinput="input" disabled="{{busy}}" maxlength="5" aria-label="腰围，厘米"/></label>
+  <label><text>体重（kg）</text><input id="fit-weight" type="digit" value="{{fields.weightKg}}" placeholder="选填" data-key="weightKg" bindinput="input" disabled="{{busy}}" maxlength="5" aria-label="体重，公斤"/></label>
+  <label><text>身高（cm）</text><input id="fit-height" type="digit" value="{{fields.heightCm}}" placeholder="选填" data-key="heightCm" bindinput="input" disabled="{{busy}}" maxlength="5" aria-label="身高，厘米"/></label>
+ </view>
+ <view class="fit-label">两码交界时的穿着偏好</view><view class="fit-preferences"><button class="{{fields.preference==='regular'?'is-active':''}}" data-preference="regular" bindtap="choosePreference" disabled="{{busy}}" aria-pressed="{{fields.preference==='regular'}}">合身</button><button class="{{fields.preference==='relaxed'?'is-active':''}}" data-preference="relaxed" bindtap="choosePreference" disabled="{{busy}}" aria-pressed="{{fields.preference==='relaxed'}}">宽松</button></view>
+ <view class="fit-result" role="status">{{referenceMessage}}</view>
+ <view class="fit-table"><view class="fit-row fit-row--head"><text>尺码</text><text>腰围 cm</text><text>体重约 kg</text></view><view class="fit-row {{item.selected?'fit-row--selected':item.reference?'fit-row--reference':''}}" wx:for="{{rows}}" wx:key="size"><text>{{item.size}}</text><text>{{item.waistMin}}–{{item.waistMax}}</text><text>{{item.weightMin}}–{{item.weightMax}}</text></view></view>
+ <view class="fit-copy">适合的人体腰围，并非内裤平铺尺寸。S 码适合偏瘦体型，尺码参考不等于穿着效果保证。</view>
+ <button wx:if="{{selectable && recommended}}" class="fit-primary" id="fit-apply" bindtap="useSize" disabled="{{!canApply || invalid || busy}}">{{canApply?'使用 '+recommended+' 码':'参考尺码当前缺货，请另选或咨询'}}</button>
+ <button class="fit-disclosure" bindtap="togglePrivacy" aria-expanded="{{showPrivacy}}">档案保存与隐私说明 {{showPrivacy?'−':'+'}}</button>
+ <view class="fit-copy" wx:if="{{showPrivacy}}">填写时只在当前页面计算；主动保存后，所填身体数据和穿着偏好将保存到品牌账号，用于尺码参考及官网、小程序同步。保存完全自愿，可随时删除身体数据，不会因此订阅营销。</view>
+ <block wx:if="{{loggedIn}}"><checkbox-group bindchange="consent"><label class="fit-consent"><checkbox value="fit" checked="{{consented}}" color="#111111" disabled="{{busy || !ready}}"/><text>我同意按上述说明，将所填资料保存到品牌账号，用于尺码参考及两端同步。</text></label></checkbox-group><view class="fit-actions"><button id="fit-save" class="fit-primary" bindtap="save" disabled="{{busy || !ready || !consented || invalid}}" loading="{{busy}}">保存个人尺码档案</button><button wx:if="{{profile}}" class="fit-delete" bindtap="remove" disabled="{{busy || !ready}}">删除档案</button></view></block>
+ <button class="fit-login" wx:else bindtap="signIn">登录后保存到个人档案 ↗</button>
+ <view class="fit-message" wx:if="{{message}}" role="status">{{message}}</view><button class="fit-reload" bindtap="reload" disabled="{{busy}}">重新加载已保存档案</button>
+</view>

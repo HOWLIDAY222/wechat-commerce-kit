@@ -1,0 +1,2 @@
+export const OFFICIAL_XIAOHONGSHU_PROFILE_URL = "";
+export const OFFICIAL_X_PROFILE_URL = "";

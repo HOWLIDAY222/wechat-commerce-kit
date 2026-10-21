@@ -1,0 +1,7 @@
+@import "../../common/member-operations.wxss";
+.lottery-result{padding:38rpx;background:#171717;color:#fff;border-radius:22rpx;margin-top:30rpx}
+.lottery-result__title{font-size:25rpx;color:#d3d3d3}.lottery-result__prize{font-size:56rpx;font-weight:500;line-height:1.5;margin:14rpx 0}
+.lottery-result__cost{font-size:25rpx;color:#d3d3d3}.lottery-result .operations-button{background:#fff;color:#111}
+.lottery-range{padding:34rpx 0;font-size:40rpx;font-weight:500;line-height:1.5}.lottery-range__probability{font-size:25rpx;color:#777;font-weight:400;margin-top:14rpx}
+.lottery-cost{display:flex;justify-content:space-between;gap:24rpx;padding:22rpx 0;border-top:1rpx solid #e6e6e6;font-size:25rpx;color:#666}
+.lottery-prize{display:flex;justify-content:space-between;gap:24rpx;padding:22rpx 0;font-size:27rpx;border-bottom:1rpx solid #eee}

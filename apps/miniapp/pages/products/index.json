@@ -1,0 +1,14 @@
+{
+  "navigationStyle": "custom",
+  "backgroundColor": "#ffffff",
+  "usingComponents": {
+    "brand-header": "/components/brand-header/index",
+    "brand-loading": "/components/brand-loading/index",
+    "share-entry": "/components/share-entry/index"
+  },
+  "enablePullDownRefresh": true,
+  "navigationBarTitleText": "商品 · MerchantKit",
+  "singlePage": {
+    "navigationBarFit": "squeezed"
+  }
+}

@@ -1,0 +1,15 @@
+name: Bug report
+description: Report a reproducible community-edition problem using fictional data
+body:
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: Include environment, steps, expected and actual behavior. Remove credentials and personal data.
+    validations:
+      required: true
+  - type: textarea
+    id: verification
+    attributes:
+      label: Relevant tests or safe logs
+      description: Do not post private security details, customer screenshots or production configuration.

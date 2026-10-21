@@ -1,0 +1,18 @@
+<view wx:if="{{singlePage}}" class="timeline-preview-note">朋友圈预览 · 可查看商品、款式与尺码说明</view>
+<block wx:else>
+  <button id="open-share" class="share-trigger" aria-label="分享" bindtap="openShare"><view class="share-icon" aria-hidden="true">↗</view><text>分享</text></button>
+  <canvas id="share-cover-canvas" type="2d" class="share-cover-canvas"/>
+  <view wx:if="{{open}}" class="share-overlay" catchtap="closeShare" catchtouchmove="stopShare">
+    <view class="share-sheet" catchtap="stopShare">
+      <view class="share-heading">分享好物<button aria-label="关闭分享" bindtap="closeShare">×</button></view>
+      <view class="share-actions">
+        <button id="share-friend" open-type="share" bindtap="shareFriend"><view class="share-option-icon">↗</view><text>发给朋友</text></button>
+        <button id="share-timeline" bindtap="guideTimeline"><view class="share-option-icon">◉</view><text>分享到朋友圈</text></button>
+      </view>
+      <button class="share-cancel" bindtap="closeShare">取消</button>
+    </view>
+  </view>
+  <view wx:if="{{timelineGuide}}" class="share-guide-overlay" catchtap="closeShare" catchtouchmove="stopShare">
+    <view class="share-guide"><view class="share-guide-arrow">↗</view><view class="share-guide-title">分享到朋友圈</view><view>点击右上角“···”</view><view>选择“分享到朋友圈”</view><button catchtap="closeShare">知道了</button></view>
+  </view>
+</block>

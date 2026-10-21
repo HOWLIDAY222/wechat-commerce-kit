@@ -1,0 +1,8 @@
+{
+  "navigationStyle": "custom",
+  "navigationBarTitleText": "微信学生认证",
+  "usingComponents": {
+    "brand-header": "/components/brand-header/index",
+    "student-verify": "/components/provider-placeholder/index"
+  }
+}

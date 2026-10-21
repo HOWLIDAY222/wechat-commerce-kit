@@ -1,0 +1,32 @@
+<view class="after-sales-form-page">
+  <view class="eyebrow">Request service</view>
+  <view class="section-title">申请售后</view>
+  <view class="section-copy">订单 {{order.orderNo || ''}} · 提交后可在售后详情查看处理进度。</view>
+  <view class="error-card" wx:if="{{error}}">{{error}}</view>
+  <view class="loading-card" wx:if="{{loading}}">正在读取订单商品…</view>
+
+  <block wx:if="{{order && !loading}}">
+    <view class="form-card">
+      <view class="form-card__title">售后类型</view>
+      <view class="type-grid"><view class="type-chip {{type === item.value ? 'type-chip--active' : ''}}" wx:for="{{types}}" wx:key="value" data-value="{{item.value}}" bindtap="chooseType">{{item.label}}</view></view>
+    </view>
+
+    <view class="form-card">
+      <view class="form-card__title">选择商品</view>
+      <view class="select-item" wx:for="{{items}}" wx:key="id">
+        <view class="select-item__check {{item.selected ? 'select-item__check--active' : ''}}" data-id="{{item.id}}" bindtap="toggleItem">{{item.selected ? '✓' : ''}}</view>
+        <view class="select-item__body"><view class="select-item__name">{{item.productName}}</view><view class="select-item__meta">{{item.color}} · {{item.size}} · 可申请 {{item.refundableQuantity}} 件</view></view>
+        <view class="quantity" wx:if="{{item.selected}}"><button class="vk-button-content" data-id="{{item.id}}" data-delta="-1" bindtap="changeQuantity">−</button><text>{{item.requestQuantity}}</text><button class="vk-button-content" data-id="{{item.id}}" data-delta="1" bindtap="changeQuantity">＋</button></view>
+      </view>
+    </view>
+
+    <view class="form-card fields">
+      <label><view>售后原因</view><input value="{{reason}}" maxlength="80" placeholder="例如：尺码不合适" bindinput="updateReason" /></label>
+      <label><view>具体说明</view><textarea value="{{description}}" maxlength="500" auto-height placeholder="请描述商品情况和希望的处理方式" bindinput="updateDescription" /></label>
+    </view>
+
+    <view class="notice">退款金额按所选商品的实际付款金额计算；处理进度会更新在售后详情中。</view>
+    <button class="primary-button vk-button-content" loading="{{submitting}}" disabled="{{submitting}}" bindtap="submit">提交售后申请</button>
+  </block>
+</view>
+<privacy-sheet id="privacy-sheet"/>

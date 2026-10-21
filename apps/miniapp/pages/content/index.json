@@ -1,0 +1,9 @@
+{
+  "navigationStyle": "custom",
+  "backgroundColor": "#ffffff",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "brand-header": "/components/brand-header/index",
+    "product-card": "/components/product-card/index"
+  }
+}
