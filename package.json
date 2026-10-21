@@ -6,6 +6,9 @@
   "description": "MerchantKit Community — native WeChat storefront and merchant administration starter",
   "engines": { "node": ">=22.14.0" },
   "scripts": {
+    "demo": "node apps/demo/server.mjs",
+    "demo:build": "node apps/demo/build.mjs",
+    "test:demo": "node --test apps/demo/*.test.mjs",
     "setup": "node scripts/setup-demo.mjs",
     "test": "node scripts/check.mjs test",
     "check": "node scripts/check.mjs all",

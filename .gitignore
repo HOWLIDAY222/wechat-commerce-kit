@@ -13,6 +13,7 @@
 **/project.private.config.json
 **/node_modules/
 **/.next/
+apps/demo/dist/
 **/coverage/
 **/*.tsbuildinfo
 **/.data/

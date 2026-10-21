@@ -1,12 +1,37 @@
 # MerchantKit Community
 
-面向小商家的微信小程序商城、网站与商家后台参考实现。原生小程序和 Next.js 服务端共用商品、会员、订单及履约接口。
+面向小商家的开源电商参考项目，附带可直接体验的独立互动 Demo。
 
-**这是独立的社区发行版。示例商品、联系方式和图片用于开发测试；支付、短信默认模拟，邮件默认关闭。真实微信功能需要部署者自己的账号、权限和服务端密钥。**
+**Try the demo:** browse two fictional products, check out, switch to the merchant desk, fulfil an order or review a refund, and see the customer's points change. No account, database, credentials, or package installation required.
 
 Copyright 2026 青岛屿漠商贸有限公司 · [Apache-2.0](LICENSE) · [权利与来源边界](docs/rights-and-provenance.md)
 
-## 功能
+## 先体验 Demo / Try it
+
+需要 Node.js 22.14+。下载仓库后，在根目录运行：
+
+```sh
+npm run demo
+```
+
+打开 **http://127.0.0.1:4173**，顶部切换「顾客端 / 商家端」；点击 EN 可切换英文。所有演示数据留在当前浏览器，刷新保留，可重新开始；付款、发货和退款都是模拟操作。
+
+Requires Node.js 22.14+. Run the command above, open the local URL, and choose **Customer / Merchant**. Click **EN** for English. See the [five-minute walkthrough](docs/demo.md).
+
+![MerchantKit interactive demo](docs/images/demo-store.png)
+
+```sh
+npm run test:demo
+npm run demo:build
+```
+
+Demo 是 `apps/demo` 中的独立静态应用，不调用下方参考系统的 API。构建后的七个文件位于 `apps/demo/dist`，可供部署者自行托管；仓库不依赖已上线的公共演示站。
+
+## 完整参考实现
+
+`apps/web` 和 `apps/miniapp` 另保留网站、商家后台与原生微信客户端参考代码。它们需要独立安装和本地数据库，和上面的即开即用 Demo 分开。真实微信功能需要部署者自己的账号、权限和服务端密钥。
+
+### 功能
 
 - 商品、款式与尺码选择、数量计价、购物袋、地址与结算。
 - 会员资料、偏好问卷、积分、优惠券、邀请关系和任务记录。
@@ -23,13 +48,14 @@ Copyright 2026 青岛屿漠商贸有限公司 · [Apache-2.0](LICENSE) · [权�
 ```text
 apps/web/       Next.js 网站、后台、接口与 Prisma 数据模型
 apps/miniapp/   原生微信小程序及客户端回归测试
+apps/demo/      无依赖的浏览器本地互动演示、状态模型及测试
 examples/      插件配置示例与原创占位图清单
 scripts/       本地准备、公开内容检查与联合检查
 tests/         社区发行、安全边界及示例配置测试
 docs/          安装、架构、平台接入、权利和验证说明
 ```
 
-## 本地启动
+## 启动完整参考系统
 
 需要 Node.js 22.14+、pnpm 11.25.0、PostgreSQL 17。以下命令在项目根目录执行。
 
@@ -89,4 +115,4 @@ pnpm --dir apps/web test:integration
 
 ## English summary
 
-MerchantKit Community is a native WeChat commerce client with a Next.js storefront, merchant administration and PostgreSQL service layer. It includes membership, rewards, order/refund flows and offline pickup adapters. Fictional data and original demo graphics are included. External providers require the deployer's own credentials and permissions. See the installation, verification and licensing documents before deployment.
+MerchantKit Community includes a standalone, bilingual commerce showcase and a separate native WeChat client / Next.js / PostgreSQL reference implementation. The showcase runs with Node alone and keeps fictional records in the browser; it is not a live payment or backend integration. The full reference system requires a database and the deployer's own platform credentials. See the demo walkthrough, verification and licensing documents before use.
