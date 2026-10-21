@@ -15,7 +15,7 @@ jobs:
           POSTGRES_DB: merchantkit_test
         ports: ['5432:5432']
         options: >-
-          --health-cmd 'pg_isready -U merchantkit_demo -d merchantkit_test'
+          --health-cmd "pg_isready -U merchantkit_demo -d merchantkit_test"
           --health-interval 5s --health-timeout 5s --health-retries 15
     env:
       DATABASE_URL: postgresql://merchantkit_demo:merchantkit_demo@127.0.0.1:5432/merchantkit_test
