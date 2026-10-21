@@ -15,31 +15,8 @@ export function SiteHeaderClient({ navigation, domestic = false }: { navigation:
   const isHome = pathname === "/" || pathname === "/en" || pathname === "/en/";
   const [cartCount, setCartCount] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [overHero, setOverHero] = useState(true);
   const hidden = pathname.startsWith("/admin") || pathname.startsWith("/preview");
   useEffect(() => { document.documentElement.lang = isEnglish ? "en" : "zh-CN"; }, [isEnglish]);
-  useEffect(() => {
-    if (!isHome) return;
-    let observer: IntersectionObserver | undefined;
-    let pending: MutationObserver | undefined;
-    const observeHero = () => {
-      const hero = document.querySelector(".campaign-film-opening > :first-child");
-      if (!hero) return false;
-      const headerHeight = document.querySelector(".minimal-header-inner")?.getBoundingClientRect().height ?? 72;
-      observer = new IntersectionObserver(([entry]) => {
-        setOverHero(entry.isIntersecting);
-      }, { rootMargin: `-${headerHeight}px 0px 0px 0px`, threshold: 0 });
-      observer.observe(hero);
-      pending?.disconnect();
-      return true;
-    };
-    // Home content can arrive after the shared header during streamed navigation.
-    if (!observeHero()) {
-      pending = new MutationObserver(observeHero);
-      pending.observe(document.body, { childList: true, subtree: true });
-    }
-    return () => { observer?.disconnect(); pending?.disconnect(); };
-  }, [isHome, pathname]);
   useEffect(() => {
     if (isEnglish || hidden) return;
     let cancelled = false;
@@ -65,7 +42,7 @@ export function SiteHeaderClient({ navigation, domestic = false }: { navigation:
   ];
   if (domestic) links.push({ label: isEnglish ? "WeChat store" : "小程序购买", href: MINI_PROGRAM_PATH });
   const close = () => setMenuOpen(false);
-  return <header className={`minimal-header${isHome ? ` ${styles.overlayHeader}` : ""}`} data-over-hero={isHome && overHero} data-menu-open={menuOpen} onKeyDown={(event) => { if (event.key === "Escape" && menuOpen) { close(); event.currentTarget.querySelector<HTMLButtonElement>(".minimal-menu-button")?.focus(); } }}>
+  return <header className={`minimal-header${isHome ? ` ${styles.overlayHeader}` : ""}`} data-menu-open={menuOpen} onKeyDown={(event) => { if (event.key === "Escape" && menuOpen) { close(); event.currentTarget.querySelector<HTMLButtonElement>(".minimal-menu-button")?.focus(); } }}>
     <div className="minimal-header-inner">
       <Link className="minimal-wordmark" href={prefix || "/"} aria-label={BRAND_NAME + (isEnglish ? " home" : " 首页")} onClick={close}><BrandLogo /></Link>
       <nav className="minimal-desktop-nav" aria-label={isEnglish ? "Main navigation" : "主导航"}>

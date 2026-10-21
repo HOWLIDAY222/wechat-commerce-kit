@@ -28,7 +28,7 @@ export function BrandStoryPage({ title, tagline, sections, english = false }: {
           <h2 className="sr-only">{section.title}</h2>
           {section.paragraphs?.map((paragraph, index) => <p key={index} className={sectionIndex === 0 && index === 0 ? styles.lead : undefined}>{paragraph}</p>)}
         </section>)}
-        <Link className={styles.explore} href={english ? "/en/products/x1-air-white" : "/products/x1-air-white"}>{english ? "Explore X1 Air" : "探索 X1 Air"}<ArrowUpRight size={17} aria-hidden="true" /></Link>
+        <Link className={styles.explore} href={english ? "/en/products/x1-air-white" : "/products/x1-air-white"}>{english ? "Explore the demo product" : "查看示例商品"}<ArrowUpRight size={17} aria-hidden="true" /></Link>
       </article>
     </div>
   </main>;

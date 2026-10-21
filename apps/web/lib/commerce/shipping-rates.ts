@@ -55,6 +55,14 @@ export type ShippingQuote = {
   tier: "STANDARD" | "REMOTE" | "FAR_REMOTE";
 };
 
+export function describeShippingRates(config: ShippingRateConfig) {
+  const fee = (cents: number) => cents === 0 ? "包邮" : `¥${(cents / 100).toFixed(2)}`;
+  if (config.baseFeeCents === config.remoteFeeCents && config.baseFeeCents === config.farRemoteFeeCents) {
+    return `中国大陆配送：${fee(config.baseFeeCents)}`;
+  }
+  return `标准地区 ${fee(config.baseFeeCents)}；特殊地区 ${fee(config.remoteFeeCents)}；偏远地区 ${fee(config.farRemoteFeeCents)}`;
+}
+
 export function calculateShippingQuote(provinceInput: string, config: ShippingRateConfig): ShippingQuote {
   const province = normalizeMainlandProvince(provinceInput);
   if (!province) throw new Error("SHIPPING_PROVINCE_UNSUPPORTED");

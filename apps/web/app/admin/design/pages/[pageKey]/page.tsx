@@ -7,6 +7,7 @@ import { isActiveSaleProduct } from "@/lib/storefront-visibility";
 import { SitePageComposer } from "./site-page-composer";
 
 export const dynamic = "force-dynamic";
+export const metadata = { title: "页面编辑 | MerchantKit Admin" };
 
 type PageProps = { params: Promise<{ pageKey: string }> };
 

@@ -6,10 +6,10 @@ import { resolvePublicProductImages, X1_AIR_WHITE_PRIMARY_IMAGE } from "../../li
 import { ProductDetailArtwork } from "../../components/product/product-detail-artwork";
 import { X1_PRODUCT_DETAIL_COPY } from "../../lib/product-detail-copy";
 
-test("the six supplied descriptions render in both languages and material copy stays outside regular artwork", () => {
+test("community artwork captions render in both languages without commercial material claims", () => {
   const images = getProductDetailMedia("x1-air-white");
   const regular = images.filter(image => image.style === "all");
-  assert.deepEqual(regular.flatMap(image => image.detail ? [image.detail.number] : []), ["01", "02", "03", "04", "05"]);
+  assert.deepEqual(regular.flatMap(image => image.detail ? [image.detail.number] : []), ["01", "02", "03"]);
   const regularHtml = renderToStaticMarkup(<ProductDetailArtwork images={regular} />);
   assert.equal(/莫代尔|新疆柔棉|柔软混纺/.test(regularHtml), false);
   for (const english of [false, true]) {
@@ -19,33 +19,29 @@ test("the six supplied descriptions render in both languages and material copy s
       assert.ok(html.includes(english ? copy.bodyEn : copy.body));
       assert.ok(html.includes(english ? copy.titleEn : copy.title));
     }
-    const scope = html.indexOf(english ? 'aria-label="Upgraded gusset only"' : 'aria-label="升级款裆部说明"');
-    assert.ok(html.indexOf(english ? "Soft fabric blend" : "柔软混纺面料") > scope);
+    assert.equal(/10A|新疆|Xinjiang|antibacterial|柔软混纺/.test(html), false);
   }
 });
 
-test("detail artwork is separate from the gallery and upgraded claims remain scoped to the gusset", () => {
+test("the compact community detail set uses distinct responsive demo assets and stays separate from SKU photography", () => {
   const images = getProductDetailMedia("x1-air-white");
-  assert.equal(images.length, 12);
-  assert.equal(images.filter(image => image.style === "all").length, 10);
-  assert.equal(images.filter(image => image.style === "upgraded").length, 2);
-  assert.equal(new Set(images.map(image => image.url)).size, 12);
+  assert.equal(images.length, 3);
+  assert.equal(images.filter(image => image.style === "all").length, 3);
+  assert.equal(images.filter(image => image.style === "upgraded").length, 0);
+  assert.equal(new Set(images.map(image => image.url)).size, 3);
   assert.deepEqual(getProductDetailMedia("unrelated-product"), []);
   const html = renderToStaticMarkup(<ProductDetailArtwork images={images} />);
-  const scope = html.indexOf('aria-label="升级款裆部说明"');
-  assert.ok(scope > 0);
-  assert.equal(html.slice(0, scope).includes("upgraded-gusset-"), false);
-  assert.ok(html.slice(scope).includes("仅用于升级款裆部"));
-  assert.equal((html.match(/loading="lazy"/g) || []).length, 12);
-  assert.equal((html.match(/<source media="\(max-width: 767px\)"/g) || []).length, 12);
+  assert.equal(html.includes('aria-label="升级款裆部说明"'), false);
+  assert.equal((html.match(/loading="lazy"/g) || []).length, 3);
+  assert.equal((html.match(/<source media="\(max-width: 767px\)"/g) || []).length, 3);
   assert.equal(html.includes("flatlay.jpg"), false);
 });
 
 test("international detail captions stay readable in English and do not add pricing or checkout", () => {
   const html = renderToStaticMarkup(<ProductDetailArtwork images={getProductDetailMedia("x1-air-white")} english />);
-  assert.ok(html.includes('alt="Contoured front"'));
-  assert.ok(html.includes('aria-label="Upgraded gusset only"'));
-  assert.ok(html.includes("apply to the upgraded gusset only"));
+  assert.ok(html.includes('alt="Detail artwork example"'));
+  assert.ok(html.includes("Product artwork"));
+  assert.equal(html.includes('aria-label="Upgraded gusset only"'), false);
   assert.equal(/checkout|¥|CNY|USD/.test(html), false);
   assert.equal(renderToStaticMarkup(<ProductDetailArtwork images={[]} />), "");
 });

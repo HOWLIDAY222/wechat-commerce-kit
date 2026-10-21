@@ -6,6 +6,7 @@ import type { SessionRole } from "@/lib/auth/session";
 type AuthActorType = "user" | "admin";
 
 type AuthAuditInput = {
+  privacyAccepted?: boolean;
   crossBorderConsent?: boolean;
   ip?: string;
   method: "sms" | "password" | "wechat";
@@ -17,7 +18,7 @@ type AuthAuditInput = {
   userId: string;
 };
 
-export async function recordAuthLoginSuccess({ crossBorderConsent, ip, method, phone, privacyConsentVersion, miniProgramPrivacyVersion, role, userAgent, userId }: AuthAuditInput) {
+export async function recordAuthLoginSuccess({ privacyAccepted, crossBorderConsent, ip, method, phone, privacyConsentVersion, miniProgramPrivacyVersion, role, userAgent, userId }: AuthAuditInput) {
   const actorType = toActorType(role);
   const action = actorType === "admin" ? "auth.admin.login" : "auth.user.login";
   const phoneMasked = maskPhone(phone);
@@ -26,6 +27,7 @@ export async function recordAuthLoginSuccess({ crossBorderConsent, ip, method, p
     role,
     ...(phoneMasked ? { phoneMasked } : {}),
     ...(privacyConsentVersion ? { privacyConsentVersion } : {}),
+    ...(privacyAccepted === true ? { privacyAccepted: true } : {}),
     ...(miniProgramPrivacyVersion ? { miniProgramPrivacyVersion } : {}),
     ...(crossBorderConsent === true ? { crossBorderConsent: true } : {}),
   };

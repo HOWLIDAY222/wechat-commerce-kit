@@ -1,6 +1,7 @@
 import { RefundSummaryPanel } from "@/components/storefront/refund-summary-panel";
 import type { OrderRefundSummary } from "@/lib/services/wechat-refund-read-model";
 import Link from "next/link";
+import Image from "next/image";
 import { isDomesticStorefront } from "@/lib/server/storefront-market";
 import { fetchAccountJson } from "@/app/account/_lib/account-page-fetch";
 import { OrderCancelButton } from "@/app/account/orders/order-cancel-button";
@@ -27,6 +28,7 @@ type DetailItem = {
   color: string;
   id: string;
   productName: string;
+  productImage?: string | null;
   quantity: number;
   size: string;
   unitPriceCents: number;
@@ -81,14 +83,17 @@ export default async function AccountOrderDetailPage({ params }: AccountOrderDet
             <h2 className="text-2xl font-black">订单商品</h2>
             <div className="mt-4 grid gap-3">
               {order.items.map((item) => (
-                <div className="grid gap-2 border-t border-line pt-4 md:grid-cols-[1fr_auto]" key={item.id}>
-                  <div>
+                <div className="grid grid-cols-[76px_minmax(0,1fr)] gap-4 border-t border-line pt-4 md:grid-cols-[96px_minmax(0,1fr)_auto]" key={item.id}>
+                  <div className="relative aspect-square overflow-hidden rounded-lg bg-soft">
+                    {item.productImage ? <Image alt={item.productName} className="object-contain" fill sizes="96px" src={item.productImage} /> : <span className="grid h-full place-items-center text-xs text-muted">暂无图片</span>}
+                  </div>
+                  <div className="min-w-0">
                     <p className="text-lg font-black">{item.productName}</p>
                     <p className="mt-1 text-sm font-bold text-muted">
                       {item.color} / {item.size} x {item.quantity}
                     </p>
                   </div>
-                  <div className="text-right"><p className="font-black">{formatMoney(item.unitPriceCents * item.quantity - (item.discountShareCents ?? 0))}</p>{item.discountShareCents === undefined && order.discountCents > 0 ? <p className="mt-1 text-xs text-muted">优惠前金额，优惠见订单汇总</p> : (item.discountShareCents ?? 0) > 0 ? <p className="mt-1 text-xs font-bold text-[#067647]">已优惠 {formatMoney(item.discountShareCents!)}</p> : null}</div>
+                  <div className="col-start-2 md:col-auto md:text-right"><p className="font-black">{formatMoney(item.unitPriceCents * item.quantity - (item.discountShareCents ?? 0))}</p>{item.discountShareCents === undefined && order.discountCents > 0 ? <p className="mt-1 text-xs text-muted">优惠前金额，优惠见订单汇总</p> : (item.discountShareCents ?? 0) > 0 ? <p className="mt-1 text-xs font-bold text-[#067647]">已优惠 {formatMoney(item.discountShareCents!)}</p> : null}</div>
                 </div>
               ))}
             </div>

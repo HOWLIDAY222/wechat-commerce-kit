@@ -79,7 +79,7 @@ export default async function AdminAfterSalesDetailPage({ params }: AdminAfterSa
         <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
           <div>
             <Link className="vk-admin-link" href="/admin/after-sales">返回售后工作台</Link>
-            <h1 className="mt-3 text-2xl font-black">售后 {request?.afterSalesNo ?? id}</h1>
+            <h2 className="mt-3 break-words text-2xl font-black">售后 {request?.afterSalesNo ?? id}</h2>
           </div>
           {request ? (
             <div className="flex flex-wrap gap-3">
@@ -225,7 +225,7 @@ export default async function AdminAfterSalesDetailPage({ params }: AdminAfterSa
               <p className="mt-2 text-xs font-bold leading-5 text-[#697386]">
                 售后创建、凭证补充、审核、拒绝、退款处理、退款完成和补发创建都必须写入审计日志。复核时按售后号、订单号或用户 ID 检索。
               </p>
-              <Link className="vk-button vk-button-light mt-3 min-h-10 px-4 text-xs" href="/admin/settings#audit">
+              <Link className="vk-button vk-button-light mt-3 min-h-10 px-4 text-xs" href="/admin/audit">
                 查看审计日志
               </Link>
             </section>

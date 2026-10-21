@@ -30,8 +30,8 @@ export default async function PendingPaymentPage({ searchParams }: PendingPaymen
   return (
     <StorefrontPage>
       <InfoPanel className="mx-auto max-w-3xl p-6">
-        <p className="text-xs font-black text-brand">等待支付</p>
-        <h1 className="mt-3 break-all text-[34px] font-black leading-tight md:text-[44px]">订单待支付</h1>
+        <p className="text-xs font-black text-brand">订单支付</p>
+        <h1 className="mt-3 break-all text-[34px] font-black leading-tight md:text-[44px]">支付与订单</h1>
         <p className="mt-4 text-sm font-bold leading-7 text-muted">完成支付后，订单状态可能需要短暂时间更新。请勿重复支付，你也可以前往订单中心查看最新结果。</p>
         {valid ? (
           <PendingPaymentClient payment={payment} />

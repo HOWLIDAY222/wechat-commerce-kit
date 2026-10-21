@@ -8,7 +8,7 @@ import { formatMoney } from "@/components/storefront/storefront-ui";
 import { persistCartCookie } from "@/lib/client/cart-cookie";
 import { trackStorefrontEvent } from "@/lib/client/analytics-events";
 import { getConsumerErrorMessage } from "@/lib/client/consumer-error-message";
-import { calculateShippingQuote, MAINLAND_PROVINCES, normalizeMainlandProvince, type ShippingRateConfig } from "@/lib/commerce/shipping-rates";
+import { calculateShippingQuote, describeShippingRates, MAINLAND_PROVINCES, normalizeMainlandProvince, type ShippingRateConfig } from "@/lib/commerce/shipping-rates";
 
 type CartItem = {
   id: string;
@@ -287,7 +287,7 @@ export function CheckoutClient({ initialCart, shippingRateConfig, paymentProvide
               <span>
                 <input className="mr-3" defaultChecked name="shipping" type="radio" />
                 标准配送
-                <span className="mt-1 block pl-7 text-xs font-normal text-black/55">其余中国大陆包邮；内蒙古、甘肃、青海、宁夏、海南 ¥10；新疆、西藏 ¥20</span>
+                <span className="mt-1 block pl-7 text-xs font-normal text-black/55">{describeShippingRates(shippingRateConfig)}</span>
               </span>
               <strong>{shippingQuote ? formatMoney(shippingFeeCents) : "选择省区后确认"}</strong>
             </label>

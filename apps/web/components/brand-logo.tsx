@@ -17,7 +17,7 @@ export function BrandLogo({ loading = false, size = "header", className = "", in
     aria-hidden={decorative || loading ? true : undefined}
     style={{ display: "block", width: loading ? "100%" : widths[size], maxWidth: "100%", aspectRatio: "1715 / 225", flexShrink: 0 }}>
     <Image alt={decorative || loading ? "" : BRAND_NAME} src="/assets/optimized/20260915/wordmark.webp"
-      width={1715} height={225} unoptimized priority={loading || size === "header" || size === "hero"}
+      width={1715} height={225} unoptimized priority={loading || size === "header" || size === "hero" || size === "compact"}
       style={{ display: "block", width: "100%", height: "auto", filter: inverted ? "invert(1)" : undefined }} />
   </span>;
 }

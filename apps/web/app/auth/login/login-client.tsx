@@ -47,7 +47,7 @@ export function LoginClient() {
       credentials: "same-origin",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        crossBorderConsent: true,
+        privacyAccepted: true,
         humanAnswer: String(form.get("humanAnswer") ?? ""),
         humanChallengeId: String(form.get("humanChallengeId") ?? ""),
         phone: nextPhone,
@@ -105,7 +105,7 @@ export function LoginClient() {
       body: JSON.stringify({
         phone: nextPhone,
         code,
-        crossBorderConsent: true,
+        privacyAccepted: true,
         privacyConsentVersion: PRIVACY_POLICY_CONSENT_VERSION,
         scene: "login",
       }),
@@ -147,7 +147,7 @@ export function LoginClient() {
       credentials: "same-origin",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        crossBorderConsent: true,
+        privacyAccepted: true,
         humanAnswer: String(form.get("humanAnswer") ?? ""),
         humanChallengeId: String(form.get("humanChallengeId") ?? ""),
         password,
@@ -203,7 +203,7 @@ export function LoginClient() {
           type="checkbox"
         />
         <span>
-          我已阅读并同意 <Link className="text-black underline underline-offset-4" href="/privacy-policy">《隐私政策》</Link> 和 <Link className="text-black underline underline-offset-4" href="/terms">《服务条款》</Link>，并单独同意为提供账户、订单及售后服务，将必要个人信息传输至浙江阿里巴巴云计算有限公司进行处理。
+          我已阅读并同意 <Link className="text-black underline underline-offset-4" href="/privacy-policy">《隐私政策》</Link> 和 <Link className="text-black underline underline-offset-4" href="/terms">《服务条款》</Link>。
         </span>
       </label>
 

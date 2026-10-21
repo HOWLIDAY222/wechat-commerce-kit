@@ -11,7 +11,7 @@ export function CampaignHome({ href, action, price, note, productImage, english 
 }) {
   return <main className="campaign-home">
     <section className="campaign-opening campaign-film-opening" aria-labelledby="campaign-title">
-      <CampaignVideo english={english} priority />
+      <CampaignVideo english={english} priority hero />
       <div className="campaign-intro">
         <h1 id="campaign-title">X1 Air</h1>
         <p>{english ? "The white low-rise brief." : "白色低腰三角内裤"}</p>

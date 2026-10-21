@@ -9,14 +9,16 @@ const contacts = [
   ["hr", "人事招聘", "Careers"],
 ] as const;
 
-export function EmailDirectory({ english = false }: { english?: boolean }) {
+export function EmailDirectory({ english = false, supportEmail }: { english?: boolean; supportEmail?: string }) {
   return <section aria-labelledby="email-directory-title" className="mt-10 border-t border-black/15 pt-8">
     <h2 className="text-2xl" id="email-directory-title">{english ? "The right contact" : "按事项联系"}</h2>
     <dl className="mt-6 grid gap-x-10 sm:grid-cols-2">
-      {contacts.map(([key, zh, en]) => <div className="min-w-0 border-b border-black/10 py-5" key={key}>
+      {contacts.map(([key, zh, en]) => {
+        const email = key === "support" && supportEmail ? supportEmail : OFFICIAL_EMAILS[key];
+        return <div className="min-w-0 border-b border-black/10 py-5" key={key}>
         <dt className="text-sm text-black/60">{english ? en : zh}</dt>
-        <dd className="mt-1"><a className="inline-flex min-h-11 max-w-full items-center break-all text-sm underline underline-offset-4" href={`mailto:${OFFICIAL_EMAILS[key]}`}>{OFFICIAL_EMAILS[key]}</a></dd>
-      </div>)}
+        <dd className="mt-1"><a className="inline-flex min-h-11 max-w-full items-center break-all text-sm underline underline-offset-4" href={`mailto:${email}`}>{email}</a></dd>
+      </div>; })}
     </dl>
     <details className="mt-5 text-sm text-black/60">
       <summary className="min-h-11 cursor-pointer py-3">{english ? "System and mailbox administration" : "系统与邮箱管理"}</summary>

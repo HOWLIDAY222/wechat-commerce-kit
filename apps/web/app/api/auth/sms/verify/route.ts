@@ -9,7 +9,8 @@ import { recordAuthLoginSuccess } from "@/lib/services/auth-audit-service";
 import { hasCurrentPrivacyConsent, PRIVACY_POLICY_CONSENT_VERSION } from "@/lib/privacy-policy";
 
 const inputSchema = z.object({
-  crossBorderConsent: z.literal(true),
+  privacyAccepted: z.literal(true).optional(),
+  crossBorderConsent: z.literal(true).optional(),
   phone: z.string(),
   code: z.string().regex(/^\d{6}$/),
   privacyConsentVersion: z.literal(PRIVACY_POLICY_CONSENT_VERSION),
@@ -53,6 +54,7 @@ export async function POST(request: Request) {
     role: sessionPayload.role,
     userId: sessionPayload.userId,
     crossBorderConsent: parsed.data.crossBorderConsent,
+    privacyAccepted: parsed.data.privacyAccepted,
     privacyConsentVersion: parsed.data.privacyConsentVersion,
   });
 

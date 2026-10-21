@@ -49,7 +49,7 @@ async function ContactExtension() {
   const settings = await getPublicSiteSettings();
   return (
     <section className="mt-14 border-t border-black pt-8">
-      <EmailDirectory />
+      <EmailDirectory supportEmail={settings.supportEmail} />
       <div className="mt-10 grid gap-8 md:grid-cols-[200px_minmax(0,1fr)]">
         <div>
           <h2 className="text-xl font-semibold">客服信息</h2>

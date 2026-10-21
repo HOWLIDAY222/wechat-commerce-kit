@@ -11,6 +11,7 @@ import type { EnglishInfoPage } from "@/lib/english-storefront-content";
 import { X1SizeTable } from "@/components/product/x1-size-table";
 import { X1_AIR_WHITE_PRIMARY_IMAGE } from "@/lib/catalog-media";
 import { getProductBySlug } from "@/lib/services/catalog-service";
+import { getPublicSiteSettings } from "@/lib/services/public-site-settings-service";
 import type { StorefrontProduct } from "@/lib/storefront-product";
 
 const productPath = "/en/products/x1-air-white";
@@ -42,7 +43,7 @@ export function EnglishProduct({ product }: { product: StorefrontProduct }) {
         <aside className="minimal-product-info">
           <nav aria-label="Breadcrumb" className="text-xs text-black/45"><Link className="hover:underline" href="/en/shop">Men&apos;s underwear</Link><span className="px-2">/</span><span>Briefs</span></nav>
           <p className="mt-5 text-xs font-semibold uppercase tracking-[0.12em] text-black/50">X-Series · International preview</p>
-          <h1 className="mt-3 text-[48px] font-normal leading-tight md:text-[64px]">X1 Air</h1>
+          <h1 className="mt-3 text-[48px] font-normal leading-tight md:text-[64px]">{product.name}</h1>
           <p className="mt-6 text-xl">International pricing to be announced</p>
           <p className="mt-6 max-w-xl text-sm leading-8 text-black/65">White low-rise briefs. The current product range offers single pieces with selectable quantities. International pack availability and pricing will be confirmed before orders open.</p>
           <div className="mt-8 grid gap-4 sm:grid-cols-2">{product.quantityPricing?.styles?.map(style => <article className="border border-black/15 p-5" key={style.key}><h2 className="font-semibold">{style.key === "regular" ? "Regular" : style.key === "upgraded" ? "Upgraded" : style.label}</h2><p className="mt-3 text-sm leading-7 text-black/65">{style.key === "regular" ? "Standard gusset fabric. Breathable construction." : style.key === "upgraded" ? "Only the gusset is upgraded to modal and Xinjiang cotton. The main body fabric remains the same. Follow the care label for fibre percentages." : style.summary}</p></article>)}</div>
@@ -56,14 +57,15 @@ export function EnglishProduct({ product }: { product: StorefrontProduct }) {
   );
 }
 
-export function EnglishInfo({ page, pageKey, xProfileUrl }: { page: EnglishInfoPage; pageKey: string; xProfileUrl?: string }) {
+export async function EnglishInfo({ page, pageKey, xProfileUrl }: { page: EnglishInfoPage; pageKey: string; xProfileUrl?: string }) {
+  const contactSettings = pageKey === "contact" ? await getPublicSiteSettings() : null;
   if (pageKey === "about") return <BrandStoryPage title={page.title} tagline={page.description} sections={page.sections} english />;
   return (
     <main className="min-h-[70svh] bg-white py-8 md:py-12">
       <article className="vk-container-narrow">
         <header className="max-w-3xl"><h1 className="text-[32px] font-normal leading-tight md:text-[40px]">{page.title}</h1><p className="mt-4 text-sm leading-7 text-black/62">{page.description}</p></header>
         {page.notice ? <p className="mt-9 border-l-4 border-black bg-[#f3f2f0] px-5 py-4 text-sm font-semibold leading-7">{page.notice}</p> : null}
-        {pageKey === "contact" ? <EmailDirectory english /> : null}
+        {pageKey === "contact" ? <EmailDirectory english supportEmail={contactSettings?.supportEmail} /> : null}
         <div className="mt-12 grid gap-10 md:mt-16 md:grid-cols-2 md:gap-x-14 md:gap-y-14">
           {page.sections.map((section) => <section className="border-t border-black/15 pt-6" key={section.title}><h2 className="text-xl font-semibold">{section.title}</h2>{section.paragraphs?.map((paragraph) => <p className="mt-4 text-sm leading-7 text-black/62" key={paragraph}>{paragraph}</p>)}{section.items ? <ul className="mt-4 grid gap-3 text-sm leading-7 text-black/62">{section.items.map((item) => <li className="flex gap-3" key={item}><span aria-hidden="true">—</span><span>{item}</span></li>)}</ul> : null}{pageKey === "official-channels" && section.title === "X" && xProfileUrl ? <a className="mt-5 inline-flex min-h-11 items-center justify-center gap-3 bg-black px-6 text-sm font-bold !text-white" href={xProfileUrl} rel="noreferrer" target="_blank"><span className="grid size-7 place-items-center rounded-full bg-white"><OfficialSocialLogo label="X" /></span><span>Open MerchantKit on X</span></a> : null}</section>)}
         </div>

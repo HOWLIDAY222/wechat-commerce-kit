@@ -166,8 +166,8 @@ export function AfterSalesRequestForm({ canApply: allowedToApply, fulfillmentSta
         </div>
       </InfoPanel>
 
-      <button className="vk-button vk-button-dark h-12 w-max min-w-[180px]" disabled={!canApply || busy} type="submit">
-        {busy ? "提交中..." : "提交售后申请"}
+      <button className="vk-button vk-button-dark h-12 w-max min-w-[180px]" disabled={!canApply || busy || Boolean(result.afterSalesNo)} type="submit">
+        {busy ? "提交中..." : result.afterSalesNo ? "已提交申请" : "提交售后申请"}
       </button>
       <p className={statusClass(result.tone)} role="status">{result.message}</p>
       {result.afterSalesNo ? (

@@ -7,7 +7,8 @@ import { verifyHumanChallenge } from "@/lib/services/human-verification-service"
 import { hasCurrentPrivacyConsent, PRIVACY_POLICY_CONSENT_VERSION } from "@/lib/privacy-policy";
 
 const inputSchema = z.object({
-  crossBorderConsent: z.literal(true),
+  privacyAccepted: z.literal(true).optional(),
+  crossBorderConsent: z.literal(true).optional(),
   humanAnswer: z.string().max(16).optional(),
   humanChallengeId: z.string().optional(),
   phone: z.string(),

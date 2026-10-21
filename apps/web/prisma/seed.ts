@@ -12,6 +12,11 @@ try{
   const salt=randomBytes(16).toString('hex');
   await prisma.user.create({data:{name:'演示负责人',phone:'13900000001',role:'OWNER',status:'ACTIVE',passwordSalt:salt,passwordHash:scryptSync(password,salt,64).toString('hex')}});
   await prisma.siteSetting.create({data:{key:'commerceMode',value:'OPEN'}});
+  await prisma.siteSetting.createMany({data:[
+    {key:'shippingFeeCents',value:0},
+    {key:'shippingRemoteFeeCents',value:0},
+    {key:'shippingFarRemoteFeeCents',value:0},
+  ]});
   console.log('Created fictional catalog and a local demo owner. No credentials are printed.');
 }finally{await prisma.$disconnect();}
 }

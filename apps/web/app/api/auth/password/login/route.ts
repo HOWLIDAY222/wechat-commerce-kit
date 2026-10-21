@@ -16,7 +16,8 @@ import {
 import { hasCurrentPrivacyConsent, PRIVACY_POLICY_CONSENT_VERSION } from "@/lib/privacy-policy";
 
 const inputSchema = z.object({
-  crossBorderConsent: z.literal(true),
+  privacyAccepted: z.literal(true).optional(),
+  crossBorderConsent: z.literal(true).optional(),
   humanAnswer: z.string().max(16).optional(),
   humanChallengeId: z.string().optional(),
   phone: z.string(),
@@ -65,6 +66,7 @@ export async function POST(request: Request) {
       role: sessionPayload.role,
       userId: sessionPayload.userId,
       crossBorderConsent: parsed.data.crossBorderConsent,
+      privacyAccepted: parsed.data.privacyAccepted,
       privacyConsentVersion: parsed.data.privacyConsentVersion,
     });
     await clearPasswordLoginFailures(attemptMeta);

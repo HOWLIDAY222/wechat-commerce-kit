@@ -63,7 +63,7 @@ export default async function ProductDetailPage({ params }: ProductRouteProps) {
             <div className="flex items-start justify-between gap-5">
               <div>
 
-                <h1 className="text-[48px] font-normal leading-tight md:text-[64px]">{product.slug === "x1-air-white" ? "X1 Air" : product.name}</h1>
+                <h1 className="text-[48px] font-normal leading-tight md:text-[64px]">{product.name}</h1>
               </div>
               <FavoriteButton initialFavorited={favorited} productName={product.name} productSlug={product.slug} />
             </div>
@@ -98,7 +98,7 @@ function ProductFacts({ product }: { product: StorefrontProduct }) {
     ["支撑感", product.supportLevel],
     ["贴合", product.fitNote],
     ["结构", product.features.join("、")],
-    ["包装", product.slug === "x1-air-white" ? "一条起售，数量可选；两条起享组合价，两款按尺码共用库存" : product.packSize ? `${product.packSize} 件装` : ""],
+    ["包装", product.packSize ? `${product.packSize} 件装` : "按所选数量购买"],
     ["商品编码", product.code],
   ].filter(([, value]) => value);
   return <dl className="grid gap-3">{facts.map(([label, value]) => <div className="grid grid-cols-[88px_1fr] gap-4" key={label}><dt className="text-black/50">{label}</dt><dd className="text-black">{value}</dd></div>)}</dl>;

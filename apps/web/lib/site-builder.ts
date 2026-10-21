@@ -240,8 +240,8 @@ export const sitePageDefinitions: SitePageDefinition[] = [
     kind: "HOME",
     template: "HOME",
     sortOrder: 0,
-    seoTitle: "MerchantKit X1 Air White | 当前预售",
-    seoDescription: "MerchantKit X1 Air White 男士三角内裤当前预售，提供白色及 S、M、L 三个尺码与单条、多条组合。",
+    seoTitle: "MerchantKit | 示例商城",
+    seoDescription: "使用虚构商品体验选购、会员与订单流程。",
   },
   { key: "shop", name: "男士内裤", path: "/shop", kind: "CONTENT", template: "CATALOG", sortOrder: 10, seoTitle: "男士内裤系列", seoDescription: "浏览 MerchantKit X-Series 男士内裤与发售信息。" },
   {
@@ -392,16 +392,16 @@ export function defaultHomeDocument(productIds: string[] = []): PageDocument {
     documentType: "page",
     sections: [
       {
-        id: "home-hero", type: "hero", visible: true, sortOrder: 0, eyebrow: "MerchantKit Bodywear", title: "X1 Air White", body: "当前预售男士三角内裤，提供白色及 S、M、L 三个尺码与单条、多条组合。",
+        id: "home-hero", type: "hero", visible: true, sortOrder: 0, eyebrow: "MerchantKit Demo", title: "Essential Brief Demo", body: "使用虚构商品体验选购、会员与订单流程。",
         action: { label: "浏览当前商品", pageKey: "shop" }, mediaAssetId: "media-system-logo", features: [],
       },
       {
         id: "shop-by-fit", type: "categoryGrid", visible: true, sortOrder: 10, title: "按版型选购", items: [
-          { id: "fit-brief", title: "三角内裤", body: "当前预售版型", link: { label: "浏览当前预售", pageKey: "shop", query: "silhouette=三角" }, mediaAssetId: "media-system-logo" },
+          { id: "fit-brief", title: "三角内裤", body: "示例商品版型", link: { label: "浏览示例商品", pageKey: "shop", query: "silhouette=三角" }, mediaAssetId: "media-system-logo" },
         ],
       },
       {
-        id: "x-series", type: "productGrid", visible: true, sortOrder: 20, title: "当前预售",
+        id: "x-series", type: "productGrid", visible: true, sortOrder: 20, title: "示例商品",
         action: { label: "查看全部", pageKey: "shop" }, productIds: productIds.slice(0, 12),
       },
       {

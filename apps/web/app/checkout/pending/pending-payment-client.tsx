@@ -25,6 +25,8 @@ type PendingState = {
 
 export function PendingPaymentClient({ payment }: { payment: PendingPayment }) {
   const autoSyncStarted = useRef(false);
+  const actionPending = useRef(false);
+  const [completed, setCompleted] = useState(false);
   const [busy, setBusy] = useState<"pay" | "sync" | "cancel" | null>(null);
   const [state, setState] = useState<PendingState>({
     message:
@@ -35,6 +37,8 @@ export function PendingPaymentClient({ payment }: { payment: PendingPayment }) {
   });
 
   async function continuePayment() {
+    if (completed || actionPending.current) return;
+    actionPending.current = true;
     setBusy("pay");
     trackStorefrontEvent("payment_attempt", { provider: payment.provider });
     if (payment.provider === "alipay") {
@@ -44,59 +48,71 @@ export function PendingPaymentClient({ payment }: { payment: PendingPayment }) {
     }
 
     setState({ message: "正在模拟支付通知...", tone: "idle" });
-    const response = await fetch("/api/payments/mock/notify", {
-      method: "POST",
-      credentials: "same-origin",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payment),
-    });
-    const result = (await response.json().catch(() => ({}))) as {
-      ok?: boolean;
-      order?: { orderNo: string; paymentStatus: string };
-      error?: string;
-    };
-    setBusy(null);
-    if (!response.ok || !result.ok || !result.order || !isPaid(result.order.paymentStatus)) {
-      setState({ message: getConsumerErrorMessage(result.error, "当前无法完成支付，请稍后重试。"), orderNo: result.order?.orderNo, tone: "error" });
-      return;
-    }
-    const paidOrder = result.order;
-    trackStorefrontEvent("payment_success", { provider: payment.provider });
-    setState({ message: `订单 ${paidOrder.orderNo} 已支付。`, orderNo: paidOrder.orderNo, tone: "success" });
+    try {
+      const response = await fetch("/api/payments/mock/notify", {
+        method: "POST",
+        credentials: "same-origin",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payment),
+      });
+      const result = (await response.json().catch(() => ({}))) as {
+        ok?: boolean;
+        order?: { orderNo: string; paymentStatus: string };
+        error?: string;
+      };
+      setBusy(null);
+      if (!response.ok || !result.ok || !result.order || !isPaid(result.order.paymentStatus)) {
+        setState({ message: getConsumerErrorMessage(result.error, "当前无法完成支付，请稍后重试。"), orderNo: result.order?.orderNo, tone: "error" });
+        return;
+      }
+      const paidOrder = result.order;
+      setCompleted(true);
+      trackStorefrontEvent("payment_success", { provider: payment.provider });
+      setState({ message: `订单 ${paidOrder.orderNo} 已支付。`, orderNo: paidOrder.orderNo, tone: "success" });
+    } catch {
+      setState({ message: "网络连接中断，请查看订单状态后重试。", tone: "error" });
+    } finally { actionPending.current = false; setBusy(null); }
   }
 
   const syncAlipayPayment = useCallback(async () => {
-    setBusy("sync");
-    setState({ message: "正在向支付宝查询支付状态...", tone: "idle" });
-    const response = await fetch("/api/payments/alipay/query", {
-      method: "POST",
-      credentials: "same-origin",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ orderNo: payment.orderNo }),
-    });
-    const result = (await response.json().catch(() => ({}))) as {
-      ok?: boolean;
-      paid?: boolean;
-      order?: { orderNo: string; paymentStatus: string };
-      error?: string;
-      query?: { subMsg?: string; tradeStatus?: string };
-    };
-    setBusy(null);
-    if (!response.ok || !result.ok) {
-      setState({ message: getConsumerErrorMessage(result.error, "暂时无法确认支付结果，请稍后重试。"), orderNo: result.order?.orderNo, tone: "error" });
-      return;
-    }
-    if (!result.paid || !result.order || !isPaid(result.order.paymentStatus)) {
-      setState({
-        message: "订单暂未显示为已支付。如果你已完成付款，请稍后再确认。",
-        orderNo: result.order?.orderNo,
-        tone: "idle",
+    if (actionPending.current) return;
+    actionPending.current = true;
+    try {
+      setBusy("sync");
+      setState({ message: "正在向支付宝查询支付状态...", tone: "idle" });
+      const response = await fetch("/api/payments/alipay/query", {
+        method: "POST",
+        credentials: "same-origin",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ orderNo: payment.orderNo }),
       });
-      return;
-    }
-    const paidOrder = result.order;
-    trackStorefrontEvent("payment_success", { provider: "alipay" });
-    setState({ message: `订单 ${paidOrder.orderNo} 已支付。`, orderNo: paidOrder.orderNo, tone: "success" });
+      const result = (await response.json().catch(() => ({}))) as {
+        ok?: boolean;
+        paid?: boolean;
+        order?: { orderNo: string; paymentStatus: string };
+        error?: string;
+        query?: { subMsg?: string; tradeStatus?: string };
+      };
+      setBusy(null);
+      if (!response.ok || !result.ok) {
+        setState({ message: getConsumerErrorMessage(result.error, "暂时无法确认支付结果，请稍后重试。"), orderNo: result.order?.orderNo, tone: "error" });
+        return;
+      }
+      if (!result.paid || !result.order || !isPaid(result.order.paymentStatus)) {
+        setState({
+          message: "订单暂未显示为已支付。如果你已完成付款，请稍后再确认。",
+          orderNo: result.order?.orderNo,
+          tone: "idle",
+        });
+        return;
+      }
+      const paidOrder = result.order;
+      setCompleted(true);
+      trackStorefrontEvent("payment_success", { provider: "alipay" });
+      setState({ message: `订单 ${paidOrder.orderNo} 已支付。`, orderNo: paidOrder.orderNo, tone: "success" });
+    } catch {
+      setState({ message: "网络连接中断，请查看订单状态后重试。", tone: "error" });
+    } finally { actionPending.current = false; setBusy(null); }
   }, [payment.orderNo]);
 
   useEffect(() => {
@@ -109,26 +125,33 @@ export function PendingPaymentClient({ payment }: { payment: PendingPayment }) {
   }, [payment.provider, payment.orderNo, syncAlipayPayment]);
 
   async function cancelPayment() {
-    setBusy("cancel");
-    setState({ message: "正在取消支付...", tone: "idle" });
-    const response = await fetch("/api/payments/cancel", {
-      method: "POST",
-      credentials: "same-origin",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ orderNo: payment.orderNo, paymentId: payment.paymentId, reason: "user_cancelled" }),
-    });
-    const result = (await response.json().catch(() => ({}))) as {
-      ok?: boolean;
-      order?: { orderNo: string; paymentStatus: string };
-      error?: string;
-    };
-    setBusy(null);
-    if (!response.ok || !result.ok || !result.order || !isCancelled(result.order.paymentStatus)) {
-      setState({ message: getConsumerErrorMessage(result.error, "暂时无法取消支付，请前往订单中心查看。"), orderNo: result.order?.orderNo, tone: "error" });
-      return;
-    }
-    const cancelledOrder = result.order;
-    setState({ message: `订单 ${cancelledOrder.orderNo} 已取消支付。`, orderNo: cancelledOrder.orderNo, tone: "success" });
+    if (completed || actionPending.current) return;
+    actionPending.current = true;
+    try {
+      setBusy("cancel");
+      setState({ message: "正在取消支付...", tone: "idle" });
+      const response = await fetch("/api/payments/cancel", {
+        method: "POST",
+        credentials: "same-origin",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ orderNo: payment.orderNo, paymentId: payment.paymentId, reason: "user_cancelled" }),
+      });
+      const result = (await response.json().catch(() => ({}))) as {
+        ok?: boolean;
+        order?: { orderNo: string; paymentStatus: string };
+        error?: string;
+      };
+      setBusy(null);
+      if (!response.ok || !result.ok || !result.order || !isCancelled(result.order.paymentStatus)) {
+        setState({ message: getConsumerErrorMessage(result.error, "暂时无法取消支付，请前往订单中心查看。"), orderNo: result.order?.orderNo, tone: "error" });
+        return;
+      }
+      const cancelledOrder = result.order;
+      setCompleted(true);
+      setState({ message: `订单 ${cancelledOrder.orderNo} 已取消支付。`, orderNo: cancelledOrder.orderNo, tone: "success" });
+    } catch {
+      setState({ message: "网络连接中断，请查看订单状态后重试。", tone: "error" });
+    } finally { actionPending.current = false; setBusy(null); }
   }
 
   return (
@@ -137,10 +160,10 @@ export function PendingPaymentClient({ payment }: { payment: PendingPayment }) {
         <p>
           订单号：<span className="break-all text-foreground">{payment.orderNo}</span>
         </p>
-        <p>支付单号：{payment.paymentId}</p>
+        <p className="break-all">支付单号：{payment.paymentId}</p>
         <p>金额：{formatMoney(payment.amountCents)}</p>
       </div>
-      <div className="flex flex-wrap gap-3">
+      {!completed ? <div className="flex flex-wrap gap-3">
         <button className="vk-button vk-button-dark" disabled={busy !== null} onClick={continuePayment} type="button">
           {busy === "pay" ? "处理中..." : payment.provider === "alipay" ? "继续支付宝支付" : "继续支付"}
         </button>
@@ -152,7 +175,7 @@ export function PendingPaymentClient({ payment }: { payment: PendingPayment }) {
         <button className="vk-button vk-button-light" disabled={busy !== null} onClick={cancelPayment} type="button">
           {busy === "cancel" ? "处理中..." : "取消支付"}
         </button>
-      </div>
+      </div> : null}
       <p className={statusClass(state.tone)} role="status">
         {state.message}
       </p>

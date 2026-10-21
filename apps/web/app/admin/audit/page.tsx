@@ -5,6 +5,7 @@ import {readCurrentAdminSession} from '@/lib/auth/session';
 import {prisma} from '@/lib/db/prisma';
 import type {Prisma} from '@prisma/client';
 export const dynamic='force-dynamic';
+export const metadata={title:'操作记录 | MerchantKit Admin'};
 export default async function AuditPage({searchParams}:{searchParams:Promise<{q?:string;targetId?:string;page?:string}>}){
  const session=await readCurrentAdminSession();if(!session)redirect('/admin/login');if(session.role!=='owner')redirect('/admin');
  const p=await searchParams,q=(p.q||'').trim().slice(0,100),page=Math.max(1,Math.min(10000,Number(p.page)||1));

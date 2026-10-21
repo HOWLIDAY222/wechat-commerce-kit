@@ -25,8 +25,9 @@ const policyParagraphs = privacyPolicyContent.paragraphs as PolicyParagraph[];
 
 export function hasCurrentPrivacyConsent(value: unknown) {
   if (!value || typeof value !== "object") return false;
-  const input = value as { crossBorderConsent?: unknown; privacyConsentVersion?: unknown };
-  return input.crossBorderConsent === true && input.privacyConsentVersion === PRIVACY_POLICY_CONSENT_VERSION;
+  const input = value as { privacyAccepted?: unknown; crossBorderConsent?: unknown; privacyConsentVersion?: unknown };
+  // Keep the legacy field compatible without treating generic policy acceptance as a transfer consent.
+  return (input.privacyAccepted === true || input.crossBorderConsent === true) && input.privacyConsentVersion === PRIVACY_POLICY_CONSENT_VERSION;
 }
 
 export function getPrivacyPolicySourceParagraphs() {

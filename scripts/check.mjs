@@ -9,5 +9,5 @@ const steps=[
   [pnpm,['test'],path.join(root,'apps/miniapp')],
   [pnpm,['test'],path.join(root,'apps/web')],
 ];
-if(process.argv[2]==='all')steps.push([pnpm,['check'],path.join(root,'apps/miniapp')],[pnpm,['typecheck'],path.join(root,'apps/web')],[pnpm,['build'],path.join(root,'apps/web')]);
+if(process.argv[2]==='all')steps.push([pnpm,['check'],path.join(root,'apps/miniapp')],[pnpm,['lint'],path.join(root,'apps/web')],[pnpm,['typecheck'],path.join(root,'apps/web')],[pnpm,['build'],path.join(root,'apps/web')]);
 for(const [command,args,cwd]of steps){const r=spawnSync(command,args,{cwd,stdio:'inherit',shell:process.platform==='win32'&&command.endsWith('.cmd')});if(r.status!==0)process.exit(r.status||1);}

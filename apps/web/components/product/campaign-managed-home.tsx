@@ -17,7 +17,7 @@ export function CampaignManagedHome({ document, assets, products }: { document: 
   return <main className="campaign-home">{sections.map(section => {
     if(section.type === "hero") {
       return <section key={section.id} id={section.id} className="campaign-opening campaign-film-opening" aria-labelledby={`${section.id}-heading`}>
-        <CampaignVideo priority />
+        <CampaignVideo priority hero />
         <div className="campaign-intro">{section.eyebrow&&<p>{section.eyebrow}</p>}<h1 id={`${section.id}-heading`}>{section.title}</h1><p>{section.body}</p><Link className="campaign-link" href={resolvePageHref(section.action,sitePageDefinitions)}>{section.action.label}<ArrowUpRight size={18}/></Link>{section.features.length>0 && <p>{section.features.join(" · ")}</p>}</div>
       </section>;
     }

@@ -29,7 +29,7 @@ export function AccountShell({ actions, active, children, description, eyebrow =
       <section className="mb-5 grid gap-4 border-b border-line pb-5 md:mb-8 md:gap-5 md:pb-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
         <div>
           <p className="sr-only">{eyebrow}</p>
-          <h1 className="mt-2 text-[30px] font-black leading-tight md:mt-3 md:text-[44px]">{title}</h1>
+          <h1 className="mt-2 break-words text-[30px] font-black leading-tight md:mt-3 md:text-[44px]">{title}</h1>
           <p className="mt-3 max-w-2xl text-sm font-bold leading-7 text-muted">{description}</p>
         </div>
         {actions ? <div className="flex flex-wrap gap-3 lg:justify-end">{actions}</div> : null}

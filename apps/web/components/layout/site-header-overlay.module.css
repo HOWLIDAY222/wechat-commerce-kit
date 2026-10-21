@@ -1,64 +1,11 @@
 .overlayHeader.overlayHeader:global(.minimal-header) {
-  position: fixed;
-  inset: 0 0 auto;
+  position: sticky;
+  top: 0;
   z-index: 40;
   color: #111;
   background: #fff;
-  transition: background-color 180ms ease, color 180ms ease;
 }
 
-.overlayHeader.overlayHeader:global(.minimal-header[data-over-hero="true"]) {
-  color: #fff;
-  background: transparent;
-}
-
-.overlayHeader.overlayHeader:global(.minimal-header[data-over-hero="true"]) :global(.minimal-wordmark img) {
-  filter: invert(1) drop-shadow(0 1px 3px rgb(0 0 0 / 30%));
-}
-
-.overlayHeader.overlayHeader:global(.minimal-header[data-over-hero="true"]) :global(.minimal-menu-button) {
-  display: inline-flex;
-}
-
-.overlayHeader.overlayHeader:global(.minimal-header[data-menu-open="true"]),
-.overlayHeader.overlayHeader:global(.minimal-header):focus-within {
-  color: #111;
-  background: #fff;
-}
-
-.overlayHeader.overlayHeader:global(.minimal-header[data-menu-open="true"]) :global(.minimal-wordmark img),
-.overlayHeader.overlayHeader:global(.minimal-header):focus-within :global(.minimal-wordmark img) {
+.overlayHeader :global(.minimal-wordmark img) {
   filter: none;
-}
-
-@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
-  .overlayHeader.overlayHeader:global(.minimal-header[data-over-hero="true"]) :global(.minimal-desktop-nav),
-  .overlayHeader.overlayHeader:global(.minimal-header[data-over-hero="true"]) :global(.minimal-utilities > a) {
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 180ms ease;
-  }
-
-  .overlayHeader.overlayHeader:global(.minimal-header):hover {
-    color: #111;
-    background: #fff;
-  }
-
-  .overlayHeader.overlayHeader:global(.minimal-header):hover :global(.minimal-wordmark img) {
-    filter: none;
-  }
-
-  .overlayHeader.overlayHeader:global(.minimal-header):is(:hover, :focus-within, [data-menu-open="true"]) :global(.minimal-desktop-nav),
-  .overlayHeader.overlayHeader:global(.minimal-header):is(:hover, :focus-within, [data-menu-open="true"]) :global(.minimal-utilities > a) {
-    opacity: 1;
-    pointer-events: auto;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .overlayHeader.overlayHeader:global(.minimal-header),
-  .overlayHeader.overlayHeader :global(.minimal-desktop-nav),
-  .overlayHeader.overlayHeader :global(.minimal-utilities > a) {
-    transition: none;
-  }
 }
